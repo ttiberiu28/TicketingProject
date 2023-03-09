@@ -29,7 +29,7 @@ public class Movie extends Event {
     @NotEmpty
     private String movieDescription;
 
-    @OneToMany(mappedBy = "movie")
+    @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL)
     private List<Ticket> tickets;
 
     //mappedBy = "numele variabilei din locations"

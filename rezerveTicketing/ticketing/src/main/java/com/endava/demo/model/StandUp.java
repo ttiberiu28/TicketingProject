@@ -24,7 +24,7 @@ public class StandUp extends Event{
     @Column(name = "event_organizer")
     private String eventOrganizer = EventOrganizer.getInstance().toString();
 
-    @OneToMany(mappedBy = "standUp")
+    @OneToMany(mappedBy = "standUp", cascade = CascadeType.ALL)
     private List<Ticket> tickets;
 
     @ManyToMany(mappedBy = "standUps")
