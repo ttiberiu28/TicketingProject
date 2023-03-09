@@ -7,4 +7,5 @@ import java.util.Optional;
 
 public interface LocationRepo extends JpaRepository<Location, Integer> {
     Optional<Location> findByPlace(String place);
+    Optional<Location> findById(int id);
 }

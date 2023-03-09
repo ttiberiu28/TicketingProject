@@ -1,6 +1,7 @@
 package com.endava.demo.service;
 
 import com.endava.demo.exception.LocationAlreadyExistsException;
+import com.endava.demo.exception.LocationDoesNotExistsException;
 import com.endava.demo.model.Location;
 import com.endava.demo.repository.LocationRepo;
 import lombok.AllArgsConstructor;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -18,6 +20,18 @@ public class LocationService {
 
     public List<Location> getAllLocations(){
         return locationRepo.findAll();
+    }
+
+    public Optional<Location> getById(int id){
+
+        long count = locationRepo.count();
+
+        if(id > count || id < 0){
+            throw new LocationDoesNotExistsException(String.valueOf(id));
+        }else{
+            return locationRepo.findById(id);
+        }
+
     }
 
     public void addLocation(String place, int capacity){

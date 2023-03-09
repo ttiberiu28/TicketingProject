@@ -1,6 +1,7 @@
 package com.endava.demo.controller;
 
-import com.endava.demo.exception.TicketAlreadyExistsException;
+import com.endava.demo.exception.LocationAlreadyExistsException;
+import com.endava.demo.exception.LocationDoesNotExistsException;
 import com.endava.demo.model.Location;
 import com.endava.demo.service.LocationService;
 import constant.Constant;
@@ -22,6 +23,20 @@ public class LocationController {
         return locationService.getAllLocations();
     }
 
+    @GetMapping("/location/{id}")
+    public ResponseEntity<?> getById(@PathVariable int id){
+        try {
+            locationService.getById(id);
+
+            return ResponseEntity.ok().body(locationService.getById(id));
+        }catch(LocationDoesNotExistsException e) {
+            return ResponseEntity
+                    .badRequest()
+                    .body("This location does not exist");
+        }
+
+    }
+
     @PostMapping(Constant.NEW)
     public ResponseEntity<?> addLocation(@RequestBody Location location){
 
@@ -30,7 +45,7 @@ public class LocationController {
 
             return ResponseEntity.ok().build();
 
-        }catch(TicketAlreadyExistsException e){
+        }catch(LocationAlreadyExistsException e){
 
             return ResponseEntity
                     .badRequest()
