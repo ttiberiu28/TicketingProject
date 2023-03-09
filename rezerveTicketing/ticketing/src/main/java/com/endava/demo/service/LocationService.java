@@ -26,7 +26,7 @@ public class LocationService {
 
         long count = locationRepo.count();
 
-        if(id > count || id < 0){
+        if(id > count || id <= 0){
             throw new LocationDoesNotExistsException(String.valueOf(id));
         }else{
             return locationRepo.findById(id);

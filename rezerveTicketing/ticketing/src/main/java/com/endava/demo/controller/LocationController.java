@@ -18,12 +18,13 @@ public class LocationController {
 
     private final LocationService locationService;
 
-    @GetMapping(Constant.LIST)
-    public List<Location> getLocations(){
-        return locationService.getAllLocations();
+    @GetMapping(value = Constant.LIST, produces = "application/json")
+    public ResponseEntity<?> getLocations(){
+
+        return ResponseEntity.ok().body(locationService.getAllLocations());
     }
 
-    @GetMapping("/location/{id}")
+    @GetMapping(value = "/{id}", produces = "application/json")
     public ResponseEntity<?> getById(@PathVariable int id){
         try {
             locationService.getById(id);
