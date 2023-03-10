@@ -7,7 +7,27 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.panelA, .panelB, .panelC, .panelD{
+  background-color: rgb(26, 132, 219);
+  color: white;
+  padding: 10px;
+  margin-bottom: 1em;
 }
+
+.panelA {
+  background-color: rgb(26, 132, 219);;
+}
+
+.panelB {
+  background-color: rgb(54, 216, 92);;
+}
+
+.panelC {
+  background-color: rgb(196, 11, 233);;
+}
+
+.panelD {
+  background-color: rgb(233, 11, 11);;
+}
+
+

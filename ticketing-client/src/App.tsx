@@ -1,26 +1,32 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import PanelA from './UI/PanelA';
+import PanelB from './UI/PanelB';
+import PanelC from './UI/PanelC';
+import PanelD from './UI/PanelD';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const person = {
+  fname: 'Kari',
+  lname: 'Nordmann'
 }
 
-export default App;
+const employee = {
+  name: 'Jane De',
+  salary: 20_000,
+  skills: ['Spring Boot', 'React', 'TypeScript']
+}
+
+export default function App() {
+  return (
+    <React.Fragment>
+      <PanelA />
+      <PanelB msg="Hello friend!" />
+
+      <PanelC fname="Kari" lname="Nordmann" />
+      <PanelC fname={person.fname} lname={person.lname} />
+      <PanelC {...person}/> 
+      {/* ... is the spread operator */}
+      <PanelD {...employee} />
+      
+    </React.Fragment>
+  );
+}

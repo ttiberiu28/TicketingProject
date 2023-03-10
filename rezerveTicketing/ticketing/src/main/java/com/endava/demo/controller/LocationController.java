@@ -14,6 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping(Constant.LOCATION_CONTROLLER)
 @AllArgsConstructor
+@CrossOrigin
 public class LocationController {
 
     private final LocationService locationService;
