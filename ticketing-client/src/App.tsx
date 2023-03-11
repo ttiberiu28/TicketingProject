@@ -1,4 +1,5 @@
 import React from 'react';
+import RestClient from './REST/RestClient';
 import PanelA from './UI/PanelA';
 import PanelB from './UI/PanelB';
 import PanelC from './UI/PanelC';
@@ -27,6 +28,14 @@ export default function App() {
       {/* ... is the spread operator */}
       <PanelD {...employee} />
       
+      <div>Click a button to call a REST API</div>
+      <button onClick={() => demo1()}>Get all locations</button>
+      
     </React.Fragment>
   );
+}
+
+function demo1() {
+  const promise = RestClient.getLocations()
+  promise.then(data => console.log(`All locations: ${JSON.stringify(data)}`))
 }
