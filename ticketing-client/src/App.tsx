@@ -1,24 +1,18 @@
 import React from 'react';
-import RestClient from './REST/RestClient';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Home from './UI/Home';
+import About from './UI/About';
+import MyLocations from './UI/MyLocations';
 
 export default function App() {
-  
   return (
-    <React.Fragment>
-       
-      <div>Click a button to call a REST API</div>
-      <button onClick={() => demo1()}>Get all locations</button>
-      <button onClick={() => demo2(1)}>Location1</button>
-    </React.Fragment>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/locations" element={<MyLocations />} />
+        <Route path="/about" element={<About />} />
+      </Routes>
+    </BrowserRouter>
   );
-}
-
-function demo1() {
-  const promise = RestClient.getLocations()
-  promise.then(data => console.log(`All locations: ${JSON.stringify(data)}`))
-}
-
-function demo2(id : number) {
-  const promise = RestClient.getOneLocation(id)
-  promise.then(data => console.log(`Location1: ${JSON.stringify(data)}`))
 }

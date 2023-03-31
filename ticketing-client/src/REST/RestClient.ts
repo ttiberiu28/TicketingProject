@@ -1,18 +1,3 @@
-// export default class RestClient {
-
-//     static baseUrl = "http://localhost:8080" 
-    
-//     // return type is the generic: Promise<any> 
-//     static getLocations() : Promise<any> {
-        
-//         const url = `${RestClient.baseUrl}/api/location/list`
-
-//         return fetch(url).then(response => response.json())
-
-
-//     }
-// }
-
 export default class RestClient {
 
     static baseUrl = "http://localhost:8080"; 
