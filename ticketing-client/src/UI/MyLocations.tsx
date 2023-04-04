@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import RestClient from '../REST/RestClient';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Location } from '../interfaces/Location';
-import splash from "./homeimage.jpg";
+import splash from "./Images/homeimage.jpg";
 
 export default function MyLocations() {
   const [locations, setLocations] = useState<Location[]>([]);
