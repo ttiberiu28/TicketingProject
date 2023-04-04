@@ -5,7 +5,8 @@ import Home from './UI/Home';
 import About from './UI/About';
 import MyLocations from './UI/MyLocations';
 import NavBar from './UI/Navbar';
-import MoviesAndStandups from './UI/Events'; // Import the MoviesAndStandups component
+import Events from './UI/Events'; // Import the MoviesAndStandups component
+import MovieDetails from './UI/MovieDetails';
 
 function App() {
   return (
@@ -29,10 +30,18 @@ function App() {
           }
         />
         <Route
-          path="/movies-and-standups" // Add a new route for the MoviesAndStandups component
+          path="/events" // Add a new route for the MoviesAndStandups component
           element={
             <MainLayout>
-              <MoviesAndStandups />
+              <Events />
+            </MainLayout>
+          }
+        />
+        <Route
+          path="/movie/:index" 
+          element={
+            <MainLayout>
+              <MovieDetails />
             </MainLayout>
           }
         />

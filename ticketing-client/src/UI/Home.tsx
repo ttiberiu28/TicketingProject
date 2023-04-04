@@ -52,7 +52,7 @@ export default function Home() {
                     </button>
                   </Link>
 
-                  <Link to="/movies-and-standups">
+                  <Link to="/events">
                     <button className="btn btn-primary rounded-pill p-3" style={{backgroundColor: 'black', fontWeight: 'bold'}}>
                       Events
                     </button>
