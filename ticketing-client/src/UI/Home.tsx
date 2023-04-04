@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import splash from "./homeimage.jpg";
+import splash from "./Images/im2.jpg";
 import { Link } from "react-router-dom";
 import { Button } from 'react-bootstrap';
 
