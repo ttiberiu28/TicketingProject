@@ -1,7 +1,7 @@
 export default class RestClient {
 
     static baseUrl = "http://localhost:8080"; 
-    static username = "Tibi";
+    static username = "Andrei";
     static password = "12345";
     
     // return type is the generic: Promise<any> 
@@ -24,4 +24,17 @@ export default class RestClient {
         return (await fetch(url, {headers: headers})).json()
     }
     
+    static getMovies(): Promise<any> {
+        const url = `${RestClient.baseUrl}/api/movie/list`;
+        const headers = new Headers();
+        headers.set("Authorization", "Basic " + btoa(RestClient.username + ":" + RestClient.password));
+        return fetch(url, { headers: headers }).then((response) => response.json());
+      }
+      
+      static getStandUpEvents(): Promise<any> {
+        const url = `${RestClient.baseUrl}/api/standup/list`;
+        const headers = new Headers();
+        headers.set("Authorization", "Basic " + btoa(RestClient.username + ":" + RestClient.password));
+        return fetch(url, { headers: headers }).then((response) => response.json());
+      }
 }

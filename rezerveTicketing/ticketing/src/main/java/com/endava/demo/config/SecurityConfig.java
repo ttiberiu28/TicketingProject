@@ -23,12 +23,12 @@ public class SecurityConfig {
     }
 
     @Bean
-    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin(origins = "http://localhost:3002")
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .cors().configurationSource(request -> {
                     var cors = new CorsConfiguration();
-                    cors.setAllowedOrigins(List.of("http://localhost:3000"));
+                    cors.setAllowedOrigins(List.of("http://localhost:3002"));
                     cors.setAllowedMethods(List.of("GET","POST","PUT","DELETE"));
                     return cors.applyPermitDefaultValues();
                 })
@@ -57,8 +57,8 @@ public class SecurityConfig {
                 .mvcMatchers(Constant.MOVIE_CONTROLLER + Constant.ASSIGN_LOCATION).hasAuthority(Constant.ADMIN_ROLE)
                 .mvcMatchers(Constant.STAND_UP_CONTROLLER + Constant.ASSIGN_LOCATION).hasAuthority(Constant.ADMIN_ROLE)
                 .mvcMatchers(Constant.STAND_UP_CONTROLLER + Constant.ASSIGN_SPECIAL_GUEST).hasAuthority(Constant.ADMIN_ROLE)
-                .mvcMatchers(Constant.USER_CONTROLLER + Constant.ASSIGN_ROLE).hasAuthority(Constant.ADMIN_ROLE)
-                .mvcMatchers(Constant.ROLE_CONTROLLER).hasAuthority(Constant.ADMIN_ROLE)
+//                .mvcMatchers(Constant.USER_CONTROLLER + Constant.ASSIGN_ROLE).hasAuthority(Constant.ADMIN_ROLE)
+//                .mvcMatchers(Constant.ROLE_CONTROLLER).hasAuthority(Constant.ADMIN_ROLE)
                 .mvcMatchers(HttpMethod.DELETE, Constant.ALL_API).hasAuthority(Constant.ADMIN_ROLE)
                 .and()
                 .csrf().disable().build();

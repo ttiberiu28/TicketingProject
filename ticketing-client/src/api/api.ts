@@ -1,11 +1,13 @@
-const API_BASE_URL = 'http://localhost:8080'; // Replace with your backend server URL
+import RestClient from '../REST/RestClient';
+
+const API_BASE_URL = 'http://localhost:8080';
 
 export async function getMovies() {
-  const response = await fetch(`${API_BASE_URL}/api/movie/list`);
-  return await response.json();
+  const response = await RestClient.getMovies(); // Use RestClient to get movies
+  return response;
 }
 
 export async function getStandUpEvents() {
-  const response = await fetch(`${API_BASE_URL}/api/standup/list`);
-  return await response.json();
+  const response = await RestClient.getStandUpEvents(); // Use RestClient to get stand-up events
+  return response;
 }
