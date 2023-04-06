@@ -7,6 +7,7 @@ import MyLocations from './UI/MyLocations';
 import NavBar from './UI/Navbar';
 import Events from './UI/Events'; // Import the MoviesAndStandups component
 import MovieDetails from './UI/MovieDetails';
+import StandUpDetails from './UI/StandUpDetails';
 
 function App() {
   return (
@@ -42,6 +43,15 @@ function App() {
           element={
             <MainLayout>
               <MovieDetails />
+            </MainLayout>
+          }
+        />
+
+        <Route
+          path="/standup/:index" 
+          element={
+            <MainLayout>
+              <StandUpDetails />
             </MainLayout>
           }
         />

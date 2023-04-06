@@ -46,21 +46,21 @@ export default function Home() {
                     </button>
                   </Link>
 
-                  <br />
-
                   <Link to="/locations">
-                    <button className="btn btn-primary rounded-pill p-3 btn-preview">
+                    <button className="btn btn-primary2 rounded-pill p-3 ">
                       Location
                     </button>
                   </Link>
-                  
-                  <br />
 
                   <Link to="/events">
-                    <button className="btn btn-primary rounded-pill p-3 btn-preview">
+                    <button className="btn btn-primary rounded-pill p-3 ">
                       Events
                     </button>
                   </Link>
+
+                  <br />
+                  <br />
+                  <br />
                 </h1>
               ) : (
                 <button className="btn btn-primary rounded-pill p-3" onClick={handleShapeChange} style={{fontWeight: 'bold', fontSize: '1.75rem'}}>

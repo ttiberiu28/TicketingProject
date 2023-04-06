@@ -5,12 +5,7 @@ import './Events.css';
 import myImage from './Images/im4.jpg';
 import { Link } from 'react-router-dom';
 import { Movie } from '../interfaces/Movie';
-
-// Define interface for StandUp events
-interface StandUp {
-  id: number;
-  name: string;
-}
+import {StandUp} from '../interfaces/StandUp'
 
 // Define functional component that will display movies and stand-up events
 export default function Events() {
@@ -34,21 +29,38 @@ export default function Events() {
             {/* Map through movies array and render a Card component for each movie */}
             {movies.map((movie) => (
               <Col md={2} key={movie.id} className="mb-4">
-                <Card className="event-card">
-                  <Link to={`/movie/${movie.id}`}>
-                    {/* <Card.Img variant="top" src={myImage} />      */}
-                     <Card.Img variant="top" src={movie.imageUrl} />
+                  <Card className="event-card card-body-fixed-height">
 
-                  </Link>
+                    <Link to={`/movie/${movie.id}`}>
+                      <Card.Img variant="top" src={movie.imageUrl} />
+                    </Link>
+
+                    <Card.Body>
+                      <Card.Title>{movie.name}</Card.Title>
+                      <Card.Text className= "imdb-text-color">
+                        IMDb Rating: {movie.imdbRating}
+                      </Card.Text>
+                    </Card.Body>
+                </Card>
+              </Col>
+            ))}
+
+            {/* Map through standUpEvents array and render a Card component for each event */}
+            {standUpEvents.map((standUp) => (
+              <Col md={2} key={standUp.id} className="mb-4">
+                <Card className="event-card card-body-fixed-height">
+
+                <Link to={`/standup/${standUp.id}`}>
+                  <Card.Img variant="top" src={standUp.imageUrl} />
+                </Link>
+
                   <Card.Body>
-                    <Card.Title>{movie.name}</Card.Title>
-                    <Card.Text>
-                      IMDb Rating: {movie.imdbRating}
-                    </Card.Text>
+                    <Card.Title>{standUp.name}</Card.Title>
                   </Card.Body>
                 </Card>
               </Col>
             ))}
+          
           </Row>
         </Col>
       </Row>
