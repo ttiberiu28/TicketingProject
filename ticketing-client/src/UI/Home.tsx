@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import splash from "./Images/im2.jpg";
+import splash from "./Images/im5.jpg";
 import { Link } from "react-router-dom";
 import './home.css';
 
@@ -46,11 +46,15 @@ export default function Home() {
                     </button>
                   </Link>
 
+                  <br />
+
                   <Link to="/locations">
                     <button className="btn btn-primary rounded-pill p-3 btn-preview">
                       Location
                     </button>
                   </Link>
+                  
+                  <br />
 
                   <Link to="/events">
                     <button className="btn btn-primary rounded-pill p-3 btn-preview">
