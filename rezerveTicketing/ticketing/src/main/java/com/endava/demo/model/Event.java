@@ -25,9 +25,11 @@ abstract class Event {
     @NotNull
     protected int lengthMinutes;
 
-    @Size(max = 30)
     @NotEmpty
     protected String name;
+
+    @NotEmpty
+    protected String imageUrl;
 
     protected Event(int lengthMinutes, String name) {
         this.lengthMinutes = lengthMinutes;

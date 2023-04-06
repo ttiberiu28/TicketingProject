@@ -27,7 +27,7 @@ public class StandUpController {
 
         try{
             standUpService.addStandUpEvent(standUp.getPrice(),standUp.getLengthMinutes(),
-                    standUp.getName(),standUp.getDescription());
+                    standUp.getName(),standUp.getImageUrl(),standUp.getDescription());
 
             return ResponseEntity.ok().build();
 

@@ -25,6 +25,7 @@ public class MovieService {
     public static final Logger LOGGER = LoggerFactory.getLogger(MovieService.class);
 
     public void addMovie(int price, int lengthMinutes,String name,
+                         String imageUrl,
                          String language, Double rating,
                          String movieDescription){
 
@@ -42,6 +43,7 @@ public class MovieService {
             x.setPrice(price);
             x.setLengthMinutes(lengthMinutes);
             x.setName(name);
+            x.setImageUrl(imageUrl);
             x.setLanguage(language);
             x.setImdbRating(rating);
             x.setMovieDescription(movieDescription);

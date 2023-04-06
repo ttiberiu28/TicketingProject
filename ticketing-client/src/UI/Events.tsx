@@ -36,7 +36,9 @@ export default function Events() {
               <Col md={2} key={movie.id} className="mb-4">
                 <Card className="event-card">
                   <Link to={`/movie/${movie.id}`}>
-                    <Card.Img variant="top" src={myImage} />
+                    {/* <Card.Img variant="top" src={myImage} />      */}
+                     <Card.Img variant="top" src={movie.imageUrl} />
+
                   </Link>
                   <Card.Body>
                     <Card.Title>{movie.name}</Card.Title>

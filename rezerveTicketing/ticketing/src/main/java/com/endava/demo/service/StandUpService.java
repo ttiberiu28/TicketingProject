@@ -25,6 +25,7 @@ public class StandUpService {
 
 
     public void addStandUpEvent(int price,int lengthMinutes, String name,
+                                String imageUrl,
                                 String description){
 
         var su = standUpRepo.findByNameIgnoreCase(name);
@@ -40,6 +41,7 @@ public class StandUpService {
             x.setPrice(price);
             x.setLengthMinutes(lengthMinutes);
             x.setName(name);
+            x.setImageUrl(imageUrl);
             x.setDescription(description);
 
             standUpRepo.save(x);

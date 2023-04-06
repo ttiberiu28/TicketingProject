@@ -17,7 +17,6 @@ import java.util.Set;
 @NoArgsConstructor
 public class StandUp extends Event{
 
-    @Size(max = 100)
     @NotNull
     private String description;
 

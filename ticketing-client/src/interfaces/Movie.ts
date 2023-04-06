@@ -5,4 +5,5 @@ export interface Movie {
     lengthMinutes: number;
     tickets: string[];
     movieDescription: string;
+    imageUrl: string;
   }
