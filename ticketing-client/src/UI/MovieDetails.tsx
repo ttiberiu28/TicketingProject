@@ -90,7 +90,7 @@ const MovieDetails: React.FC = () => {
               <Card.Img variant="top" src={movie.imageUrl} />
             </Card>
           </Col>
-          <Col xs={12} md={8}>
+          <Col className="body" xs={12} md={8}>
             <div className="movie-description">
               <h1>{movie.name}</h1>
               <ul>

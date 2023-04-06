@@ -19,4 +19,16 @@
     display: inline-block;
   }
   
+  .body {
+    background-image: url('https://images.unsplash.com/photo-1488109811119-98431feb6929?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1160&q=80');
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+  
+  .container {
+    display: flex;
+    justify-content: center; /* centers horizontally */
+    align-items: center; /* centers vertically */
+    height: 100vh; /* set height to full viewport height */
+  }
   

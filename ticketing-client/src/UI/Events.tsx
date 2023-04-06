@@ -24,7 +24,7 @@ export default function Events() {
     <Container className="movies-and-standups">
       <Row className="justify-content-center align-items-center vh-100">
         <Col className="text-center">
-          <h2 className="section-title mb-5">Movies</h2>
+          <h2 className="section-title mb-5"><i>EVENTS</i></h2>
           <Row className="justify-content-center">
             {/* Map through movies array and render a Card component for each movie */}
             {movies.map((movie) => (
