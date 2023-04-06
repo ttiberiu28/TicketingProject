@@ -20,6 +20,9 @@ export default function NavBar() {
             <li className="nav-item">
               <Link className="nav-link" to="/locations">Locations</Link>
             </li>
+            <li className="nav-item">
+              <Link className="nav-link" to="/events">Events</Link>
+            </li>
           </ul>
         </div>
       </div>

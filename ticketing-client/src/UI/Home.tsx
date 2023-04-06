@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import splash from "./Images/im2.jpg";
 import { Link } from "react-router-dom";
-import { Button } from 'react-bootstrap';
+import './home.css';
 
 export default function Home() {
 
@@ -20,7 +20,7 @@ export default function Home() {
   };
 
   return (
-    <Container fluid className="p-0">
+    <Container fluid className="p-0 home-container">
       <Row>
         <Col className="p-0">
           <div
@@ -41,27 +41,25 @@ export default function Home() {
               {isWelcomeMessage ? (
                 <h1 className="display-1 font-weight-bold text-white">
                   <Link to="/about">
-                    <button className="btn btn-primary rounded-pill p-3" style={{backgroundColor: 'black', fontWeight: 'bold'}}>
+                    <button className="btn btn-primary rounded-pill p-3 btn-preview">
                       About
                     </button>
                   </Link>
 
                   <Link to="/locations">
-                    <button className="btn btn-primary rounded-pill p-3" style={{backgroundColor: 'black', fontWeight: 'bold'}}>
+                    <button className="btn btn-primary rounded-pill p-3 btn-preview">
                       Location
                     </button>
                   </Link>
 
                   <Link to="/events">
-                    <button className="btn btn-primary rounded-pill p-3" style={{backgroundColor: 'black', fontWeight: 'bold'}}>
+                    <button className="btn btn-primary rounded-pill p-3 btn-preview">
                       Events
                     </button>
                   </Link>
-
-                  
                 </h1>
               ) : (
-                <button className="btn btn-primary rounded-pill p-3" onClick={handleShapeChange} style={{backgroundColor: 'black', fontWeight: 'bold', fontSize: '1.75rem'}}>
+                <button className="btn btn-primary rounded-pill p-3" onClick={handleShapeChange} style={{fontWeight: 'bold', fontSize: '1.75rem'}}>
                  Ticket-to-GO
                 </button>
               )}
