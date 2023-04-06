@@ -27,8 +27,8 @@
   
   .container {
     display: flex;
-    justify-content: center; /* centers horizontally */
-    align-items: center; /* centers vertically */
-    height: 100vh; /* set height to full viewport height */
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
   }
   

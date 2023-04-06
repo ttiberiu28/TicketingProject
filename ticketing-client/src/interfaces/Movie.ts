@@ -1,3 +1,5 @@
+import { MyLocation } from "./MyLocation";
+
 export interface Movie {
     id: number;
     price: number;
@@ -8,4 +10,5 @@ export interface Movie {
     tickets: string[];
     movieDescription: string;
     imageUrl: string;
+    locations: MyLocation[];
   }
