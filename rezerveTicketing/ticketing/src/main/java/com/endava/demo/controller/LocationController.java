@@ -14,7 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping(Constant.LOCATION_CONTROLLER)
 @AllArgsConstructor
-@CrossOrigin(origins = "http://localhost:3002")
+@CrossOrigin(origins = "*")
 public class LocationController {
 
     private final LocationService locationService;

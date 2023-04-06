@@ -17,7 +17,7 @@ import java.util.List;
 @RestController
 @RequestMapping(Constant.STAND_UP_CONTROLLER)
 @AllArgsConstructor
-@CrossOrigin(origins = "http://localhost:3002")
+@CrossOrigin(origins = "*")
 public class StandUpController {
 
     private final StandUpService standUpService;

@@ -23,12 +23,12 @@ public class SecurityConfig {
     }
 
     @Bean
-    @CrossOrigin(origins = "http://localhost:3002")
+    @CrossOrigin(origins = "*")
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .cors().configurationSource(request -> {
                     var cors = new CorsConfiguration();
-                    cors.setAllowedOrigins(List.of("http://localhost:3002"));
+                    cors.setAllowedOrigins(List.of("*"));
                     cors.setAllowedMethods(List.of("GET","POST","PUT","DELETE"));
                     return cors.applyPermitDefaultValues();
                 })
