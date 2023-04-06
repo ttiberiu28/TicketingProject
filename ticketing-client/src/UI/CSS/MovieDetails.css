@@ -1,0 +1,22 @@
+  .ticket-section ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  
+  .ticket-section li {
+    display: inline-block;
+    margin-right: 20px;
+    margin-bottom: 20px;
+  }
+  
+  .ticket-section span {
+    display: inline-block;
+    margin-right: 10px;
+  }
+  
+  .ticket-section button {
+    display: inline-block;
+  }
+  
+  
