@@ -3,6 +3,8 @@ import { Container, Row, Col } from "react-bootstrap";
 import splash from "./Images/im5.jpg";
 import { Link } from "react-router-dom";
 import './CSS/home.css';
+import { useAuth } from "./AuthContext"; 
+
 
 export default function Home() {
 
@@ -18,6 +20,9 @@ export default function Home() {
   const handlePositionChange = () => {
     setIsTop(true);
   };
+
+  const { username } = useAuth();
+
 
   return (
     <Container fluid className="p-0 home-container">
@@ -69,9 +74,22 @@ export default function Home() {
                   <br />
                 </h1>
               ) : (
-                <button className="btn btn-primary rounded-pill p-3" onClick={handleShapeChange} style={{fontWeight: 'bold', fontSize: '1.75rem'}}>
-                 Ticket-to-GO
-                </button>
+                <div>
+                
+                  <button className="btn btn-primary rounded-pill p-3" onClick={handleShapeChange} style={{fontWeight: 'bold', fontSize: '1.75rem'}}>
+                  Ticket-to-GO
+                  </button>
+
+                  {username && (
+                    <div className="logged-in-user">
+                      Logged in as: <strong>{username}</strong>
+                    </div>
+                  )}
+                  
+                </div>
+                
+                
+
               )}
             </div>
           </div>

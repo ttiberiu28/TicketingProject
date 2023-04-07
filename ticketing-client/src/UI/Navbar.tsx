@@ -38,7 +38,7 @@ export default function NavBar() {
                 <div className="navbar-text">
                   Logged in as: <strong>{username}</strong>
                 </div>
-      )}
+              )}
 
           
     </nav>

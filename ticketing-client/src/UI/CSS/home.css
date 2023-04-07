@@ -24,4 +24,11 @@
     color: black;
   }
   
+  .logged-in-user {
+    background-color: #F0F0F0;
+    font-style: italic;
+    font-size: 20px;
+    padding: 10px;
+    border-radius: 10px;
+  }
   
