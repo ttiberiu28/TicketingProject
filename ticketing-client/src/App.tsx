@@ -1,15 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Home from './UI/Home';
 import About from './UI/About';
 import MyLocations from './UI/MyLocations';
 import NavBar from './UI/Navbar';
-import Events from './UI/Events'; // Import the MoviesAndStandups component
+import Events from './UI/Events';
 import MovieDetails from './UI/MovieDetails';
 import StandUpDetails from './UI/StandUpDetails';
+import MyLogin from './UI/Login';
 
 function App() {
+  const [loginStatus, setLoginStatus] = useState<'success' | 'failure' | ''>('');
+
+  const handleLogin = () => {
+    setLoginStatus('success');
+  };
+
+  const handleLoginError = () => {
+    setLoginStatus('failure');
+  };
+
   return (
     <BrowserRouter>
       <Routes>
@@ -31,7 +42,7 @@ function App() {
           }
         />
         <Route
-          path="/events" // Add a new route for the MoviesAndStandups component
+          path="/events"
           element={
             <MainLayout>
               <Events />
@@ -39,16 +50,23 @@ function App() {
           }
         />
         <Route
-          path="/movie/:index" 
+          path="/login"
+          element={
+            <MainLayout>
+              <MyLogin onLogin={handleLogin} onLoginError={handleLoginError} />
+            </MainLayout>
+          }
+        />
+        <Route
+          path="/movie/:index"
           element={
             <MainLayout>
               <MovieDetails />
             </MainLayout>
           }
         />
-
         <Route
-          path="/standup/:index" 
+          path="/standup/:index"
           element={
             <MainLayout>
               <StandUpDetails />
@@ -56,6 +74,15 @@ function App() {
           }
         />
       </Routes>
+      {loginStatus && (
+        <div
+          className={`alert alert-${loginStatus === 'success' ? 'success' : 'danger'} alert-dismissible fade show`}
+          role="alert"
+        >
+          {loginStatus === 'success' ? 'Login successful' : 'Login failed'}
+          <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      )}
     </BrowserRouter>
   );
 }

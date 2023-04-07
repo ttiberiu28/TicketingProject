@@ -4,6 +4,8 @@ import com.endava.demo.model.User;
 import com.endava.demo.repository.RoleRepo;
 import com.endava.demo.repository.UserRepo;
 import lombok.AllArgsConstructor;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +23,17 @@ public class UserService {
     private final RoleRepo roleRepo;
 
     private final PasswordEncoder passwordEncoder;
+
+    public User login(String username, String password){
+        User user = userRepo.findUserByUsernameIgnoreCase(username)
+                .orElseThrow(() -> new UsernameNotFoundException("Invalid Username"));
+
+        if (passwordEncoder.matches(password, user.getPassword())) {
+            return user;
+        } else {
+            throw new BadCredentialsException("Invalid password");
+        }
+    }
 
     public void addUser(String username, String password){
 

@@ -19,6 +19,7 @@ public class Constant {
         MAPPING PATHS
      */
 
+    public static final String LOGIN = "/login";
     public static final String LIST = "/list";
     public static final String NEW = "/new";
     public static final String ASSIGN_TICKET = "/ticketAssignation";

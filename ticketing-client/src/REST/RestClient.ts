@@ -1,40 +1,85 @@
 export default class RestClient {
+  static baseUrl = "http://localhost:8080";
+  static token?: string;
 
-    static baseUrl = "http://localhost:8080"; 
-    static username = "Andrei";
-    static password = "12345";
-    
-    // return type is the generic: Promise<any> 
-    static getLocations() : Promise<any> {
-        
-        const url = `${RestClient.baseUrl}/api/location/list`;
+  static async login(username: string, password: string) : Promise<any> {
 
-        const headers = new Headers();
-        headers.set("Authorization", "Basic " + btoa(RestClient.username + ":" + RestClient.password));
+    const url = `${RestClient.baseUrl}/api/user/login`;
+  
+    const headers = new Headers();
+    headers.set("Content-Type", "application/json");
+  
+    const body = JSON.stringify({username: username, password: password});
+  
+    const response = await fetch(url, {method: "POST", headers: headers, body: body});
+  
+    if (!response.ok) {
+      throw new Error("Login failed");
+    }
+  
+    const token = response.headers.get("Authorization");
+    if (token) {
+      localStorage.setItem("token", token);
+    }
+  
+    return response.json();
+  }
+  
 
-        return fetch(url, {headers: headers}).then(response => response.json());
+  static async getLocations(): Promise<any> {
+    const url = `${RestClient.baseUrl}/api/location/list`;
+    const headers = new Headers();
+    headers.set("Authorization", RestClient.token || "");
+
+    const response = await fetch(url, { headers: headers });
+
+    if (!response.ok) {
+      throw new Error("Failed to get locations");
     }
 
-    static async getOneLocation(id: number) : Promise<any>{
-        const url = `${RestClient.baseUrl}/api/location/${id}`;
+    return response.json();
+  }
 
-        const headers = new Headers();
-        headers.set("Authorization", "Basic " + btoa(RestClient.username + ":" + RestClient.password));
+  static async getOneLocation(id: number): Promise<any> {
+    const url = `${RestClient.baseUrl}/api/location/${id}`;
+    const headers = new Headers();
+    headers.set("Authorization", RestClient.token || "");
 
-        return (await fetch(url, {headers: headers})).json()
+    const response = await fetch(url, { headers: headers });
+
+    if (!response.ok) {
+      throw new Error(`Failed to get location with id ${id}`);
     }
-    
-    static getMovies(): Promise<any> {
-        const url = `${RestClient.baseUrl}/api/movie/list`;
-        const headers = new Headers();
-        headers.set("Authorization", "Basic " + btoa(RestClient.username + ":" + RestClient.password));
-        return fetch(url, { headers: headers }).then((response) => response.json());
-      }
-      
-      static getStandUpEvents(): Promise<any> {
-        const url = `${RestClient.baseUrl}/api/standup/list`;
-        const headers = new Headers();
-        headers.set("Authorization", "Basic " + btoa(RestClient.username + ":" + RestClient.password));
-        return fetch(url, { headers: headers }).then((response) => response.json());
-      }
+
+    return response.json();
+  }
+
+  static async getMovies(): Promise<any> {
+    const url = `${RestClient.baseUrl}/api/movie/list`;
+    const headers = new Headers();
+    headers.set("Authorization", RestClient.token || "");
+
+    const response = await fetch(url, { headers: headers });
+
+    if (!response.ok) {
+      throw new Error("Failed to get movies");
+    }
+
+    return response.json();
+  }
+
+  static async getStandUpEvents(): Promise<any> {
+    const url = `${RestClient.baseUrl}/api/standup/list`;
+    const headers = new Headers();
+    headers.set("Authorization", RestClient.token || "");
+
+    const response = await fetch(url, { headers: headers });
+
+    if (!response.ok) {
+      throw new Error("Failed to get stand-up events");
+    }
+
+    return response.json();
+  }
 }
+

@@ -1,55 +1,64 @@
-// ./UI/Login.tsx
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate instead of useHistory
+// export default Login;
+import React, { useState } from "react";
+import { Button, Form } from "react-bootstrap";
+import RestClient from "../REST/RestClient";
 
-function Login() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const navigate = useNavigate(); // Use useNavigate instead of useHistory
+interface Props {
+  onLogin: () => void;
+  onLoginError: () => void;
+}
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Perform authentication logic here, e.g., call your API or use a global state.
-    if (username === 'demo' && password === 'demo') {
-      alert('Logged in successfully');
-      navigate('/'); // Redirect to the home page
-    } else {
-      alert('Invalid username or password');
+const Login: React.FC<Props> = ({ onLogin, onLoginError }) => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const handleLogin = async () => {
+    try {
+      await RestClient.login(username, password);
+      onLogin();
+    } catch (error) {
+      console.error(error);
+      setErrorMessage("Invalid username or password");
+      onLoginError();
     }
   };
 
   return (
-    <div className="container">
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="username">Username:</label>
-          <input
+    <div className="login-page">
+      <h1>Login</h1>
+      {errorMessage && <div className="error">{errorMessage}</div>}
+      <Form>
+        <Form.Group controlId="formUsername">
+          <Form.Label>Username</Form.Label>
+          <Form.Control
             type="text"
-            className="form-control"
-            id="username"
+            placeholder="Enter username"
             value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
+            onChange={(e: { target: { value: React.SetStateAction<string> } }) =>
+              setUsername(e.target.value)
+            }
           />
-        </div>
-        <div className="form-group">
-          <label htmlFor="password">Password:</label>
-          <input
+        </Form.Group>
+
+        <Form.Group controlId="formPassword">
+          <Form.Label>Password</Form.Label>
+          <Form.Control
             type="password"
-            className="form-control"
-            id="password"
+            placeholder="Password"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
+            onChange={(e: { target: { value: React.SetStateAction<string> } }) =>
+              setPassword(e.target.value)
+            }
           />
-        </div>
-        <button type="submit" className="btn btn-primary">
+        </Form.Group>
+
+        <Button variant="primary" type="button" onClick={handleLogin}>
           Login
-        </button>
-      </form>
+        </Button>
+      </Form>
     </div>
   );
-}
+};
 
 export default Login;

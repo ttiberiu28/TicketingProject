@@ -1,6 +1,7 @@
 package com.endava.demo.controller;
 
 import com.endava.demo.dto.AssignUserRoleRequest;
+import com.endava.demo.dto.UserDto;
 import com.endava.demo.exception.RoleAlreadyExistsException;
 import com.endava.demo.exception.RoleDoesNotExistsException;
 import com.endava.demo.exception.UserDoesNotExistsException;
@@ -11,6 +12,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.naming.AuthenticationException;
 import java.util.List;
 
 @RestController
@@ -25,6 +27,13 @@ public class UserController {
         userService.addUser(user.getUsername(), user.getPassword());
     }
 
+    @PostMapping(Constant.LOGIN)
+    public ResponseEntity<?> login(@RequestBody User user){
+        User authenticatedUser = userService.login(user.getUsername(), user.getPassword());
+
+        UserDto userDto = new UserDto(authenticatedUser.getId(), authenticatedUser.getUsername());
+        return ResponseEntity.ok(userDto);
+    }
     @GetMapping(Constant.LIST)
     public List<User> getUsers(){
         return userService.getUserList();

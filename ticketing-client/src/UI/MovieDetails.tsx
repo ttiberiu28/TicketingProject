@@ -39,16 +39,17 @@ const MovieDetails: React.FC = () => {
                   <li>IMDb Rating: {movie.imdbRating}</li>
                   <li>Duration: {movie.lengthMinutes} minutes</li>
                   <li>Language: {movie.language}</li>
+                  
                   <div className="movie-locations">
-                  <h3>Locations:</h3>
-                  <ul>
-                    {movie.locations.map((location) => (
-                      <li key={location.id}>{location.place}</li>
-                    ))}
-                </ul>
+                    <h3>Locations:</h3>
+                    <ul>
+                      {movie.locations.map((location) => (
+                        <li key={location.id}>{location.place}</li>
+                      ))}
+                    </ul>
 
-              </div>
-              </ul>
+                  </div>
+                </ul>
               <p>{movie.movieDescription}</p>
 
               <Button variant="primary" onClick={handleTicketClick}>
