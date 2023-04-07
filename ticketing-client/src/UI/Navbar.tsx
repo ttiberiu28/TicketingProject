@@ -1,9 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import homeIcon from './Images/im2.jpg';
+import { useAuth } from "./AuthContext"; 
 
 
 export default function NavBar() {
+  const { username } = useAuth();
+
   return (
     <nav className="navbar navbar-expand-lg sticky-bottom navbar-dark bg-dark">
             
@@ -30,6 +33,13 @@ export default function NavBar() {
               <Link className="nav-link" to="/login">
                 <a className="navbar-brand" href="#">Login</a>
               </Link>
+
+              {username && (
+                <div className="navbar-text">
+                  Logged in as: <strong>{username}</strong>
+                </div>
+      )}
+
           
     </nav>
   );

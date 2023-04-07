@@ -4,7 +4,7 @@ import RestClient from "../REST/RestClient";
 import "./CSS/login.css";
 import { useNavigate } from "react-router-dom";
 import "./CSS/CustomJumbotron.css"
-
+import { useAuth } from "./AuthContext"
 // define the Props interface for the Login component
 interface Props {
   onLogin: () => void; // callback to trigger after successful login
@@ -19,6 +19,8 @@ const Login: React.FC<Props> = ({ onLogin }) => {
   // initialize useNavigate hook
   const navigate = useNavigate();
 
+  const { setUsername: setAuthUsername } = useAuth(); // Rename setUsername to setAuthUsername
+
   // define the handleLogin function for handling the login button click event
   const handleLogin = async () => {
     try {
@@ -26,6 +28,8 @@ const Login: React.FC<Props> = ({ onLogin }) => {
       setLoginStatus("success");
       // trigger the onLogin callback function
       onLogin();
+
+      setAuthUsername(username); // Use setAuthUsername instead of setUsername
 
       setTimeout(() => {
         navigate('/');

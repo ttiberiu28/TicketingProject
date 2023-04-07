@@ -110,6 +110,7 @@ import Events from './UI/Events';
 import MovieDetails from './UI/MovieDetails';
 import StandUpDetails from './UI/StandUpDetails';
 import MyLogin from './UI/Login';
+import { AuthProvider } from './UI/AuthContext';
 
 interface Props {
   onLogin: () => void;
@@ -128,59 +129,61 @@ function App() {
   };
 
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route
-          path="/locations"
-          element={
-            <MainLayout>
-              <MyLocations />
-            </MainLayout>
-          }
-        />
-        <Route
-          path="/about"
-          element={
-            <MainLayout>
-              <About />
-            </MainLayout>
-          }
-        />
-        <Route
-          path="/events"
-          element={
-            <MainLayout>
-              <Events />
-            </MainLayout>
-          }
-        />
-        <Route
-          path="/login"
-          element={
-            <MainLayout>
-              <MyLogin onLogin={handleLogin}/>
-            </MainLayout>
-          }
-        />
-        <Route
-          path="/movie/:index"
-          element={
-            <MainLayout>
-              <MovieDetails />
-            </MainLayout>
-          }
-        />
-        <Route
-          path="/standup/:index"
-          element={
-            <MainLayout>
-              <StandUpDetails />
-            </MainLayout>
-          }
-        />
-      </Routes>
-    </BrowserRouter>
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route
+            path="/locations"
+            element={
+              <MainLayout>
+                <MyLocations />
+              </MainLayout>
+            }
+          />
+          <Route
+            path="/about"
+            element={
+              <MainLayout>
+                <About />
+              </MainLayout>
+            }
+          />
+          <Route
+            path="/events"
+            element={
+              <MainLayout>
+                <Events />
+              </MainLayout>
+            }
+          />
+          <Route
+            path="/login"
+            element={
+              <MainLayout>
+                <MyLogin onLogin={handleLogin}/>
+              </MainLayout>
+            }
+          />
+          <Route
+            path="/movie/:index"
+            element={
+              <MainLayout>
+                <MovieDetails />
+              </MainLayout>
+            }
+          />
+          <Route
+            path="/standup/:index"
+            element={
+              <MainLayout>
+                <StandUpDetails />
+              </MainLayout>
+            }
+          />
+        </Routes>
+      </BrowserRouter>
+   </AuthProvider>
   );
 }
 
