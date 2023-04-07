@@ -1,33 +1,43 @@
-// export default Login;
 import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import RestClient from "../REST/RestClient";
 import "./CSS/login.css";
+import { useNavigate } from "react-router-dom";
 
+// define the Props interface for the Login component
 interface Props {
   onLogin: () => void; // callback to trigger after successful login
 }
 
 const Login: React.FC<Props> = ({ onLogin }) => {
+  // define state variables for username, password, and login status
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loginStatus, setLoginStatus] = useState("");
 
+  // initialize useNavigate hook
+  const navigate = useNavigate();
+
+  // define the handleLogin function for handling the login button click event
   const handleLogin = async () => {
     try {
       await RestClient.login(username, password);
       setLoginStatus("success");
-      onLogin(); // trigger the callback to indicate successful login
+      // trigger the onLogin callback function
+      onLogin();
+
+      setTimeout(() => {
+        navigate('/');
+      }, 1000);
     } catch (error) {
       console.error(error);
+
       setLoginStatus("failure");
-      // show error message to the user
     }
   };
 
   return (
     <div className="login-page">
-      <h1>Login</h1>
       <Form>
         <Form.Group controlId="formUsername">
           <Form.Label>Username</Form.Label>

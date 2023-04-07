@@ -180,15 +180,6 @@ function App() {
           }
         />
       </Routes>
-      {loginStatus && (
-        <div
-          className={`alert alert-${loginStatus === 'success' ? 'success' : 'danger'} alert-dismissible fade show`}
-          role="alert"
-        >
-          {loginStatus === 'success' ? 'Login successful' : 'Login failed'}
-          <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-      )}
     </BrowserRouter>
   );
 }

@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Row, Col, Card } from 'react-bootstrap';
 import { getMovies, getStandUpEvents } from '../api/api';
-import './Events.css';
-import myImage from './Images/im4.jpg';
+import './CSS/Events.css';
 import { Link } from 'react-router-dom';
 import { Movie } from '../interfaces/Movie';
 import {StandUp} from '../interfaces/StandUp'
