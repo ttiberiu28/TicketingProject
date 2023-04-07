@@ -4,6 +4,8 @@ import { getMovies } from '../api/api';
 import { Container, Row, Col, Card, Button, Collapse } from 'react-bootstrap';
 import { Movie } from '../interfaces/Movie';
 import './CSS/MovieDetails.css';
+import "./CSS/CustomJumbotron.css"
+
 
 const MovieDetails: React.FC = () => {
   const { index = '0' } = useParams<{ index?: string }>();
@@ -24,7 +26,7 @@ const MovieDetails: React.FC = () => {
   };
 
   return (
-    <div className="movie-details-container">
+    <div className="movie-details-container jumbotron jumbotron-fluid custom-jumbotron">
       <Container>
         <Row>
           <Col xs={12} md={4}>
@@ -32,8 +34,8 @@ const MovieDetails: React.FC = () => {
               <Card.Img variant="top" src={movie.imageUrl} />
             </Card>
           </Col>
-          <Col className="body" xs={12} md={8}>
-            <div className="movie-description">
+          <Col className="body lead black-text" xs={12} md={8}>
+            <div className="movie-description lead">
               <h1>{movie.name}</h1>
                 <ul>
                   <li>IMDb Rating: {movie.imdbRating}</li>

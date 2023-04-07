@@ -1,0 +1,4 @@
+.upside-down {
+    transform: rotate(90deg);
+    display: inline-block;
+  }

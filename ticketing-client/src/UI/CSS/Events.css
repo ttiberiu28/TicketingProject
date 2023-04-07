@@ -22,4 +22,9 @@
 
   .imdb-text-color {
     color: rgb(227, 103, 21);
+    font-weight: bold;
+  }
+
+  .card-title-black-text {
+    color: black;
   }

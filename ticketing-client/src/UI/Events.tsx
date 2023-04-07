@@ -20,49 +20,51 @@ export default function Events() {
 
   // Render movies and stand-up events using React Bootstrap
   return (
-    <Container className="movies-and-standups">
-      <Row className="justify-content-center align-items-center vh-100">
-        <Col className="text-center">
-          <h2 className="section-title mb-5"><i>EVENTS</i></h2>
-          <Row className="justify-content-center">
-            {/* Map through movies array and render a Card component for each movie */}
-            {movies.map((movie) => (
-              <Col md={2} key={movie.id} className="mb-4">
+    <div className="jumbotron jumbotron-fluid custom-jumbotron">
+      <Container className="movies-and-standups">
+        <Row className="justify-content-center align-items-center vh-100">
+          <Col className="text-center">
+            <h1 className="lead "><i>EVENTS</i></h1>
+            <Row className="justify-content-center">
+              {/* Map through movies array and render a Card component for each movie */}
+              {movies.map((movie) => (
+                <Col md={2} key={movie.id} className="mb-4">
+                    <Card className="event-card card-body-fixed-height">
+
+                      <Link to={`/movie/${movie.id}`}>
+                        <Card.Img variant="top" src={movie.imageUrl} />
+                      </Link>
+
+                      <Card.Body>
+                        <Card.Title className="card-title-black-text" >{movie.name}</Card.Title>
+                        <Card.Text className= "imdb-text-color">
+                          IMDb Rating: {movie.imdbRating}
+                        </Card.Text>
+                      </Card.Body>
+                  </Card>
+                </Col>
+              ))}
+
+              {/* Map through standUpEvents array and render a Card component for each event */}
+              {standUpEvents.map((standUp) => (
+                <Col md={2} key={standUp.id} className="mb-4">
                   <Card className="event-card card-body-fixed-height">
 
-                    <Link to={`/movie/${movie.id}`}>
-                      <Card.Img variant="top" src={movie.imageUrl} />
-                    </Link>
+                  <Link to={`/standup/${standUp.id}`}>
+                    <Card.Img variant="top" src={standUp.imageUrl} />
+                  </Link>
 
                     <Card.Body>
-                      <Card.Title>{movie.name}</Card.Title>
-                      <Card.Text className= "imdb-text-color">
-                        IMDb Rating: {movie.imdbRating}
-                      </Card.Text>
+                      <Card.Title>{standUp.name}</Card.Title>
                     </Card.Body>
-                </Card>
-              </Col>
-            ))}
-
-            {/* Map through standUpEvents array and render a Card component for each event */}
-            {standUpEvents.map((standUp) => (
-              <Col md={2} key={standUp.id} className="mb-4">
-                <Card className="event-card card-body-fixed-height">
-
-                <Link to={`/standup/${standUp.id}`}>
-                  <Card.Img variant="top" src={standUp.imageUrl} />
-                </Link>
-
-                  <Card.Body>
-                    <Card.Title>{standUp.name}</Card.Title>
-                  </Card.Body>
-                </Card>
-              </Col>
-            ))}
-          
-          </Row>
-        </Col>
-      </Row>
-    </Container>
+                  </Card>
+                </Col>
+              ))}
+            
+            </Row>
+          </Col>
+        </Row>
+      </Container>
+    </div>
   );
 };

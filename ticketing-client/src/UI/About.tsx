@@ -1,23 +1,22 @@
 import React from "react";
 import { Button } from 'react-bootstrap';
+import "./CSS/CustomJumbotron.css"
+import "./CSS/About.css"
 
 export default function About(){
 
     return (
 
-        <div className="Button">
-            <h1>About Ticketing App</h1>
-            <p>
-                Some details about the app and so on
-            </p>
+        <div className="jumbotron jumbotron-fluid custom-jumbotron">
+            <div className="container">
+                <h1 className="display-4">Ticket-to-GO</h1>
 
-            <p>
-                More details about the app and so on
-            </p>
 
-            <p>
-                &copy; TO
-            </p>
+                <p className="lead"> The fastest way to buy your ticket right </p>
+                <p className="lead upside-down">now</p>
+            
+            </div>
         </div>
+        
     )
 }

@@ -3,6 +3,7 @@ import { Button, Form } from "react-bootstrap";
 import RestClient from "../REST/RestClient";
 import "./CSS/login.css";
 import { useNavigate } from "react-router-dom";
+import "./CSS/CustomJumbotron.css"
 
 // define the Props interface for the Login component
 interface Props {
@@ -37,7 +38,7 @@ const Login: React.FC<Props> = ({ onLogin }) => {
   };
 
   return (
-    <div className="login-page">
+    <div className="login-page jumbotron jumbotron-fluid custom-jumbotron">
       <Form>
         <Form.Group controlId="formUsername">
           <Form.Label>Username</Form.Label>
@@ -67,10 +68,10 @@ const Login: React.FC<Props> = ({ onLogin }) => {
           Login
         </Button>
         {loginStatus === "success" && (
-          <p className="text-success">Login successful!</p>
+          <p className="login-suc lead">Login successful!</p>
         )}
         {loginStatus === "failure" && (
-          <p className="text-danger">Login failed. Please try again.</p>
+          <p className="text-danger lead ">Login failed. Please try again.</p>
         )}
       </Form>
     </div>

@@ -5,12 +5,6 @@ import homeIcon from './Images/im2.jpg';
 export default function NavBar() {
   return (
     <nav className="navbar navbar-expand-lg sticky-bottom navbar-dark bg-dark">
-
-              <Link className="navbar-brand" to="/">
-                <a className="navbar-brand" href="#">...............</a>
-                <a className="navbar-brand" href="#">...............</a>
-                <a className="navbar-brand" href="#">...............</a>
-              </Link>
             
               <Link className="navbar-brand" to="/">
                 <img src={homeIcon} alt="home" width="40" height="60" className="d-inline-block align-text-top me-2" />
