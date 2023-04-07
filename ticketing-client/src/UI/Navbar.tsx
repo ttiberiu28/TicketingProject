@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import homeIcon from './Images/im2.jpg';
 
+
 export default function NavBar() {
   return (
     <nav className="navbar navbar-expand-lg sticky-bottom navbar-dark bg-dark">
@@ -29,8 +30,6 @@ export default function NavBar() {
               <Link className="nav-link" to="/login">
                 <a className="navbar-brand" href="#">Login</a>
               </Link>
-              
-            
           
     </nav>
   );
