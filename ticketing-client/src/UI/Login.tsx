@@ -2,32 +2,32 @@
 import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import RestClient from "../REST/RestClient";
+import "./CSS/login.css";
 
 interface Props {
-  onLogin: () => void;
-  onLoginError: () => void;
+  onLogin: () => void; // callback to trigger after successful login
 }
 
-const Login: React.FC<Props> = ({ onLogin, onLoginError }) => {
+const Login: React.FC<Props> = ({ onLogin }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
+  const [loginStatus, setLoginStatus] = useState("");
 
   const handleLogin = async () => {
     try {
       await RestClient.login(username, password);
-      onLogin();
+      setLoginStatus("success");
+      onLogin(); // trigger the callback to indicate successful login
     } catch (error) {
       console.error(error);
-      setErrorMessage("Invalid username or password");
-      onLoginError();
+      setLoginStatus("failure");
+      // show error message to the user
     }
   };
 
   return (
     <div className="login-page">
       <h1>Login</h1>
-      {errorMessage && <div className="error">{errorMessage}</div>}
       <Form>
         <Form.Group controlId="formUsername">
           <Form.Label>Username</Form.Label>
@@ -35,7 +35,7 @@ const Login: React.FC<Props> = ({ onLogin, onLoginError }) => {
             type="text"
             placeholder="Enter username"
             value={username}
-            onChange={(e: { target: { value: React.SetStateAction<string> } }) =>
+            onChange={(e: { target: { value: React.SetStateAction<string>; }; }) =>
               setUsername(e.target.value)
             }
           />
@@ -47,7 +47,7 @@ const Login: React.FC<Props> = ({ onLogin, onLoginError }) => {
             type="password"
             placeholder="Password"
             value={password}
-            onChange={(e: { target: { value: React.SetStateAction<string> } }) =>
+            onChange={(e: { target: { value: React.SetStateAction<string>; }; }) =>
               setPassword(e.target.value)
             }
           />
@@ -56,6 +56,12 @@ const Login: React.FC<Props> = ({ onLogin, onLoginError }) => {
         <Button variant="primary" type="button" onClick={handleLogin}>
           Login
         </Button>
+        {loginStatus === "success" && (
+          <p className="text-success">Login successful!</p>
+        )}
+        {loginStatus === "failure" && (
+          <p className="text-danger">Login failed. Please try again.</p>
+        )}
       </Form>
     </div>
   );

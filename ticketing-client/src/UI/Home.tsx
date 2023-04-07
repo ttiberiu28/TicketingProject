@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import splash from "./Images/im5.jpg";
 import { Link } from "react-router-dom";
-import './home.css';
+import './CSS/home.css';
 
 export default function Home() {
 
@@ -55,6 +55,12 @@ export default function Home() {
                   <Link to="/events">
                     <button className="btn btn-primary rounded-pill p-3 ">
                       Events
+                    </button>
+                  </Link>
+
+                  <Link to="/login">
+                    <button className="btn btn-primary2 rounded-pill p-3 ">
+                      Login
                     </button>
                   </Link>
 
