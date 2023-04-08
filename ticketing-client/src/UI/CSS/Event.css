@@ -4,3 +4,7 @@
     flex-direction: column;
   }
   
+.hover-overlay:hover {
+    opacity: 0.8;
+
+}

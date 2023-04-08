@@ -32,7 +32,6 @@ export default function Events() {
                       <Link to={`/movie/${movie.id}`}>
                         <img src={movie.imageUrl} className="img-fluid" alt={movie.name} />
                       </Link>
-                      <div className="mask" style={{ backgroundColor: 'rgba(251, 251, 251, 0.15)' }}></div>
                     </div>
                     <div className="card-body">
                       <h5 className="card-title">{movie.name}</h5>
@@ -41,6 +40,7 @@ export default function Events() {
                   </div>
                 </Col>
               ))}
+              
   
               {standUpEvents.map((standUp) => (
                 <Col xs={12} sm={6} md={4} lg={3} key={standUp.id} className="mb-4">
@@ -49,7 +49,6 @@ export default function Events() {
                       <Link to={`/standup/${standUp.id}`}>
                         <img src={standUp.imageUrl} className="img-fluid" alt={standUp.name} />
                       </Link>
-                      <div className="mask" style={{ backgroundColor: 'rgba(251, 251, 251, 0.15)' }}></div>
                     </div>
                     <div className="card-body">
                       <h5 className="card-title">{standUp.name}</h5>
