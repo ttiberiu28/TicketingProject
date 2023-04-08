@@ -61,9 +61,8 @@ export default function Events() {
 
       <Container className="movies-and-standups">
         <Row className="justify-content-center align-items-center vh-100">
+          <p></p>
           <Col className="text-center">
-
-            <h1 className="lead "><i>EVENTS</i></h1>
             <Row className="justify-content-center">
               {movies.map((movie) => (
                 <Col xs={12} sm={6} md={4} lg={3} key={movie.id} className="mb-4">
