@@ -38,11 +38,12 @@ public class UserService {
 
     public void addUser(String username, String password, String confirmPassword, String email, String firstName, String lastName){
 
-        var u = userRepo.findUserByUsernameIgnoreCase(username);
+        var u = userRepo.findUserByUsernameOrEmailIgnoreCase(username,email);
 
         u.ifPresentOrElse(x -> {
 
-            throw new UserAlreadyExistsException(x.getUsername());
+            throw new UserAlreadyExistsException(x.getUsername(), x.getEmail());
+
         }, () -> {
 
             User x = new User();

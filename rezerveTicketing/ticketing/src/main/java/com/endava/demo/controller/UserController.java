@@ -2,9 +2,7 @@ package com.endava.demo.controller;
 
 import com.endava.demo.dto.AssignUserRoleRequest;
 import com.endava.demo.dto.UserDto;
-import com.endava.demo.exception.RoleAlreadyExistsException;
-import com.endava.demo.exception.RoleDoesNotExistsException;
-import com.endava.demo.exception.UserDoesNotExistsException;
+import com.endava.demo.exception.*;
 import com.endava.demo.model.User;
 import com.endava.demo.service.UserService;
 import constant.Constant;
@@ -23,9 +21,20 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping(Constant.NEW)
-    public void registerUser(@RequestBody User user){
-        userService.addUser(user.getUsername(), user.getPassword(), user.getConfirmPassword(),
-                user.getEmail(),user.getFirstName(),user.getLastName());
+    public ResponseEntity<?> registerUser(@RequestBody User user){
+
+        try{
+            userService.addUser(user.getUsername(), user.getPassword(), user.getConfirmPassword(),
+                    user.getEmail(),user.getFirstName(),user.getLastName());
+            return ResponseEntity
+                    .ok()
+                    .body("Successful signup");
+        }catch(PasswordDoesNotMatchException | WrongEmailFormatException e){
+            return ResponseEntity
+                    .badRequest()
+                    .body("Password does not match or wrong format for email.");
+        }
+
     }
 
     @PostMapping(Constant.LOGIN)
