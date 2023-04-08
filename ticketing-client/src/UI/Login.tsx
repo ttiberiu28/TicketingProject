@@ -71,12 +71,15 @@ const Login: React.FC<Props> = ({ onLogin }) => {
         <Button variant="primary" type="button" onClick={handleLogin}>
           Login
         </Button>
+        <Button type="button" onClick={() => navigate('/signup')}>
+          Create an account
+        </Button>
 
         {loginStatus === "success" && (
           <p className="login-suc lead">Login successful!</p>
         )}
         {loginStatus === "failure" && (
-          <p className="text-danger lead ">Login failed. Please try again.</p>
+          <p className="text-danger lead ">Incorrect username or password</p>
         )}
       </Form>
     </div>

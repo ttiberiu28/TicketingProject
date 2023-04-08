@@ -2,6 +2,31 @@ export default class RestClient {
   static baseUrl = "http://localhost:8080";
   static token?: string;
 
+  static async signUp(username: string, password: string, confirmPassword: string, email: string, firstName: string, lastName: string): Promise<any> {
+    const url = `${RestClient.baseUrl}/api/user/new`;
+
+    const headers = new Headers();
+    headers.set("Content-Type", "application/json");
+
+    const body = JSON.stringify({
+      username,
+      password,
+      confirmPassword,
+      email,
+      firstName,
+      lastName,
+    });
+
+    const response = await fetch(url, { method: "POST", headers: headers, body: body });
+
+    if (!response.ok) {
+      throw new Error("Signup failed");
+    }
+
+    return response.json();
+  }
+
+
   static async login(username: string, password: string) : Promise<any> {
 
     const url = `${RestClient.baseUrl}/api/user/login`;

@@ -1,6 +1,7 @@
 package com.endava.demo.controller;
 
 import com.endava.demo.dto.AssignUserRoleRequest;
+import com.endava.demo.dto.MessageResponse;
 import com.endava.demo.dto.UserDto;
 import com.endava.demo.exception.*;
 import com.endava.demo.model.User;
@@ -28,11 +29,11 @@ public class UserController {
                     user.getEmail(),user.getFirstName(),user.getLastName());
             return ResponseEntity
                     .ok()
-                    .body("Successful signup");
+                    .body(new MessageResponse("Successful signup"));
         }catch(PasswordDoesNotMatchException | WrongEmailFormatException e){
             return ResponseEntity
                     .badRequest()
-                    .body("Password does not match or wrong format for email.");
+                    .body(new MessageResponse("Password does not match or wrong format for email."));
         }
 
     }

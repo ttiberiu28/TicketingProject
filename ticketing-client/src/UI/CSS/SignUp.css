@@ -1,11 +1,12 @@
-.login-page {
+/* signup.css */
+.sign-up-page {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
   }
   
-  .login-form {
+  .sign-up-form {
     max-width: 400px;
     padding: 20px;
     border: 1px solid #ddd;
@@ -14,17 +15,21 @@
     background-color: #f8f8f8;
   }
   
-  .login-form h1 {
+  .sign-up-form h1 {
     margin-bottom: 20px;
     text-align: center;
   }
   
-  .login-form button {
+  .sign-up-form button {
     margin-top: 20px;
     width: 100%;
   }
-
-  .login-suc {
+  
+  .sign-up-suc {
     color: rgb(0, 212, 11);
+  }
+
+  .black-text {
+    color: black;
   }
   
