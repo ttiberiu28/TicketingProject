@@ -21,6 +21,10 @@ const Login: React.FC<Props> = ({ onLogin }) => {
 
   const { setUsername: setAuthUsername } = useAuth(); // Rename setUsername to setAuthUsername
 
+  const handlePrivacyPolicyClick = () => {
+    navigate('/about');
+  };
+
   // define the handleLogin function for handling the login button click event
   const handleLogin = async () => {
     try {
@@ -32,7 +36,7 @@ const Login: React.FC<Props> = ({ onLogin }) => {
       setAuthUsername(username); // Use setAuthUsername instead of setUsername
 
       setTimeout(() => {
-        navigate('/');
+        navigate('/events');
       }, 1000);
     } catch (error) {
       console.error(error);
@@ -128,10 +132,8 @@ const Login: React.FC<Props> = ({ onLogin }) => {
                           Register here
                         </a>
                       </p>
-                      <a href="#!" className="small text-muted">
-                        Terms of use.
-                      </a>
-                      <a href="#!" className="small text-muted">
+                
+                      <a href="#!" className="small text-muted" onClick={handlePrivacyPolicyClick}>
                         Privacy policy
                       </a>
     

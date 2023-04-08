@@ -1,35 +1,5 @@
-/* signup.css */
-.sign-up-page {
+.card1 {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-  }
-  
-  .sign-up-form {
-    max-width: 400px;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    box-shadow: 0 0 5px #ddd;
-    background-color: #f8f8f8;
-  }
-  
-  .sign-up-form h1 {
-    margin-bottom: 20px;
-    text-align: center;
-  }
-  
-  .sign-up-form button {
-    margin-top: 20px;
-    width: 100%;
-  }
-  
-  .sign-up-suc {
-    color: rgb(0, 212, 11);
-  }
-
-  .black-text {
-    color: black;
+    align-items: stretch;
   }
   
