@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col, Carousel } from 'react-bootstrap';
 import { getMovies, getStandUpEvents } from '../api/api';
 import { Link } from 'react-router-dom';
 import { Movie } from '../interfaces/Movie';
 import { StandUp } from '../interfaces/StandUp';
 import "./CSS/Event.css"
+import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 
 export default function Events() {
   // Define state hooks for movies and stand-up events

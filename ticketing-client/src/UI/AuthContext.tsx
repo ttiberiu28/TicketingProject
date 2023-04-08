@@ -6,6 +6,10 @@ interface AuthContextValue {
   setUsername: (username: string) => void;
 }
 
+interface AuthProviderProps {
+  children: React.ReactNode;
+}
+
 const AuthContext = createContext<AuthContextValue>({
   username: "",
   setUsername: () => {},
@@ -13,7 +17,7 @@ const AuthContext = createContext<AuthContextValue>({
 
 export const useAuth = () => useContext(AuthContext);
 
-export const AuthProvider: React.FC = ({ children }) => {
+export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [username, setUsername] = useState("");
 
   return (

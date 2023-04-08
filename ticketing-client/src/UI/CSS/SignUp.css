@@ -3,3 +3,32 @@
     align-items: stretch;
   }
   
+.form-control {
+  border-radius: 20px;
+  border: 2px solid #4d4d4d;
+  padding: 10px 20px;
+  font-size: 1rem;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.form-label {
+  left: 20px;
+  transition: all 0.2s;
+}
+
+.form-control:focus + .form-label,
+.form-control:not(:placeholder-shown) + .form-label {
+  top: -12px;
+  left: 15px;
+  font-size: 0.75rem;
+  color: #007bff;
+}
+
+/* .label-up {
+  transform: translateY(-2rem);
+} */

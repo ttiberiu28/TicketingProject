@@ -4,6 +4,7 @@ import { Button, Form } from "react-bootstrap";
 import RestClient from "../REST/RestClient";
 import { useNavigate } from "react-router-dom";
 import "@fortawesome/fontawesome-free/css/all.min.css";
+import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 import "./CSS/SignUp.css"
 
 
@@ -57,7 +58,7 @@ return (
                   <form>
                     <div className="d-flex align-items-center mb-3 pb-1">
                       <i
-                        className="fas fa-solid fa-wheat-awn fa-2x me-3"
+                        className="fas fa-solid fa-hippo fa-2x me-3"
                         style={{ color: "#ff6219" }}
                       ></i>
                       <span className="h1 fw-bold mb-0">Ticket-to-GO</span>
@@ -67,7 +68,7 @@ return (
                       Create your account
                     </h5>
 
-                    <div className="form-outline mb-4">
+                    <div className="form-outline mb-4 ">
                         <input
                           type="text"
                           id="form2Example17"
