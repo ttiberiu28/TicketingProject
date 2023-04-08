@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,7 +36,7 @@ public class UserService {
         }
     }
 
-    public void addUser(String username, String password){
+    public void addUser(String username, String password, String confirmPassword, String email, String firstName, String lastName){
 
         var u = userRepo.findUserByUsernameIgnoreCase(username);
 
@@ -48,6 +49,16 @@ public class UserService {
 
             x.setUsername(username);
             x.setPassword(passwordEncoder.encode(password));
+
+            if(Objects.equals(confirmPassword, password)){
+                x.setConfirmPassword(passwordEncoder.encode(confirmPassword));
+            }else{
+                throw new PasswordDoesNotMatchException();
+            }
+
+            x.setEmail(email);
+            x.setFirstName(firstName);
+            x.setLastName(lastName);
 
             userRepo.save(x);
 
