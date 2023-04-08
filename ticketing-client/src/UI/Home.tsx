@@ -52,7 +52,7 @@ export default function Home() {
                   </Link>
 
                   <Link to="/locations">
-                    <button className="btn btn-primary2 rounded-pill p-3 ">
+                    <button className="btn btn-primary rounded-pill p-3 ">
                       Location
                     </button>
                   </Link>
@@ -64,7 +64,7 @@ export default function Home() {
                   </Link>
 
                   <Link to="/login">
-                    <button className="btn btn-primary2 rounded-pill p-3 ">
+                    <button className="btn btn-primary rounded-pill p-3 ">
                       Login
                     </button>
                   </Link>

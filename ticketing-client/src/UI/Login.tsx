@@ -54,10 +54,10 @@ const Login: React.FC<Props> = ({ onLogin }) => {
               <div className="row g-0">
                 <div className="col-md-6 col-lg-5 d-none d-md-block">
                   <img
-                    src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/img1.webp"
+                    src="https://images.unsplash.com/photo-1635805737707-575885ab0820?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NDB8fG1vdmllfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60"
                     alt="login form"
                     className="img-fluid"
-                    style={{ borderRadius: "1rem 0 0 1rem" }}
+                    style={{ borderRadius: "1rem 0 0 1rem" ,objectFit: "cover", height: "100%"}}
                   />
                 </div>
                 <div className="col-md-6 col-lg-7 d-flex align-items-center">

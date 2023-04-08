@@ -8,3 +8,28 @@
     opacity: 0.8;
 
 }
+
+.carousel-img {
+  height: 400px;
+  object-fit: cover;
+}
+
+.custom-arrow {
+  width: 20px;
+  height: 20px;
+  border: solid transparent; /* set border-color to transparent */
+  border-width: 2px 2px 0 0;
+}
+
+.carousel-control-prev-icon.custom-prev {
+  transform: rotate(135deg);
+}
+
+.carousel-control-next-icon.custom-next {
+  transform: rotate(-45deg);
+}
+
+.carousel-container {
+  padding-top: 65px; /* adjust the value as needed */
+}
+

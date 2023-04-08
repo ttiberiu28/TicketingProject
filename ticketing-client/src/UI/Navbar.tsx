@@ -13,7 +13,7 @@ export default function NavBar() {
   const { username } = useAuth();
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
       <div className="container-fluid">
         <button
           className="navbar-toggler"
