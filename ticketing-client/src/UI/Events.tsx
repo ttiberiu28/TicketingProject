@@ -12,6 +12,10 @@ export default function Events() {
   // Define state hooks for movies and stand-up events
   const [movies, setMovies] = useState<Movie[]>([]);
   const [standUpEvents, setStandUpEvents] = useState<StandUp[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  // 2 of each kind
+  const eventsPerPage = 4;
 
   // Fetch movies and stand-up events from API using useEffect hook and update state
   useEffect(() => {
@@ -19,10 +23,32 @@ export default function Events() {
     getStandUpEvents().then((data) => setStandUpEvents(data));
   }, []);
 
+  const handlePageChange = (newPage: number) => {
+
+    if (newPage < 1 || newPage > totalPages) {
+      return;
+    }
+    setCurrentPage(newPage);
+  };
+
+  // Calculate the start and end indices for events on the current page
+  const startIndex = (currentPage - 1) * eventsPerPage;
+  const endIndex = startIndex + eventsPerPage;
+
+   // Filter the events based on the current page
+   const displayedMovies = movies.slice(startIndex, endIndex);
+   const displayedStandUpEvents = standUpEvents.slice(startIndex, endIndex);
+
+   // Calculate the total number of pages
+   const totalPages = Math.ceil((movies.length + standUpEvents.length - 1) / eventsPerPage);
+
+
 
   return (
     <div className="">
-      <Carousel
+
+      {/* The carousel on the top of the page with sliding images */}
+    <Carousel
               className="carousel-container"
               prevIcon={
                 <span
@@ -57,14 +83,15 @@ export default function Events() {
                   alt="Third slide"
                 />
               </Carousel.Item>
-            </Carousel>
+      </Carousel>
 
       <Container className="movies-and-standups">
         <Row className="justify-content-center align-items-center vh-100">
           <p></p>
           <Col className="text-center">
             <Row className="justify-content-center">
-              {movies.map((movie) => (
+              
+              {displayedMovies.map((movie) => (
                 <Col xs={12} sm={6} md={4} lg={3} key={movie.id} className="mb-4">
                   <div className="card">
                     <div className="bg-image hover-overlay ripple">
@@ -81,7 +108,7 @@ export default function Events() {
               ))}
               
   
-              {standUpEvents.map((standUp) => (
+              {displayedStandUpEvents.map((standUp) => (
                 <Col xs={12} sm={6} md={4} lg={3} key={standUp.id} className="mb-4">
                   <div className="card">
                     <div className="bg-image hover-overlay ripple">
@@ -96,10 +123,46 @@ export default function Events() {
                 </Col>
               ))}
             </Row>
+
+            <nav aria-label="Page navigation example">
+              <ul className="pagination pagination-circle justify-content-center">
+                <li
+                  className={`page-item ${currentPage === 1 ? "disabled" : ""}`}
+                  onClick={() => handlePageChange(currentPage - 1)}
+                >
+                  <a className="page-link">Previous</a>
+                </li>
+                {Array.from({ length: totalPages }, (_, i) => (
+                  <li
+                    className={`page-item ${
+                      currentPage === i + 1 ? "active" : ""
+                    }`}
+                    key={i}
+                    onClick={() => handlePageChange(i + 1)}
+                  >
+                    <a className="page-link" href="#">
+                      {i + 1}
+                      {currentPage === i + 1 && (
+                        <span className="visually-hidden">(current)</span>
+                      )}
+                    </a>
+                  </li>
+                ))}
+                <li
+                  className={`page-item ${currentPage === totalPages ? "disabled" : ""}`}
+                  onClick={() => handlePageChange(currentPage + 1)}
+                >
+                  <a className="page-link">Next</a>
+                </li>
+              </ul>
+            </nav>
+            
           </Col>
         </Row>
       </Container>
+      
     </div>
+    
   );
   
 };
