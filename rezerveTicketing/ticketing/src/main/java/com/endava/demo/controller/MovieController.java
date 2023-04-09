@@ -33,7 +33,7 @@ public class MovieController {
         try{
             movieService.addMovie(movie.getPrice(),movie.getLengthMinutes(),
                     movie.getName(), movie.getImageUrl(),movie.getLanguage(),
-                    movie.getImdbRating(),movie.getMovieDescription());
+                    movie.getImdbRating(),movie.getMovieDescription(),movie.getTrailerUrl());
 
             return ResponseEntity.ok().build();
 

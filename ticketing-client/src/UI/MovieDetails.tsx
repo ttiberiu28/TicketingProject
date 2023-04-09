@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { getMovies } from '../api/api';
-import { Container, Row, Col, Card, Button, Collapse } from 'react-bootstrap';
+import { Container, Row, Col, Card, Button, Collapse, Carousel } from 'react-bootstrap';
 import { Movie } from '../interfaces/Movie';
 import './CSS/MovieDetails.css';
 import "./CSS/CustomJumbotron.css"
 import RestClient from "../REST/RestClient";
+import BannerCarousel from './BannerCarousel';
 
 
 const MovieDetails: React.FC = () => {
@@ -14,6 +15,9 @@ const MovieDetails: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [showTickets, setShowTickets] = useState(false);
 
+  // const embedUrl = "https://www.youtube.com/watch?v=lBeqEBlRicw".replace("watch?v=", "embed/");
+
+
   useEffect(() => {
     getMovies(parseInt(index)).then((data) => setMovie(data[0]));
   }, [index]);
@@ -21,6 +25,9 @@ const MovieDetails: React.FC = () => {
   if (!movie) {
     return <div>Loading...</div>;
   }
+  
+  // Convert the YouTube URL to an embed URL
+  const embedUrl = movie.trailerUrl.replace("watch?v=", "embed/");
 
   const handleTicketClick = () => {
     setShowTickets(!showTickets);
@@ -40,7 +47,7 @@ const MovieDetails: React.FC = () => {
     const selectedDate = new Date("2023-04-10")
     const selectedRow = 1;
     const selectedSeatNumber = 2;
-    
+
     try {
       await RestClient.addTicketToCart(userId, movieId, ticketType,selectedDate,selectedRow,selectedSeatNumber);
       console.log("Ticket added to cart");
@@ -50,8 +57,13 @@ const MovieDetails: React.FC = () => {
   };
 
   return (
-    <div className="movie-details-container jumbotron jumbotron-fluid custom-jumbotron">
+    <div className="movie-details-container">
+
+
+      <BannerCarousel />
+
       <Container>
+        
         <Row>
           <Col xs={12} md={4}>
             <Card className="movie-poster">
@@ -59,6 +71,18 @@ const MovieDetails: React.FC = () => {
             </Card>
           </Col>
           <Col className="body lead black-text" xs={12} md={8}>
+
+          <iframe
+              width="560"
+              height="315"
+              src={embedUrl}
+              title="YouTube video player"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+          ></iframe>
+
+
             <div className="movie-description lead">
               <h1>{movie.name}</h1>
                 <ul>

@@ -27,7 +27,7 @@ public class MovieService {
     public void addMovie(int price, int lengthMinutes,String name,
                          String imageUrl,
                          String language, Double rating,
-                         String movieDescription){
+                         String movieDescription, String trailerUrl){
 
         var m = movieRepo.findByNameIgnoreCase(name);
 
@@ -47,6 +47,7 @@ public class MovieService {
             x.setLanguage(language);
             x.setImdbRating(rating);
             x.setMovieDescription(movieDescription);
+            x.setTrailerUrl(trailerUrl);
             movieRepo.save(x);
 
             LOGGER.info("Movie added successfully");

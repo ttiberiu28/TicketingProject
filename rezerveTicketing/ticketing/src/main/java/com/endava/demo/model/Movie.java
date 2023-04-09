@@ -29,6 +29,9 @@ public class Movie extends Event {
     @NotEmpty
     private String movieDescription;
 
+    @NotEmpty
+    private String trailerUrl;
+
     @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL)
     private List<Ticket> tickets;
 

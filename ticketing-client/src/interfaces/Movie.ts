@@ -10,5 +10,6 @@ export interface Movie {
     tickets: string[];
     movieDescription: string;
     imageUrl: string;
+    trailerUrl: string;
     locations: MyLocation[];
   }
