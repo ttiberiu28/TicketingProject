@@ -47,6 +47,7 @@ public class TicketService {
     }
 
     public void addTicketToCart(int userId, int movieId, String ticketType, LocalDate date, int row, int seatNumber) {
+
         User user = userRepo.findById(userId)
                 .orElseThrow(() -> new UserDoesNotExistsException(String.valueOf(userId)));
         Movie movie = movieRepo.findById(movieId)

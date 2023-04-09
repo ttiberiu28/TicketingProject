@@ -27,16 +27,15 @@ export default class RestClient {
   }
 
 
-  static async login(username: string, password: string) : Promise<any> {
-
+  static async login(username: string, password: string): Promise<any> {
     const url = `${RestClient.baseUrl}/api/user/login`;
   
     const headers = new Headers();
     headers.set("Content-Type", "application/json");
   
-    const body = JSON.stringify({username: username, password: password});
+    const body = JSON.stringify({ username: username, password: password });
   
-    const response = await fetch(url, {method: "POST", headers: headers, body: body});
+    const response = await fetch(url, { method: "POST", headers: headers, body: body });
   
     if (!response.ok) {
       throw new Error("Login failed");
@@ -47,8 +46,11 @@ export default class RestClient {
       localStorage.setItem("token", token);
     }
   
-    return response.json();
+    const responseData = await response.json(); // Get the JSON response data
+    localStorage.setItem("userId", responseData.id.toString()); // Store the user ID in local storage
+    return responseData;
   }
+  
   
 
   static async getLocations(): Promise<any> {
@@ -107,7 +109,7 @@ export default class RestClient {
     return response.json();
   }
 
-  static async addTicketToCart(userId: number, movieId: number, ticketType: string): Promise<any> {
+  static async addTicketToCart(userId: number, movieId: number, ticketType: string, date: Date, row: number, seatNumber: number): Promise<any> {
     const url = `${RestClient.baseUrl}/api/ticket/addToCart`;
     const headers = new Headers();
     headers.set("Content-Type", "application/json");
@@ -116,18 +118,24 @@ export default class RestClient {
     const body = JSON.stringify({
       userId,
       movieId,
-      ticketType
+      ticketType,
+      localDate: date.toISOString(),
+      row: row,
+      seatNumber: seatNumber
     });
   
     const response = await fetch(url, { method: "POST", headers: headers, body: body });
   
     if (!response.ok) {
-      console.error("Error response:", await response.json());
+      const responseText = await response.text();
+      console.error("Raw error response:", responseText);
+      console.error("Error response:", JSON.parse(responseText));
       throw new Error("Failed to add ticket to cart");
     }
   
     return response.json();
-  }
+}
+
   
 }
 

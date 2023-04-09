@@ -27,11 +27,22 @@ const MovieDetails: React.FC = () => {
   };
 
   const handleAddToCartClick = async (ticketType: string) => {
-    const userId = 23; // Replace with the actual logged-in user's ID
+
+    const userIdString = localStorage.getItem("userId"); // Get the user ID from local storage
+
+    if (!userIdString) {
+      console.error("User not logged in");
+      return;
+    }
+
+    const userId = parseInt(userIdString);; // Replace with the actual logged-in user's ID
     const movieId = movie.id;
+    const selectedDate = new Date("2023-04-10")
+    const selectedRow = 1;
+    const selectedSeatNumber = 2;
     
     try {
-      await RestClient.addTicketToCart(userId, movieId, ticketType);
+      await RestClient.addTicketToCart(userId, movieId, ticketType,selectedDate,selectedRow,selectedSeatNumber);
       console.log("Ticket added to cart");
     } catch (error) {
       console.error("Failed to add ticket to cart", error);
