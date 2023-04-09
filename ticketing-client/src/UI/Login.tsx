@@ -19,11 +19,13 @@ const Login: React.FC<Props> = ({ onLogin }) => {
   // initialize useNavigate hook
   const navigate = useNavigate();
 
-  const { setUsername: setAuthUsername } = useAuth(); // Rename setUsername to setAuthUsername
+  const { setUsername: setAuthUsername, setIsLoggedIn } = useAuth(); // Rename setUsername to setAuthUsername
 
   const handlePrivacyPolicyClick = () => {
     navigate('/about');
   };
+
+  
 
   // define the handleLogin function for handling the login button click event
   const handleLogin = async () => {
@@ -34,10 +36,14 @@ const Login: React.FC<Props> = ({ onLogin }) => {
       onLogin();
 
       setAuthUsername(username); // Use setAuthUsername instead of setUsername
+      setIsLoggedIn(true);
+      localStorage.setItem("username", username); // Store username in localStorage
+      localStorage.setItem("isLoggedIn", "true"); // Store isLoggedIn state in localStorage
 
       setTimeout(() => {
         navigate('/events');
       }, 1000);
+    
     } catch (error) {
       console.error(error);
 

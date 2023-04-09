@@ -48,6 +48,7 @@ export default class RestClient {
   
     const responseData = await response.json(); // Get the JSON response data
     localStorage.setItem("userId", responseData.id.toString()); // Store the user ID in local storage
+    localStorage.setItem("username", responseData.username);
     return responseData;
   }
   

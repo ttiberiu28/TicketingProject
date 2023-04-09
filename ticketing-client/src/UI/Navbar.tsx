@@ -6,11 +6,14 @@ import "./CSS/Navbar.css"
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
+import { useNavigate } from "react-router-dom";
 
 
 
 export default function NavBar() {
-  const { username } = useAuth();
+  const { username, isLoggedIn, logout } = useAuth();
+  const navigate = useNavigate();
+
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
@@ -42,15 +45,27 @@ export default function NavBar() {
             <li className="nav-item">
               <Link className="nav-link" to="/events">Events</Link>
             </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/login">Login</Link>
-            </li>
+            
           </ul>
         </div>
 
         <div className="d-flex align-items-center">
+
+              {!isLoggedIn && (
+              <button className="btn btn-success btn-rounded" onClick={() => navigate("/login")}>
+                Login
+              </button>
+            )}
+
+            {isLoggedIn && (
+            <button className="btn btn-warning btn-rounded" onClick={logout}>
+                Logout
+            </button>
+          )}
+                  
+
           {username && (
-            <div className="navbar-text me-3">
+            <div className="navbar-text me-3 ml-3">
               Logged in as: <strong>{username}</strong>
             </div>
           )}
@@ -58,7 +73,7 @@ export default function NavBar() {
           {/* Add other right-aligned elements (e.g., icons) here */}
           {/* Replace the href attributes with the appropriate routes, if necessary */}
 
-           <i className="fas fa-solid fa-hippo text-white"></i>
+            <i className="fas fa-solid fa-hippo text-white "></i>
             <i className="fas fa-solid fa-hippo "></i>
             <i className="fas fa-solid fa-hippo "></i>
             <i className="fas fa-solid fa-hippo "></i>

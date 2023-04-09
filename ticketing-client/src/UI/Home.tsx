@@ -21,7 +21,7 @@ export default function Home() {
     setIsTop(true);
   };
 
-  const { username } = useAuth();
+  const { username, isLoggedIn, logout } = useAuth();
 
 
   return (
@@ -63,11 +63,13 @@ export default function Home() {
                     </button>
                   </Link>
 
+                  {!isLoggedIn && (
                   <Link to="/login">
                     <button className="btn btn-primary rounded-pill p-3 ">
                       Login
                     </button>
                   </Link>
+                  )}
 
                   <br />
                   <br />
