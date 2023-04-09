@@ -5,6 +5,7 @@ import { Container, Row, Col, Card, Button, Collapse } from 'react-bootstrap';
 import { Movie } from '../interfaces/Movie';
 import './CSS/MovieDetails.css';
 import "./CSS/CustomJumbotron.css"
+import RestClient from "../REST/RestClient";
 
 
 const MovieDetails: React.FC = () => {
@@ -23,6 +24,18 @@ const MovieDetails: React.FC = () => {
 
   const handleTicketClick = () => {
     setShowTickets(!showTickets);
+  };
+
+  const handleAddToCartClick = async (ticketType: string) => {
+    const userId = 23; // Replace with the actual logged-in user's ID
+    const movieId = movie.id;
+    
+    try {
+      await RestClient.addTicketToCart(userId, movieId, ticketType);
+      console.log("Ticket added to cart");
+    } catch (error) {
+      console.error("Failed to add ticket to cart", error);
+    }
   };
 
   return (
@@ -64,19 +77,19 @@ const MovieDetails: React.FC = () => {
                   <ul>
                     <li>
                       <span><b>2D:</b> {movie.price} RON</span>
-                      <Button variant="success" style={{fontWeight: 'bold', fontSize: '0.20rem'}}>Add to Cart</Button>
+                      <Button variant="success" style={{fontWeight: 'bold', fontSize: '0.20rem'}} onClick={() => handleAddToCartClick('STANDARD_2D')}>Add to Cart</Button>
                     </li>
                     <li>
                       <span><b>3D:</b> {movie.price + 8} RON</span>
-                      <Button variant="success" style={{fontWeight: 'bold', fontSize: '0.20rem'}}>Add to Cart</Button>
+                      <Button variant="success" style={{fontWeight: 'bold', fontSize: '0.20rem'}} onClick={() => handleAddToCartClick('STANDARD_3D')}>Add to Cart</Button>
                     </li>
                     <li>
                       <span><b>VIP 2D:</b> {movie.price + 40} RON</span>
-                      <Button variant="success" style={{fontWeight: 'bold', fontSize: '0.20rem'}}>Add to Cart</Button>
+                      <Button variant="success" style={{fontWeight: 'bold', fontSize: '0.20rem'}} onClick={() => handleAddToCartClick('VIP_2D')}>Add to Cart</Button>
                     </li>
                     <li>
                       <span><b>VIP 3D:</b> {movie.price + 48} RON</span>
-                      <Button variant="success" style={{fontWeight: 'bold', fontSize: '0.20rem'}}>Add to Cart</Button>
+                      <Button variant="success" style={{fontWeight: 'bold', fontSize: '0.20rem'}} onClick={() => handleAddToCartClick('VIP_3D')}>Add to Cart</Button>
                     </li>
                   </ul>
                 </div>

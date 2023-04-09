@@ -44,6 +44,14 @@ public class Ticket {
     @JsonIgnore
     private StandUp standUp;
 
+    @ManyToOne
+    @JoinColumn(name = "cart_id")
+    private Cart cart;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "ticket_type")
+    private TicketType ticketType;
+
     public Ticket() {
     }
 

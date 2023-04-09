@@ -1,5 +1,6 @@
 package com.endava.demo.controller;
 
+import com.endava.demo.dto.AddTicketToCartRequest;
 import com.endava.demo.exception.TicketAlreadyExistsException;
 import com.endava.demo.model.Ticket;
 import com.endava.demo.service.TicketService;
@@ -43,6 +44,14 @@ public class TicketController {
                             " -- row: " + ticket.getRow());
         }
     }
+
+    @PostMapping("/addToCart")
+    public ResponseEntity<?> addTicketToCart(@RequestBody AddTicketToCartRequest addTicketToCartRequest) {
+        ticketService.addTicketToCart(addTicketToCartRequest.getUserId(), addTicketToCartRequest.getMovieId(), addTicketToCartRequest.getTicketType(),
+                addTicketToCartRequest.getLocalDate(),addTicketToCartRequest.getRow(),addTicketToCartRequest.getSeatNumber());
+        return ResponseEntity.ok().build();
+    }
+
 
     @DeleteMapping(Constant.DELETION)
     public void deleteById(@PathVariable int id){

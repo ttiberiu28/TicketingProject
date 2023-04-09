@@ -39,4 +39,7 @@ public class User {
 
     @ManyToMany(mappedBy = "users", fetch = FetchType.EAGER)
     private Set<Role> roles;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private Cart cart;
 }

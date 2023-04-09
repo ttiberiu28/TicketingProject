@@ -106,5 +106,28 @@ export default class RestClient {
 
     return response.json();
   }
+
+  static async addTicketToCart(userId: number, movieId: number, ticketType: string): Promise<any> {
+    const url = `${RestClient.baseUrl}/api/ticket/addToCart`;
+    const headers = new Headers();
+    headers.set("Content-Type", "application/json");
+    headers.set("Authorization", RestClient.token || "");
+  
+    const body = JSON.stringify({
+      userId,
+      movieId,
+      ticketType
+    });
+  
+    const response = await fetch(url, { method: "POST", headers: headers, body: body });
+  
+    if (!response.ok) {
+      console.error("Error response:", await response.json());
+      throw new Error("Failed to add ticket to cart");
+    }
+  
+    return response.json();
+  }
+  
 }
 

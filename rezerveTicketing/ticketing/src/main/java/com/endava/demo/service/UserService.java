@@ -1,5 +1,6 @@
 package com.endava.demo.service;
 import com.endava.demo.exception.*;
+import com.endava.demo.model.Cart;
 import com.endava.demo.model.User;
 import com.endava.demo.repository.RoleRepo;
 import com.endava.demo.repository.UserRepo;
@@ -60,6 +61,12 @@ public class UserService {
             x.setEmail(email);
             x.setFirstName(firstName);
             x.setLastName(lastName);
+
+            userRepo.save(x);
+
+            Cart cart = new Cart();
+            x.setCart(cart);
+            cart.setUser(x);
 
             userRepo.save(x);
 
