@@ -7,6 +7,7 @@ import './CSS/MovieDetails.css';
 import "./CSS/CustomJumbotron.css"
 import RestClient from "../REST/RestClient";
 import BannerCarousel from './BannerCarousel';
+import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 
 
 const MovieDetails: React.FC = () => {
@@ -67,69 +68,113 @@ const MovieDetails: React.FC = () => {
         <Row>
           <Col xs={12} md={4}>
             <Card className="movie-poster">
-              <Card.Img variant="top" src={movie.imageUrl} />
+              <Card.Img 
+              variant="top" src={movie.imageUrl}
+              style={{ borderRadius: "2rem 10 1 2rem" ,objectFit: "cover", height: "100%"}}
+              />
             </Card>
           </Col>
-          <Col className="body lead black-text" xs={12} md={8}>
 
-          <iframe
-              width="560"
-              height="315"
-              src={embedUrl}
-              title="YouTube video player"
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-          ></iframe>
+          <Col className="body lead black-text overflow-auto" xs={12} md={8}>
+
+          <h1>{movie.name}</h1>
+          <br></br>
 
 
-            <div className="movie-description lead">
-              <h1>{movie.name}</h1>
-                <ul>
-                  <li>IMDb Rating: {movie.imdbRating}</li>
-                  <li>Duration: {movie.lengthMinutes} minutes</li>
-                  <li>Language: {movie.language}</li>
-                  
-                  <div className="movie-locations">
-                    <h3>Locations:</h3>
-                    <ul>
-                      {movie.locations.map((location) => (
-                        <li key={location.id}>{location.place}</li>
-                      ))}
-                    </ul>
+            <div className="ratio ratio-16x9">
+              <iframe
+                src={embedUrl}
+                title="YouTube video"
+                allowFullScreen
+              ></iframe>
+            </div>
 
+            <div className="accordion accordion-borderless" id="accordionFlushExampleX">
+                  <div className="accordion-item">
+                    <h2 className="accordion-header" id="flush-headingOneX">
+                      <button className="accordion-button" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#flush-collapseOneX" aria-expanded="true" aria-controls="flush-collapseOneX">
+                        <code>Buy tickets</code>
+                      </button>
+                    </h2>
+
+
+                    <div id="flush-collapseOneX" className="accordion-collapse collapse show"
+                      aria-labelledby="flush-headingOneX" >
+                      <div className="accordion-body">
+                         
+                        <Button variant="primary" onClick={handleTicketClick}>
+                          Buy tickets
+                        </Button>
+
+                        <Collapse in={showTickets}>
+
+                          <div className="ticket-section">
+                            <ul>
+                              <li>
+                                <span><b>2D:</b> {movie.price} RON</span>
+                                <button type="button" className="btn btn-secondary btn-dark btn-rounded" onClick={() => handleAddToCartClick('STANDARD_2D')}>Add to cart</button>
+                                
+                              </li>
+                              <li>
+                                <span><b>3D:</b> {movie.price + 8} RON</span>
+                                <button type="button" className="btn btn-secondary btn-dark btn-rounded" onClick={() => handleAddToCartClick('STANDARD_3D')}>Add to cart</button>
+
+                              </li>
+                              <li>
+                                <span><b>VIP 2D:</b> {movie.price + 40} RON</span>
+                                <button type="button" className="btn btn-secondary btn-dark btn-rounded" onClick={() => handleAddToCartClick('VIP_2D')}>Add to Cart</button>
+
+                              </li>
+                              <li>
+                                <span><b>VIP 3D:</b> {movie.price + 48} RON</span>
+                                <button type="button" className="btn btn-secondary btn-dark btn-rounded" onClick={() => handleAddToCartClick('VIP_3D')}>Add to cart</button>
+                              </li>
+                            </ul>
+                          </div>
+
+                        </Collapse>
+
+                      </div>
+                    </div>
                   </div>
-                </ul>
-              <p>{movie.movieDescription}</p>
+                  <div className="accordion-item">
+                    <h2 className="accordion-header" id="flush-headingTwoX">
+                      <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#flush-collapseTwoX" aria-expanded="false" aria-controls="flush-collapseTwoX">
+                        Locations
+                      </button>
+                    </h2>
+                    <div id="flush-collapseTwoX" className="accordion-collapse collapse" aria-labelledby="flush-headingTwoX"
+                      data-bs-parent="#accordionFlushExampleX">
+                      <div className="accordion-body">
 
-              <Button variant="primary" onClick={handleTicketClick}>
-                Buy tickets
-              </Button>
+                          <h3>Locations:</h3>
+                          <code>
 
-              <Collapse in={showTickets}>
+                              {movie.locations
+                              .map((location) => location.place)
+                              .join(', ')}
 
-                <div className="ticket-section">
-                  <ul>
-                    <li>
-                      <span><b>2D:</b> {movie.price} RON</span>
-                      <Button variant="success" style={{fontWeight: 'bold', fontSize: '0.20rem'}} onClick={() => handleAddToCartClick('STANDARD_2D')}>Add to Cart</Button>
-                    </li>
-                    <li>
-                      <span><b>3D:</b> {movie.price + 8} RON</span>
-                      <Button variant="success" style={{fontWeight: 'bold', fontSize: '0.20rem'}} onClick={() => handleAddToCartClick('STANDARD_3D')}>Add to Cart</Button>
-                    </li>
-                    <li>
-                      <span><b>VIP 2D:</b> {movie.price + 40} RON</span>
-                      <Button variant="success" style={{fontWeight: 'bold', fontSize: '0.20rem'}} onClick={() => handleAddToCartClick('VIP_2D')}>Add to Cart</Button>
-                    </li>
-                    <li>
-                      <span><b>VIP 3D:</b> {movie.price + 48} RON</span>
-                      <Button variant="success" style={{fontWeight: 'bold', fontSize: '0.20rem'}} onClick={() => handleAddToCartClick('VIP_3D')}>Add to Cart</Button>
-                    </li>
-                  </ul>
-                </div>
+                          </code>
 
-              </Collapse>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="accordion-item">
+                    <h2 className="accordion-header" id="flush-headingThreeX">
+                      <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#flush-collapseThreeX" aria-expanded="false" aria-controls="flush-collapseThreeX">
+                        IMDb Rating:&nbsp;&nbsp;&nbsp;<code className=''> {movie.imdbRating}</code>
+                      </button>
+                    </h2>
+                    <div id="flush-collapseThreeX" className="accordion-collapse collapse" aria-labelledby="flush-headingThreeX"
+                      data-bs-parent="#accordionFlushExampleX">
+                      <div className="accordion-body">
+                        {movie.movieDescription}
+                      </div>
+                    </div>
+                  </div>
             </div>
           </Col>
         </Row>
