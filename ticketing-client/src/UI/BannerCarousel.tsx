@@ -1,4 +1,4 @@
-import { Container, Row, Col, Card, Button, Collapse, Carousel } from 'react-bootstrap';
+import { Carousel } from 'react-bootstrap';
 
 export default function BannerCarousel() {
 
