@@ -14,6 +14,8 @@ export default function About(){
 
                 <p className="lead"> The fastest way to buy your ticket right </p>
                 <p className="lead upside-down">now</p>
+
+                
             
             </div>
         </div>

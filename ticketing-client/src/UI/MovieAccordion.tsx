@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { getMovies } from '../api/api';
 import { Container, Row, Col, Card, Button, Collapse, Carousel } from 'react-bootstrap';
-import { Movie } from '../interfaces/Movie';
+import { Movie, TicketType } from '../interfaces/Movie';
 import './CSS/MovieDetails.css';
 import "./CSS/CustomJumbotron.css"
 import RestClient from "../REST/RestClient";
@@ -18,40 +18,60 @@ export default function MovieAccordion() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [showTickets, setShowTickets] = useState(false);
 
-    useEffect(() => {
-        getMovies(parseInt(index)).then((data) => setMovie(data[0]));
-    }, [index]);
 
-    if (!movie) {
-        return <div>Loading...</div>;
-    }
-    
-    const handleTicketClick = () => {
+  useEffect(() => {
+    getMovies(parseInt(index)).then((data) => {
+      const fetchedMovie = data[0];
+      setMovie({
+        ...fetchedMovie,
+        getPrice: (ticketType: TicketType) => {
+          switch (ticketType) {
+            case TicketType.STANDARD_2D:
+              return fetchedMovie.price;
+            case TicketType.STANDARD_3D:
+              return fetchedMovie.price + 8;
+            case TicketType.VIP_2D:
+              return fetchedMovie.price + 40;
+            case TicketType.VIP_3D:
+              return fetchedMovie.price + 48;
+            default:
+              return fetchedMovie.price;
+          }
+        },
+      });
+    });
+  }, [index]);
+
+  if (!movie) {
+    return <div>Loading...</div>;
+  }
+
+  const handleTicketClick = () => {
     setShowTickets(!showTickets);
   };
 
-  const handleAddToCartClick = async (ticketType: string) => {
-
-    const userIdString = localStorage.getItem("userId"); // Get the user ID from local storage
+  const handleAddToCartClick = async (ticketType: TicketType) => {
+    const userIdString = localStorage.getItem("userId");
 
     if (!userIdString) {
       console.error("User not logged in");
       return;
     }
 
-    const userId = parseInt(userIdString);; // Replace with the actual logged-in user's ID
+    const userId = parseInt(userIdString);
     const movieId = movie.id;
-    const selectedDate = new Date("2023-04-10")
+    const selectedDate = new Date("2023-04-10");
     const selectedRow = 1;
     const selectedSeatNumber = 2;
 
     try {
-      await RestClient.addTicketToCart(userId, movieId, ticketType,selectedDate,selectedRow,selectedSeatNumber);
+      await RestClient.addTicketToCart(userId, movieId, ticketType, selectedDate, selectedRow, selectedSeatNumber);
       console.log("Ticket added to cart");
     } catch (error) {
       console.error("Failed to add ticket to cart", error);
     }
   };
+  
 
     return(
         <div className="accordion accordion-borderless" id="accordionFlushExampleX">
@@ -75,27 +95,24 @@ export default function MovieAccordion() {
                         <Collapse in={showTickets}>
 
                           <div className="ticket-section">
-                            <ul>
-                              <li>
-                                <span><b>2D:</b> {movie.price} RON</span>
-                                <button type="button" className="btn btn-secondary btn-dark btn-rounded" onClick={() => handleAddToCartClick('STANDARD_2D')}>Add to cart</button>
-                                
-                              </li>
-                              <li>
-                                <span><b>3D:</b> {movie.price + 8} RON</span>
-                                <button type="button" className="btn btn-secondary btn-dark btn-rounded" onClick={() => handleAddToCartClick('STANDARD_3D')}>Add to cart</button>
-
-                              </li>
-                              <li>
-                                <span><b>VIP 2D:</b> {movie.price + 40} RON</span>
-                                <button type="button" className="btn btn-secondary btn-dark btn-rounded" onClick={() => handleAddToCartClick('VIP_2D')}>Add to Cart</button>
-
-                              </li>
-                              <li>
-                                <span><b>VIP 3D:</b> {movie.price + 48} RON</span>
-                                <button type="button" className="btn btn-secondary btn-dark btn-rounded" onClick={() => handleAddToCartClick('VIP_3D')}>Add to cart</button>
-                              </li>
-                            </ul>
+                                  <ul>
+                                    <li>
+                                      <span><b>2D:</b> {movie.getPrice(TicketType.STANDARD_2D)} RON</span>
+                                      <button type="button" className="btn btn-secondary btn-dark btn-rounded" onClick={() => handleAddToCartClick(TicketType.STANDARD_2D)}>Add to cart</button>
+                                    </li>
+                                    <li>
+                                      <span><b>3D:</b> {movie.getPrice(TicketType.STANDARD_3D)} RON</span>
+                                      <button type="button" className="btn btn-secondary btn-dark btn-rounded" onClick={() => handleAddToCartClick(TicketType.STANDARD_3D)}>Add to cart</button>
+                                    </li>
+                                    <li>
+                                      <span><b>VIP 2D:</b> {movie.getPrice(TicketType.VIP_2D)} RON</span>
+                                      <button type="button" className="btn btn-secondary btn-dark btn-rounded" onClick={() => handleAddToCartClick(TicketType.VIP_2D)}>Add to Cart</button>
+                                    </li>
+                                    <li>
+                                      <span><b>VIP 3D:</b> {movie.getPrice(TicketType.VIP_3D)} RON</span>
+                                      <button type="button" className="btn btn-secondary btn-dark btn-rounded" onClick={() => handleAddToCartClick(TicketType.VIP_3D)}>Add to cart</button>
+                                    </li>
+                                  </ul>
                           </div>
 
                         </Collapse>
