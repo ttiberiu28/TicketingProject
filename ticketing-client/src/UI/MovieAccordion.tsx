@@ -89,7 +89,8 @@ export default function MovieAccordion() {
                       <div className="accordion-body">
                          
                         <Button variant="primary" onClick={handleTicketClick}>
-                          Buy tickets
+                          {/* {localStorage.getItem("userId")} */}
+                          Buy tickets 
                         </Button>
 
                         <Collapse in={showTickets}>

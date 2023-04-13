@@ -46,6 +46,7 @@ public class Ticket {
 
     @ManyToOne
     @JoinColumn(name = "cart_id")
+    @JsonIgnore
     private Cart cart;
 
     @Enumerated(EnumType.STRING)

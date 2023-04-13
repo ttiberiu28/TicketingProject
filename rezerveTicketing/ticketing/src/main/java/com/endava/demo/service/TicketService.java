@@ -56,15 +56,16 @@ public class TicketService {
         Cart cart = user.getCart();
 
         Ticket ticket = new Ticket();
+        ticket.setCart(cart); // Set the cart field instead of the user field
         ticket.setMovie(movie);
         ticket.setTicketType(TicketType.valueOf(ticketType));
         ticket.setDate(date);
         ticket.setRow(row);
         ticket.setSeatNumber(seatNumber);
 
-        cart.getTickets().add(ticket);
         ticketRepo.save(ticket);
     }
+
 
     public List<Ticket> getTicketList(){
 

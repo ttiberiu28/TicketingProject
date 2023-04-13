@@ -4,6 +4,7 @@ import com.endava.demo.dto.AssignUserRoleRequest;
 import com.endava.demo.dto.MessageResponse;
 import com.endava.demo.dto.UserDto;
 import com.endava.demo.exception.*;
+import com.endava.demo.model.Cart;
 import com.endava.demo.model.User;
 import com.endava.demo.service.UserService;
 import constant.Constant;
@@ -72,4 +73,11 @@ public class UserController {
                             "role is already assigned for this user");
         }
     }
+
+    @GetMapping("/getCart")
+    public ResponseEntity<Cart> getCart(@RequestParam("userId") int userId) {
+        Cart cart = userService.getCartByUserId(userId);
+        return ResponseEntity.ok(cart);
+    }
+
 }

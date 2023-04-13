@@ -1,3 +1,5 @@
+import { Cart } from "../interfaces/Cart";
+
 export default class RestClient {
   static baseUrl = "http://localhost:8080";
   static token?: string;
@@ -136,6 +138,25 @@ export default class RestClient {
   
     return response.json();
 }
+
+static async getCart(userId: number): Promise<Cart> {
+  const url = `${RestClient.baseUrl}/api/cart/getCart?userId=${userId}`;
+  const headers = new Headers();
+  headers.set("Content-Type", "application/json");
+  headers.set("Authorization", RestClient.token || "");
+
+  const response = await fetch(url, {
+    method: "GET",
+    headers: headers,
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch cart");
+  }
+
+  return response.json();
+}
+
 
   
 }

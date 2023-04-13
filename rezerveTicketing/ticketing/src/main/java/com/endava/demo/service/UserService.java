@@ -1,7 +1,10 @@
 package com.endava.demo.service;
 import com.endava.demo.exception.*;
 import com.endava.demo.model.Cart;
+import com.endava.demo.model.Movie;
+import com.endava.demo.model.Ticket;
 import com.endava.demo.model.User;
+import com.endava.demo.repository.MovieRepo;
 import com.endava.demo.repository.RoleRepo;
 import com.endava.demo.repository.UserRepo;
 import lombok.AllArgsConstructor;
@@ -14,6 +17,7 @@ import javax.transaction.Transactional;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -23,6 +27,8 @@ public class UserService {
 
     private final UserRepo userRepo;
     private final RoleRepo roleRepo;
+
+    private final MovieRepo movieRepo;
 
     private final PasswordEncoder passwordEncoder;
 
@@ -98,4 +104,22 @@ public class UserService {
 
         role.getUsers().add(user);
     }
+
+    public Cart getCartByUserId(int userId) {
+        User user = userRepo.findById(userId)
+                .orElseThrow(() -> new UserDoesNotExistsException(String.valueOf(userId)));
+        Cart cart = user.getCart();
+        // Fetch movie data for each ticket
+        for (Ticket ticket : cart.getTickets()) {
+            Movie movie = ticket.getMovie();
+            if (movie != null) {
+                Optional<Movie> movieOpt = movieRepo.findById(movie.getId());
+                movieOpt.ifPresent(ticket::setMovie);
+            }
+        }
+        return cart;
+    }
+
+
+
 }
