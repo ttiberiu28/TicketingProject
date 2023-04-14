@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Row, Col, Form } from 'react-bootstrap';
+import { Navbar, NavDropdown, Form, FormControl, Button, Container, Row, Col } from 'react-bootstrap';
 import { getMovies, getStandUpEvents } from '../api/api';
 import { Link } from 'react-router-dom';
 import { Movie } from '../interfaces/Movie';
@@ -93,69 +93,37 @@ export default function Events() {
       {/* The carousel on the top of the page with sliding images */}
       <BannerCarousel />
 
-      <Row className="navbar navbar-light bg-light">
-        <nav className="navbar navbar-expand-lg navbar-dark sticky-top">
-          <div className="container-fluid">
+      <Navbar className="navbar navbar-expand-lg navbar-dark sticky-top" bg="dark" variant="dark">
+        <Container fluid>
+          <Navbar.Brand>
+          </Navbar.Brand>
 
-            <h5 className="mt-3">Event Types</h5>
-            <Form.Check
-              type="radio"
-              label="All Events"
-              name="eventType"
-              id="all"
-              value="all"
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                setEventType(e.target.value)
-              }
-            />
-            <Form.Check
-              type="radio"
-              label="Movies"
-              name="eventType"
-              id="movies"
-              value="movies"
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                setEventType(e.target.value)
-              }
-            />
-            <Form.Check
-              type="radio"
-              label="Stand-Up"
-              name="eventType"
-              id="standUp"
-              value="standUp"
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                setEventType(e.target.value)
-              }
-            />
+          <NavDropdown
+            title="Select Event Type"
+            id="nav-dropdown"
+            onSelect={(selectedKey: React.SetStateAction<string>) => setEventType(selectedKey)}
+          >
+            <NavDropdown.Item eventKey="all">All Events</NavDropdown.Item>
+            <NavDropdown.Item eventKey="movies">Movies</NavDropdown.Item>
+            <NavDropdown.Item eventKey="standUp">Stand-Up</NavDropdown.Item>
+          </NavDropdown>
 
-            <div className="input-group mt-3">
-              <Autosuggest
-                suggestions={filteredEvents}
-                onSuggestionsFetchRequested={({ value }) => {
-                  setSearchValue(value);
-                }}
-                onSuggestionsClearRequested={() => {
-                  setSearchValue('');
-                }}
-                getSuggestionValue={getSuggestionValue}
-                renderSuggestion={renderSuggestion}
-                inputProps={{
-                  className: 'form-control',
-                  // placeholder: 'Search...',
-                  value: searchValue,
-                  onChange: (event, { newValue }) => {
-                    setSearchValue(newValue);
-                  },
-                }}
-              />
-              <button type="button" className="btn btn-primary">
-                <i className="fas fa-search"></i>
-              </button>
-            </div>
-          </div>
-        </nav>
-      </Row>
+          <Form className="d-flex ms-auto">
+            <FormControl
+              type="search"
+              placeholder="Search"
+              className="mr-2"
+              aria-label="Search"
+              style={{ width: '300px', backgroundColor: '#e9ecef' }}
+              value={searchValue}
+              onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setSearchValue(e.target.value)}
+            />
+            <Button variant="outline-primary">
+              <i className="fas fa-search"></i>
+            </Button>
+          </Form>
+        </Container>
+      </Navbar>
 
 
       <Container className="movies-and-standups">
@@ -235,7 +203,7 @@ export default function Events() {
           </Col>
         </Row>
       </Container>
-    </div>
+    </div >
   );
 }
 
