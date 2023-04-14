@@ -123,84 +123,80 @@ export default function Events() {
 
 
       <Container className="movies-and-standups">
-
-        <Row className="justify-content-center align-items-center vh-100">
-
-          <Col className="text-center">
-            <Row className="justify-content-center">
-              <React.Fragment>
-                {filteredEvents.slice(startIndex, endIndex).map((event) => (
-                  <Col
-                    xs={12}
-                    sm={6}
-                    md={4}
-                    lg={3}
-                    key={`${isMovie(event) ? 'movie' : 'standup'}-${event.id}`}
-                    className="mb-4 d-flex align-items-stretch"
-                  >
-                    <div className="card w-100">
-                      <div className="bg-image hover-overlay ripple">
-                        <Link
-                          to={`/${isMovie(event) ? 'movie' : 'standup'}/${event.id
-                            }`}
-                        >
-                          <img
-                            src={event.imageUrl}
-                            className="img-fluid event-image"
-                            alt={event.name}
-                          />
-                        </Link>
-                      </div>
-                      <div className="card-body">
-                        <h5 className="card-title">{event.name}</h5>
-                        {isMovie(event) && (
-                          <p className="card-text">
-                            IMDb Rating: {event.imdbRating}
-                          </p>
-                        )}
-                      </div>
+        <Col className="text-center">
+          <Row className="justify-content-center">
+            <React.Fragment>
+              {filteredEvents.slice(startIndex, endIndex).map((event) => (
+                <Col
+                  xs={12}
+                  sm={6}
+                  md={4}
+                  lg={3}
+                  key={`${isMovie(event) ? 'movie' : 'standup'}-${event.id}`}
+                  className="mb-4 d-flex align-items-stretch"
+                >
+                  <div className="card w-100">
+                    <div className="bg-image hover-overlay ripple">
+                      <Link
+                        to={`/${isMovie(event) ? 'movie' : 'standup'}/${event.id
+                          }`}
+                      >
+                        <img
+                          src={event.imageUrl}
+                          className="img-fluid"
+                          alt={event.name}
+                        />
+                      </Link>
                     </div>
-                  </Col>
-                ))}
-              </React.Fragment>
-            </Row>
-
-            {/* Pagination logic here */}
-            <nav aria-label="Page navigation example">
-              <ul className="pagination pagination-circle justify-content-center">
-                <li
-                  className={`page-item ${currentPage === 1 ? 'disabled' : ''
-                    }`}
-                  onClick={() => handlePageChange(currentPage - 1)}
-                >
-                  <a className="page-link">Previous</a>
-                </li>
-                {Array.from({ length: totalPages }, (_, i) => (
-                  <li
-                    className={`page-item ${currentPage === i + 1 ? 'active' : ''
-                      }`}
-                    key={i}
-                    onClick={() => handlePageChange(i + 1)}
-                  >
-                    <a className="page-link" href="#">
-                      {i + 1}
-                      {currentPage === i + 1 && (
-                        <span className="visually-hidden">(current)</span>
+                    <div className="card-body">
+                      <h5 className="card-title">{event.name}</h5>
+                      {isMovie(event) && (
+                        <p className="card-text">
+                          IMDb Rating: {event.imdbRating}
+                        </p>
                       )}
-                    </a>
-                  </li>
-                ))}
+                    </div>
+                  </div>
+                </Col>
+              ))}
+            </React.Fragment>
+          </Row>
+
+          {/* Pagination logic here */}
+          <nav aria-label="Page navigation example">
+            <ul className="pagination pagination-circle justify-content-center">
+              <li
+                className={`page-item ${currentPage === 1 ? 'disabled' : ''
+                  }`}
+                onClick={() => handlePageChange(currentPage - 1)}
+              >
+                <a className="page-link">Previous</a>
+              </li>
+              {Array.from({ length: totalPages }, (_, i) => (
                 <li
-                  className={`page-item ${currentPage === totalPages ? 'disabled' : ''
+                  className={`page-item ${currentPage === i + 1 ? 'active' : ''
                     }`}
-                  onClick={() => handlePageChange(currentPage + 1)}
+                  key={i}
+                  onClick={() => handlePageChange(i + 1)}
                 >
-                  <a className="page-link">Next</a>
+                  <a className="page-link" href="#">
+                    {i + 1}
+                    {currentPage === i + 1 && (
+                      <span className="visually-hidden">(current)</span>
+                    )}
+                  </a>
                 </li>
-              </ul>
-            </nav>
-          </Col>
-        </Row>
+              ))}
+              <li
+                className={`page-item ${currentPage === totalPages ? 'disabled' : ''
+                  }`}
+                onClick={() => handlePageChange(currentPage + 1)}
+              >
+                <a className="page-link">Next</a>
+              </li>
+            </ul>
+          </nav>
+        </Col>
       </Container >
     </div >
   );

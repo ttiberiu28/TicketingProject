@@ -42,10 +42,3 @@
   min-height: 350px;
   /* You can adjust this value based on your preference */
 }
-
-.event-image {
-  height: 200px;
-  /* Adjust this value based on your preference */
-  object-fit: cover;
-  width: 100%;
-}
