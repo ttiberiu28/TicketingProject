@@ -13,6 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping(Constant.SPECIAL_GUEST_CONTROLLER)
 @AllArgsConstructor
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class SpecialGuestController {
 
     private SpecialGuestService specialGuestService;

@@ -52,25 +52,35 @@ export default function MovieAccordion() {
 
   const handleAddToCartClick = async (ticketType: TicketType) => {
     const userIdString = localStorage.getItem("userId");
-
+  
     if (!userIdString) {
       console.error("User not logged in");
       return;
     }
-
+  
     const userId = parseInt(userIdString);
     const movieId = movie.id;
     const selectedDate = new Date("2023-04-10");
     const selectedRow = 1;
     const selectedSeatNumber = 2;
-
+  
     try {
-      await RestClient.addTicketToCart(userId, movieId, ticketType, selectedDate, selectedRow, selectedSeatNumber);
+      const ticket = await RestClient.addTicketToCart(userId, movieId, ticketType, selectedDate, selectedRow, selectedSeatNumber);
       console.log("Ticket added to cart");
+  
+      // Update the cart state with the new ticket
+      setCart((prevCart) => {
+        if (!prevCart) {
+          return { id: 0, tickets: [ticket] };
+        }
+  
+        return { ...prevCart, tickets: [...prevCart.tickets, ticket] };
+      });
     } catch (error) {
       console.error("Failed to add ticket to cart", error);
     }
   };
+  
   
 
     return(
@@ -160,4 +170,8 @@ export default function MovieAccordion() {
                   </div>
             </div>
     )
+}
+
+function setCart(arg0: (prevCart: any) => any) {
+  throw new Error('Function not implemented.');
 }

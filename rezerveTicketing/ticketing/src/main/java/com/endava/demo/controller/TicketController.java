@@ -1,6 +1,7 @@
 package com.endava.demo.controller;
 
 import com.endava.demo.dto.AddTicketToCartRequest;
+import com.endava.demo.dto.TicketDTO;
 import com.endava.demo.exception.TicketAlreadyExistsException;
 import com.endava.demo.model.Ticket;
 import com.endava.demo.service.TicketService;
@@ -12,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(Constant.TICKET_CONTROLLER)
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class TicketController {
 
     private final TicketService ticketService;
@@ -46,11 +48,12 @@ public class TicketController {
     }
 
     @PostMapping("/addToCart")
-    public ResponseEntity<?> addTicketToCart(@RequestBody AddTicketToCartRequest addTicketToCartRequest) {
-        ticketService.addTicketToCart(addTicketToCartRequest.getUserId(), addTicketToCartRequest.getMovieId(), addTicketToCartRequest.getTicketType(),
-                addTicketToCartRequest.getLocalDate(),addTicketToCartRequest.getRow(),addTicketToCartRequest.getSeatNumber());
-        return ResponseEntity.ok().build();
+    public ResponseEntity<TicketDTO> addTicketToCart(@RequestBody AddTicketToCartRequest addTicketToCartRequest) {
+        TicketDTO ticketDTO = ticketService.addTicketToCart(addTicketToCartRequest.getUserId(), addTicketToCartRequest.getMovieId(), addTicketToCartRequest.getTicketType(),
+                addTicketToCartRequest.getLocalDate(), addTicketToCartRequest.getRow(), addTicketToCartRequest.getSeatNumber());
+        return ResponseEntity.ok(ticketDTO);
     }
+
 
 
     @DeleteMapping(Constant.DELETION)

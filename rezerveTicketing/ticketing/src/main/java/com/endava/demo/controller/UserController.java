@@ -2,9 +2,11 @@ package com.endava.demo.controller;
 
 import com.endava.demo.dto.AssignUserRoleRequest;
 import com.endava.demo.dto.MessageResponse;
+import com.endava.demo.dto.TicketDTO;
 import com.endava.demo.dto.UserDto;
 import com.endava.demo.exception.*;
 import com.endava.demo.model.Cart;
+import com.endava.demo.model.Ticket;
 import com.endava.demo.model.User;
 import com.endava.demo.service.UserService;
 import constant.Constant;
@@ -14,10 +16,12 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.naming.AuthenticationException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(Constant.USER_CONTROLLER)
 @AllArgsConstructor
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class UserController {
 
     private final UserService userService;
@@ -75,9 +79,12 @@ public class UserController {
     }
 
     @GetMapping("/getCart")
-    public ResponseEntity<Cart> getCart(@RequestParam("userId") int userId) {
+    public ResponseEntity<List<TicketDTO>> getCart(@RequestParam("userId") int userId) {
         Cart cart = userService.getCartByUserId(userId);
-        return ResponseEntity.ok(cart);
+        List<Ticket> tickets = cart.getTickets();
+        List<TicketDTO> ticketDTOs = tickets.stream().map(Ticket::toDTO).collect(Collectors.toList());
+        return ResponseEntity.ok(ticketDTOs);
     }
+
 
 }

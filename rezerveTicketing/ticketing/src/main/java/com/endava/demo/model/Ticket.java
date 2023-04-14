@@ -1,5 +1,6 @@
 package com.endava.demo.model;
 
+import com.endava.demo.dto.TicketDTO;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
@@ -53,7 +54,17 @@ public class Ticket {
     @Column(name = "ticket_type")
     private TicketType ticketType;
 
-    public Ticket() {
+    public TicketDTO toDTO() {
+        TicketDTO dto = new TicketDTO();
+        dto.setId(id);
+        dto.setDate(date);
+        dto.setSeatNumber(seatNumber);
+        dto.setRow(row);
+        dto.setMovie(movie);
+        dto.setStandUp(standUp);
+        dto.setTicketType(ticketType);
+        return dto;
     }
+
 
 }

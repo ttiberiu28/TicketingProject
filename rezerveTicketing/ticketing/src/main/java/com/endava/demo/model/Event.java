@@ -15,7 +15,7 @@ import javax.validation.constraints.Size;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-abstract class Event {
+public abstract class Event {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected int id;

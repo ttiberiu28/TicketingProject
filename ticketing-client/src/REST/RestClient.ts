@@ -1,4 +1,5 @@
 import { Cart } from "../interfaces/Cart";
+import { Ticket } from "../interfaces/Ticket";
 
 export default class RestClient {
   static baseUrl = "http://localhost:8080";
@@ -112,7 +113,7 @@ export default class RestClient {
     return response.json();
   }
 
-  static async addTicketToCart(userId: number, movieId: number, ticketType: string, date: Date, row: number, seatNumber: number): Promise<any> {
+  static async addTicketToCart(userId: number, movieId: number, ticketType: string, date: Date, row: number, seatNumber: number): Promise<Ticket> {
     const url = `${RestClient.baseUrl}/api/ticket/addToCart`;
     const headers = new Headers();
     headers.set("Content-Type", "application/json");
@@ -127,35 +128,44 @@ export default class RestClient {
       seatNumber: seatNumber
     });
   
-    const response = await fetch(url, { method: "POST", headers: headers, body: body });
+    const response = await fetch(url, {
+      method: "POST",
+      headers: headers,
+      body: body,
+    });
   
     if (!response.ok) {
-      const responseText = await response.text();
-      console.error("Raw error response:", responseText);
-      console.error("Error response:", JSON.parse(responseText));
       throw new Error("Failed to add ticket to cart");
     }
   
     return response.json();
-}
-
-static async getCart(userId: number): Promise<Cart> {
-  const url = `${RestClient.baseUrl}/api/cart/getCart?userId=${userId}`;
-  const headers = new Headers();
-  headers.set("Content-Type", "application/json");
-  headers.set("Authorization", RestClient.token || "");
-
-  const response = await fetch(url, {
-    method: "GET",
-    headers: headers,
-  });
-
-  if (!response.ok) {
-    throw new Error("Failed to fetch cart");
   }
 
-  return response.json();
-}
+  static async getCart(userId: number): Promise<Cart> {
+    const url = `${RestClient.baseUrl}/api/user/getCart?userId=${userId}`;
+    const headers = new Headers();
+    headers.set("Content-Type", "application/json");
+    headers.set("Authorization", RestClient.token || "");
+  
+    const response = await fetch(url, {
+      method: "GET",
+      headers: headers,
+    });
+  
+    if (!response.ok) {
+      throw new Error("Failed to fetch cart");
+    }
+  
+    const cartResponse = await response.json();
+  
+    // Map the tickets array to convert date strings to Date objects
+    cartResponse.tickets = cartResponse.tickets.map((ticket: Ticket) => ({
+      ...ticket,
+      date: new Date(ticket.date),
+    }));
+  
+    return cartResponse;
+  }
 
 
   

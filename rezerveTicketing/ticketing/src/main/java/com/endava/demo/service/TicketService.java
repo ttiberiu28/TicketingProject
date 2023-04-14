@@ -1,5 +1,6 @@
 package com.endava.demo.service;
 
+import com.endava.demo.dto.TicketDTO;
 import com.endava.demo.exception.MovieDoesNotExistsException;
 import com.endava.demo.exception.TicketAlreadyExistsException;
 import com.endava.demo.exception.UserDoesNotExistsException;
@@ -46,8 +47,7 @@ public class TicketService {
         });
     }
 
-    public void addTicketToCart(int userId, int movieId, String ticketType, LocalDate date, int row, int seatNumber) {
-
+    public TicketDTO addTicketToCart(int userId, int movieId, String ticketType, LocalDate date, int row, int seatNumber) {
         User user = userRepo.findById(userId)
                 .orElseThrow(() -> new UserDoesNotExistsException(String.valueOf(userId)));
         Movie movie = movieRepo.findById(movieId)
@@ -56,7 +56,7 @@ public class TicketService {
         Cart cart = user.getCart();
 
         Ticket ticket = new Ticket();
-        ticket.setCart(cart); // Set the cart field instead of the user field
+        ticket.setCart(cart);
         ticket.setMovie(movie);
         ticket.setTicketType(TicketType.valueOf(ticketType));
         ticket.setDate(date);
@@ -64,7 +64,10 @@ public class TicketService {
         ticket.setSeatNumber(seatNumber);
 
         ticketRepo.save(ticket);
+
+        return ticket.toDTO();
     }
+
 
 
     public List<Ticket> getTicketList(){
