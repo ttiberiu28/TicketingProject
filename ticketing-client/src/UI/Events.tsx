@@ -7,7 +7,6 @@ import { StandUp } from '../interfaces/StandUp';
 import './CSS/Event.css';
 import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 import BannerCarousel from './BannerCarousel';
-import Autosuggest from 'react-autosuggest';
 
 
 
@@ -21,7 +20,7 @@ export default function Events() {
   const [standUpEvents, setStandUpEvents] = useState<StandUp[]>([]);
 
   const [filteredEvents, setFilteredEvents] = useState<any[]>([]);
-  const [eventType, setEventType] = useState('all');
+  const [eventType, setEventType] = useState('');
   const [searchValue, setSearchValue] = useState('');
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -93,13 +92,13 @@ export default function Events() {
       {/* The carousel on the top of the page with sliding images */}
       <BannerCarousel />
 
+      {/* search navbar */}
       <Navbar className="navbar navbar-expand-lg navbar-dark sticky-top" bg="dark" variant="dark">
         <Container fluid>
-          <Navbar.Brand>
-          </Navbar.Brand>
+          {/* <Navbar.Brand> </Navbar.Brand> */}
 
           <NavDropdown
-            title="Select Event Type"
+            title={`Select Event Type${eventType ? `: ${eventType}` : ''}`}
             id="nav-dropdown"
             onSelect={(selectedKey: React.SetStateAction<string>) => setEventType(selectedKey)}
           >
@@ -118,9 +117,6 @@ export default function Events() {
               value={searchValue}
               onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setSearchValue(e.target.value)}
             />
-            <Button variant="outline-primary">
-              <i className="fas fa-search"></i>
-            </Button>
           </Form>
         </Container>
       </Navbar>
@@ -129,41 +125,44 @@ export default function Events() {
       <Container className="movies-and-standups">
 
         <Row className="justify-content-center align-items-center vh-100">
+
           <Col className="text-center">
             <Row className="justify-content-center">
-              {filteredEvents.slice(startIndex, endIndex).map((event) => (
-                <Col
-                  xs={12}
-                  sm={6}
-                  md={4}
-                  lg={3}
-                  key={event.id}
-                  className="mb-4"
-                >
-                  <div className="card event-card">
-                    <div className="bg-image hover-overlay ripple">
-                      <Link
-                        to={`/${isMovie(event) ? 'movie' : 'standup'}/${event.id
-                          }`}
-                      >
-                        <img
-                          src={event.imageUrl}
-                          className="img-fluid"
-                          alt={event.name}
-                        />
-                      </Link>
+              <React.Fragment>
+                {filteredEvents.slice(startIndex, endIndex).map((event) => (
+                  <Col
+                    xs={12}
+                    sm={6}
+                    md={4}
+                    lg={3}
+                    key={`${isMovie(event) ? 'movie' : 'standup'}-${event.id}`}
+                    className="mb-4 d-flex align-items-stretch"
+                  >
+                    <div className="card w-100">
+                      <div className="bg-image hover-overlay ripple">
+                        <Link
+                          to={`/${isMovie(event) ? 'movie' : 'standup'}/${event.id
+                            }`}
+                        >
+                          <img
+                            src={event.imageUrl}
+                            className="img-fluid event-image"
+                            alt={event.name}
+                          />
+                        </Link>
+                      </div>
+                      <div className="card-body">
+                        <h5 className="card-title">{event.name}</h5>
+                        {isMovie(event) && (
+                          <p className="card-text">
+                            IMDb Rating: {event.imdbRating}
+                          </p>
+                        )}
+                      </div>
                     </div>
-                    <div className="card-body">
-                      <h5 className="card-title">{event.name}</h5>
-                      {isMovie(event) && (
-                        <p className="card-text">
-                          IMDb Rating: {event.imdbRating}
-                        </p>
-                      )}
-                    </div>
-                  </div>
-                </Col>
-              ))}
+                  </Col>
+                ))}
+              </React.Fragment>
             </Row>
 
             {/* Pagination logic here */}
@@ -202,7 +201,7 @@ export default function Events() {
             </nav>
           </Col>
         </Row>
-      </Container>
+      </Container >
     </div >
   );
 }

@@ -35,15 +35,17 @@
   /* adjust the value as needed */
 }
 
-.event-card {
-  height: 100%;
+.card {
   display: flex;
   flex-direction: column;
-  min-height: 400px;
+  height: 100%;
+  min-height: 350px;
+  /* You can adjust this value based on your preference */
 }
 
-.search-container {
-  max-width: 400px;
-  height: 49px;
-  margin: 0 auto;
+.event-image {
+  height: 200px;
+  /* Adjust this value based on your preference */
+  object-fit: cover;
+  width: 100%;
 }
