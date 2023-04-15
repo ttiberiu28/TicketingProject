@@ -164,6 +164,43 @@ export default class RestClient {
     return cartResponse;
   }
 
+  static async incrementTicketQuantity(ticketId: number): Promise<string> {
+    const url = `${RestClient.baseUrl}/api/ticket/increment/${ticketId}`;
+    const headers = new Headers();
+    headers.set("Content-Type", "application/json");
+    headers.set("Authorization", RestClient.token || "");
+
+    const response = await fetch(url, {
+      method: "POST",
+      headers: headers,
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to increment ticket quantity");
+    }
+
+    return response.text();
+  }
+
+  static async decrementTicketQuantity(ticketId: number): Promise<string> {
+    const url = `${RestClient.baseUrl}/api/ticket/decrement/${ticketId}`;
+    const headers = new Headers();
+    headers.set("Content-Type", "application/json");
+    headers.set("Authorization", RestClient.token || "");
+
+    const response = await fetch(url, {
+      method: "POST",
+      headers: headers,
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to decrement ticket quantity");
+    }
+
+    return response.text();
+  }
+
+
 
 
 }

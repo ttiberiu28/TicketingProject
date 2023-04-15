@@ -3,6 +3,7 @@ package com.endava.demo.service;
 import com.endava.demo.dto.TicketDTO;
 import com.endava.demo.exception.MovieDoesNotExistsException;
 import com.endava.demo.exception.TicketAlreadyExistsException;
+import com.endava.demo.exception.TicketDoesNotExistsException;
 import com.endava.demo.exception.UserDoesNotExistsException;
 import com.endava.demo.model.*;
 import com.endava.demo.repository.CartRepo;
@@ -27,6 +28,8 @@ public class TicketService {
     private final CartRepo cartRepo;
     private final UserRepo userRepo;
     private final MovieRepo movieRepo;
+
+    //this method will be deleted
     public void addTicket(LocalDate date,
                           int seatNumber, int row){
 
@@ -79,6 +82,22 @@ public class TicketService {
 
     public void deleteById(int id){
         ticketRepo.deleteById(id);
+    }
+
+    public void incrementTicketQuantity(int id) {
+        Ticket ticket = ticketRepo.findById(id).orElseThrow(() -> new TicketDoesNotExistsException("Ticket not found with ID: " + id));
+        ticket.setQuantity(ticket.getQuantity() + 1);
+        ticketRepo.save(ticket);
+    }
+
+    public void decrementTicketQuantity(int id) {
+        Ticket ticket = ticketRepo.findById(id).orElseThrow(() -> new TicketDoesNotExistsException("Ticket not found with ID: " + id));
+        int updatedQuantity = ticket.getQuantity() - 1;
+        if (updatedQuantity < 1) {
+            throw new IllegalStateException("Ticket quantity cannot be less than 1");
+        }
+        ticket.setQuantity(updatedQuantity);
+        ticketRepo.save(ticket);
     }
 
 

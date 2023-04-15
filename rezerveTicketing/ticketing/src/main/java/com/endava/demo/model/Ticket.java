@@ -55,6 +55,12 @@ public class Ticket {
     @Column(name = "ticket_type")
     private TicketType ticketType;
 
+    @NotNull
+    @Min(1)
+    @Column(name = "quantity")
+    private int quantity = 1;
+
+
     public TicketDTO toDTO() {
         TicketDTO dto = new TicketDTO();
         dto.setId(id);
@@ -69,6 +75,7 @@ public class Ticket {
         }
         dto.setStandUp(standUp);//may need to change this after implementing standup
         dto.setTicketType(ticketType);
+        dto.setQuantity(quantity);
         return dto;
     }
 

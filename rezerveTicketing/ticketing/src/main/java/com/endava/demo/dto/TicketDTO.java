@@ -24,5 +24,6 @@ public class TicketDTO {
         private Movie movie;
         private StandUp standUp;
         private TicketType ticketType;
+        private int quantity;
 
     }
