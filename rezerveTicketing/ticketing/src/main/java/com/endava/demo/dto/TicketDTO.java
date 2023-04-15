@@ -25,5 +25,4 @@ public class TicketDTO {
         private StandUp standUp;
         private TicketType ticketType;
 
-        // Constructor, getters, and setters
     }

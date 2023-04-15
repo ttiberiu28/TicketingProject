@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Navbar, NavDropdown, Form, FormControl, Button, Container, Row, Col } from 'react-bootstrap';
 import { getMovies, getStandUpEvents } from '../api/api';
 import { Link } from 'react-router-dom';
-import { Movie } from '../interfaces/Movie';
+import { Movie } from './MovieComponents/Movie';
 import { StandUp } from '../interfaces/StandUp';
 import './CSS/Event.css';
 import 'mdb-react-ui-kit/dist/css/mdb.min.css';
@@ -118,7 +118,10 @@ export default function Events() {
               aria-label="Search"
               style={{ width: '300px', backgroundColor: '#e9ecef' }}
               value={searchValue}
-              onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setSearchValue(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                setSearchValue(e.target.value);
+                setCurrentPage(1);
+              }}
             />
           </Form>
         </Container>

@@ -1,4 +1,4 @@
-import { Movie, TicketType } from "./Movie";
+import { Movie, TicketType } from "../UI/MovieComponents/Movie";
 
 export interface Ticket {
   id: number;

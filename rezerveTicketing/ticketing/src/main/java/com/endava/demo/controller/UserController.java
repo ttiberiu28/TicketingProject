@@ -1,9 +1,6 @@
 package com.endava.demo.controller;
 
-import com.endava.demo.dto.AssignUserRoleRequest;
-import com.endava.demo.dto.MessageResponse;
-import com.endava.demo.dto.TicketDTO;
-import com.endava.demo.dto.UserDto;
+import com.endava.demo.dto.*;
 import com.endava.demo.exception.*;
 import com.endava.demo.model.Cart;
 import com.endava.demo.model.Ticket;
@@ -79,11 +76,12 @@ public class UserController {
     }
 
     @GetMapping("/getCart")
-    public ResponseEntity<List<TicketDTO>> getCart(@RequestParam("userId") int userId) {
+    public ResponseEntity<CartDTO> getCart(@RequestParam("userId") int userId) {
         Cart cart = userService.getCartByUserId(userId);
         List<Ticket> tickets = cart.getTickets();
         List<TicketDTO> ticketDTOs = tickets.stream().map(Ticket::toDTO).collect(Collectors.toList());
-        return ResponseEntity.ok(ticketDTOs);
+        CartDTO cartDTO = new CartDTO(cart.getId(), ticketDTOs); // Create a new CartDTO with the cart ID and ticketDTOs
+        return ResponseEntity.ok(cartDTO);
     }
 
 

@@ -1,5 +1,7 @@
+import { Movie } from "../UI/MovieComponents/Movie";
 import { Cart } from "../interfaces/Cart";
 import { Ticket } from "../interfaces/Ticket";
+import { TicketDTO } from "../interfaces/TicketDTO";
 
 export default class RestClient {
   static baseUrl = "http://localhost:8080";
@@ -72,7 +74,7 @@ export default class RestClient {
   }
 
 
-  static async getMovies(): Promise<any> {
+  static async getMovies(): Promise<Movie[]> {
     const url = `${RestClient.baseUrl}/api/movie/list`;
     const headers = new Headers();
     headers.set("Authorization", RestClient.token || "");
@@ -83,7 +85,9 @@ export default class RestClient {
       throw new Error("Failed to get movies");
     }
 
-    return response.json();
+    const jsonData = await response.json();
+    const movies = jsonData.map((movieData: any) => new Movie(movieData));
+    return movies;
   }
 
   static async getStandUpEvents(): Promise<any> {
@@ -146,18 +150,16 @@ export default class RestClient {
     const cartResponse = await response.json();
 
 
-
-    // Map the tickets array to convert date strings to Date objects
-    // Check if cartResponse.tickets is defined before mapping
-    if (cartResponse.tickets) {
-      cartResponse.tickets = cartResponse.tickets.map((ticket: Ticket) => ({
-        ...ticket,
-        date: new Date(ticket.date),
-      }));
-    } else {
-      // Set cartResponse.tickets to an empty array if it's not defined
-      cartResponse.tickets = [];
-    }
+    // Map the tickets array to convert date strings to Date objects and TicketDTOs to Tickets
+    cartResponse.tickets = cartResponse.tickets.map((ticketDTO: TicketDTO) => ({
+      id: ticketDTO.id,
+      movieId: ticketDTO.movie.id,
+      movie: ticketDTO.movie,
+      date: new Date(ticketDTO.date),
+      row: ticketDTO.row,
+      seatNumber: ticketDTO.seatNumber,
+      ticketType: ticketDTO.ticketType,
+    }));
 
     return cartResponse;
   }
