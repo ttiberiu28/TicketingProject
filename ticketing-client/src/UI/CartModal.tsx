@@ -5,6 +5,8 @@ import React, { useEffect, useState } from 'react';
 import { Cart } from "../interfaces/Cart";
 import RestClient from '../REST/RestClient';
 import { getMovies } from '../api/api';
+import { TicketType } from './MovieComponents/Movie';
+import { groupBy, flatMap } from "lodash";
 
 export default function CartModal() {
   const [show, setShow] = useState(false);
@@ -30,7 +32,11 @@ export default function CartModal() {
 
         const updatedTickets = await Promise.all(ticketPromises);
 
-        setCart({ ...fetchedCart, tickets: updatedTickets });
+        const groupedTickets = groupBy(updatedTickets, (ticket) => {
+          return `${ticket.movieId}_${ticket.ticketType}`;
+        });
+
+        setCart({ ...fetchedCart, tickets: flatMap(groupedTickets, (group) => group) });
       } else {
         setCart(null);
       }
@@ -58,8 +64,9 @@ export default function CartModal() {
 
   const calculateTotal = () => {
     if (!cart) return 0;
-    return cart.tickets.reduce((total, ticket) => {
-      return total + (ticket.movie?.getPrice(ticket.ticketType) || 0);
+    return Object.values(groupBy(cart.tickets, ticket => `${ticket.movieId}_${ticket.ticketType}`)).reduce((total, ticketsGroup: any) => {
+      const ticket = ticketsGroup[0];
+      return total + (ticket.movie?.getPrice(ticket.ticketType) || 0) * ticketsGroup.length;
     }, 0);
   };
 
@@ -91,49 +98,58 @@ export default function CartModal() {
                 <th>Product</th>
                 <th>Price</th>
                 <th>Qty</th>
-                <th>Total</th>
-                <th>Date</th>
                 <th>Row</th>
                 <th>Seat</th>
-                <th>Type</th>
                 <th>Actions</th>
               </tr>
             </thead>
             {cart && (
               <tbody>
-                {cart.tickets.map((ticket) => (
-                  <tr key={ticket.id}>
-                    <td className="w-25">
-                      <img
-                        src={ticket.movie?.imageUrl}
-                        className="img-fluid img-thumbnail"
-                        alt="Movie"
-                      />
-                    </td>
-                    <td>{ticket.movie?.name}</td>
-                    <td>{ticket.movie?.getPrice(ticket.ticketType)}</td>
-                    <td className="qty">
-                      <input
-                        type="text"
-                        className="form-control"
-                        value="1"
-                        readOnly
-                      />
-                    </td>
-                    <td>{ticket.movie?.getPrice(ticket.ticketType)}</td>
-                    <td>{ticket.date.toLocaleDateString()}</td>
-                    <td>{ticket.row}</td>
-                    <td>{ticket.seatNumber}</td>
-                    <td>{ticket.ticketType}</td>
-                    <td>
-                      <Button variant="danger" size="sm">
-                        <i className="fa fa-times"></i>
-                      </Button>
-                    </td>
-                  </tr>
-                ))}
+                {Object.values(groupBy(cart.tickets, ticket => `${ticket.movieId}_${ticket.ticketType}`)).map((ticketsGroup: any) => {
+                  if (!ticketsGroup || ticketsGroup.length === 0) {
+                    return null;
+                  }
+                  const ticket = ticketsGroup[0];
+                  const ticketTypeLabel =
+                    ticket.ticketType === TicketType.STANDARD_2D
+                      ? "2D"
+                      : ticket.ticketType === TicketType.STANDARD_3D
+                        ? "3D"
+                        : ticket.ticketType;
+                  return (
+                    <tr key={`${ticket.movieId}_${ticket.ticketType}`}>
+                      <td className="w-25">
+                        <img
+                          src={ticket.movie?.imageUrl}
+                          className="img-fluid img-thumbnail"
+                          alt="Movie"
+                        />
+                      </td>
+                      <td>
+                        {ticket.movie?.name} {ticketTypeLabel}
+                      </td>
+                      <td>{ticket.movie?.getPrice(ticket.ticketType)}</td>
+                      <td className="qty">
+                        <input
+                          type="text"
+                          className="form-control"
+                          value={ticketsGroup.length}
+                          readOnly
+                        />
+                      </td>
+                      <td>{ticket.row}</td>
+                      <td>{ticket.seatNumber}</td>
+                      <td>
+                        <Button variant="danger" size="sm">
+                          <i className="fa fa-times"></i>
+                        </Button>
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             )}
+
           </Table>
           <div className="d-flex justify-content-end">
             <h5>

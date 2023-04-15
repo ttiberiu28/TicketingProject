@@ -36,15 +36,23 @@ export class Movie {
 
   getPrice(ticketType: TicketType): number {
 
+    let price;
+
     switch (ticketType) {
       case TicketType.VIP_2D:
-        return this.price * 1.5;
+        price = this.price * 1.5;
+        break;
       case TicketType.VIP_3D:
-        return this.price * 2;
+        price = this.price * 2;
+        break;
       case TicketType.STANDARD_3D:
-        return this.price * 1.2;
+        price = this.price * 1.2;
+        break;
+
       default:
-        return this.price;
+        price = this.price;
     }
+
+    return Math.round(price);
   }
 }
