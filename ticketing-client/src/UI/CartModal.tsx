@@ -1,6 +1,5 @@
 import './CSS/CartModal.css';
 import { Modal, Button, Table } from 'react-bootstrap';
-import { useParams } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import { Cart } from "../interfaces/Cart";
 import RestClient from '../REST/RestClient';

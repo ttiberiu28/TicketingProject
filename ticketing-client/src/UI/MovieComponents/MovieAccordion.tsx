@@ -7,7 +7,6 @@ import '../CSS/EventDetails.css';
 import RestClient from "../../REST/RestClient";
 import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 
-
 // added the logic for the ticket here
 
 export default function MovieAccordion() {
@@ -26,15 +25,15 @@ export default function MovieAccordion() {
         getPrice: (ticketType: TicketType) => {
           switch (ticketType) {
             case TicketType.STANDARD_2D:
-              return fetchedMovie.price;
+              return fetchedMovie.getPrice(TicketType.STANDARD_2D);
             case TicketType.STANDARD_3D:
-              return fetchedMovie.price + 8;
+              return fetchedMovie.getPrice(TicketType.STANDARD_3D);
             case TicketType.VIP_2D:
-              return fetchedMovie.price + 40;
+              return fetchedMovie.getPrice(TicketType.VIP_2D);
             case TicketType.VIP_3D:
-              return fetchedMovie.price + 48;
+              return fetchedMovie.getPrice(TicketType.VIP_3D);
             default:
-              return fetchedMovie.price;
+              return fetchedMovie.getPrice(TicketType.STANDARD_2D);
           }
         },
       });

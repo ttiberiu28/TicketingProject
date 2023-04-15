@@ -40,13 +40,13 @@ export class Movie {
 
     switch (ticketType) {
       case TicketType.VIP_2D:
-        price = this.price * 1.5;
+        price = this.price + 40;
         break;
       case TicketType.VIP_3D:
-        price = this.price * 2;
+        price = this.price + 48;
         break;
       case TicketType.STANDARD_3D:
-        price = this.price * 1.2;
+        price = this.price + 8;
         break;
 
       default:
