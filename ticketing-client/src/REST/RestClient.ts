@@ -145,11 +145,19 @@ export default class RestClient {
 
     const cartResponse = await response.json();
 
+
+
     // Map the tickets array to convert date strings to Date objects
-    cartResponse.tickets = cartResponse.tickets.map((ticket: Ticket) => ({
-      ...ticket,
-      date: new Date(ticket.date),
-    }));
+    // Check if cartResponse.tickets is defined before mapping
+    if (cartResponse.tickets) {
+      cartResponse.tickets = cartResponse.tickets.map((ticket: Ticket) => ({
+        ...ticket,
+        date: new Date(ticket.date),
+      }));
+    } else {
+      // Set cartResponse.tickets to an empty array if it's not defined
+      cartResponse.tickets = [];
+    }
 
     return cartResponse;
   }

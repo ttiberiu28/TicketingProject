@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { Cart } from "../interfaces/Cart";
 import RestClient from '../REST/RestClient';
 import { getMovies } from '../api/api';
+
 export default function CartModal() {
   const [show, setShow] = useState(false);
   const [cart, setCart] = useState<Cart | null>(null);
@@ -43,9 +44,9 @@ export default function CartModal() {
       console.error("User not logged in");
       return;
     }
-  
+
     setShow(true);
-  
+
     // Add the following log statements to help debug
     console.log("Cart details:", cart);
     if (cart) {
@@ -110,31 +111,31 @@ export default function CartModal() {
                     <td>{ticket.movie?.getPrice(ticket.ticketType)}</td>
                     <td>{ticket.date.toLocaleDateString()}</td>
                     <td>{ticket.row}</td>
-                      <td>{ticket.seatNumber}</td>
-                      <td>{ticket.ticketType}</td>
-                      <td>
+                    <td>{ticket.seatNumber}</td>
+                    <td>{ticket.ticketType}</td>
+                    <td>
                       <Button variant="danger" size="sm">
-                      <i className="fa fa-times"></i>
+                        <i className="fa fa-times"></i>
                       </Button>
-                      </td>
-                      </tr>
-                      ))}
-                      </tbody>
-                      )}
-                      </Table>
-                      <div className="d-flex justify-content-end">
-                              <h5>
-                                Total: <span className="price text-success">{calculateTotal()}</span>
-                              </h5>
-                            </div>
-                          </Modal.Body>
-                          <Modal.Footer className="border-top-0 d-flex justify-content-between">
-                            <Button variant="secondary" onClick={handleClose}>
-                              Close
-                            </Button>
-                            <Button variant="success">Checkout</Button>
-                          </Modal.Footer>
-                        </Modal>
-                      </>
-                      );
-                      }
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            )}
+          </Table>
+          <div className="d-flex justify-content-end">
+            <h5>
+              Total: <span className="price text-success">{calculateTotal()}</span>
+            </h5>
+          </div>
+        </Modal.Body>
+        <Modal.Footer className="border-top-0 d-flex justify-content-between">
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+          <Button variant="success">Checkout</Button>
+        </Modal.Footer>
+      </Modal>
+    </>
+  );
+}
