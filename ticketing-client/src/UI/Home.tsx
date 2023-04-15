@@ -3,7 +3,7 @@ import { Container, Row, Col } from "react-bootstrap";
 import splash from "./Images/im5.jpg";
 import { Link } from "react-router-dom";
 import './CSS/home.css';
-import { useAuth } from "./AuthContext"; 
+import { useAuth } from "./AuthContext";
 
 
 export default function Home() {
@@ -29,9 +29,8 @@ export default function Home() {
       <Row>
         <Col className="p-0">
           <div
-            className={`position-relative bg-primary ${
-              isCircle ? "rounded-circle" : ""
-            } ${isTop ? "top-0" : ""}`}
+            className={`position-relative bg-primary ${isCircle ? "rounded-circle" : ""
+              } ${isTop ? "top-0" : ""}`}
             style={{
               height: isCircle ? "100vh" : "100vh",
               transition: "all 0.5s ease",
@@ -45,6 +44,8 @@ export default function Home() {
             <div className="position-absolute top-50 start-50 translate-middle text-center">
               {isWelcomeMessage ? (
                 <h1 className="display-1 font-weight-bold text-white">
+
+
                   <Link to="/about">
                     <button className="btn btn-primary rounded-pill p-3 btn-preview">
                       About
@@ -63,12 +64,15 @@ export default function Home() {
                     </button>
                   </Link>
 
+
+
+
                   {!isLoggedIn && (
-                  <Link to="/login">
-                    <button className="btn btn-primary rounded-pill p-3 ">
-                      Login
-                    </button>
-                  </Link>
+                    <Link to="/login">
+                      <button className="btn btn-primary rounded-pill p-3 ">
+                        Login
+                      </button>
+                    </Link>
                   )}
 
                   <br />
@@ -77,9 +81,9 @@ export default function Home() {
                 </h1>
               ) : (
                 <div>
-                
-                  <button className="btn btn-primary rounded-pill p-3" onClick={handleShapeChange} style={{fontWeight: 'bold', fontSize: '1.75rem'}}>
-                  Ticket-to-GO
+
+                  <button className="btn btn-primary rounded-pill p-3" onClick={handleShapeChange} style={{ fontWeight: 'bold', fontSize: '1.75rem' }}>
+                    Ticket-to-GO
                   </button>
 
                   {username && (
@@ -87,10 +91,10 @@ export default function Home() {
                       Logged in as: <strong>{username}</strong>
                     </div>
                   )}
-                  
+
                 </div>
-                
-                
+
+
 
               )}
             </div>

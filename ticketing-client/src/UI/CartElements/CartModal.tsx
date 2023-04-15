@@ -1,11 +1,13 @@
-import './CSS/CartModal.css';
+import '../CSS/CartModal.css';
 import { Modal, Button, Table } from 'react-bootstrap';
 import React, { useEffect, useState } from 'react';
-import { Cart } from "../interfaces/Cart";
-import RestClient from '../REST/RestClient';
-import { getMovies } from '../api/api';
-import { TicketType } from './MovieComponents/Movie';
+import { Cart } from "../../interfaces/Cart";
+import RestClient from '../../REST/RestClient';
+import { getMovies } from '../../api/api';
+import { TicketType } from '../MovieComponents/Movie';
 import { groupBy, flatMap } from "lodash";
+
+
 
 export default function CartModal() {
   const [show, setShow] = useState(false);
@@ -68,6 +70,9 @@ export default function CartModal() {
       return total + (ticket.movie?.getPrice(ticket.ticketType) || 0) * ticketsGroup.length;
     }, 0);
   };
+
+  // <MovieAccordion ticketsGroup={ticketsGroup} ticketsCount={ticketsGroup.length} />
+
 
   return (
     <>

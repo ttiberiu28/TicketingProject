@@ -6,10 +6,15 @@ import { Movie, TicketType } from './Movie';
 import '../CSS/EventDetails.css';
 import RestClient from "../../REST/RestClient";
 import 'mdb-react-ui-kit/dist/css/mdb.min.css';
+import CartModal2 from '../CartElements/CartModal2';
 
-// added the logic for the ticket here
 
-export default function MovieAccordion() {
+interface MovieAccordionProps {
+  ticketsGroup: any[];
+  ticketsCount: number;
+}
+
+export const MovieAccordion: React.FC<MovieAccordionProps> = ({ ticketsGroup, ticketsCount }) => {
 
   const { index = '0' } = useParams<{ index?: string }>();
   const [movie, setMovie] = useState<Movie | null>(null);
@@ -77,6 +82,9 @@ export default function MovieAccordion() {
     } catch (error) {
       console.error("Failed to add ticket to cart", error);
     }
+
+    // reload the page to update the cart
+    window.location.reload();
   };
 
 
@@ -96,30 +104,37 @@ export default function MovieAccordion() {
           aria-labelledby="flush-headingOneX" >
           <div className="accordion-body">
 
-            <Button variant="primary" onClick={handleTicketClick}>
-              {/* {localStorage.getItem("userId")} */}
+            <Button variant="btn btn-success" onClick={handleTicketClick} style={{ width: '300px' }}>
               Buy tickets
             </Button>
+
+
+            <CartModal2 />
+
 
             <Collapse in={showTickets}>
 
               <div className="ticket-section">
                 <ul>
                   <li>
-                    <span><b>2D:</b> {movie.getPrice(TicketType.STANDARD_2D)} RON</span>
-                    <button type="button" className="btn btn-secondary btn-dark btn-rounded" onClick={() => handleAddToCartClick(TicketType.STANDARD_2D)}>Add to cart</button>
+                    <button type="button" className="btn btn-secondary btn-dark btn-rounded fas fa-shopping-cart text-white"
+                      onClick={() => handleAddToCartClick(TicketType.STANDARD_2D)}><i>{movie.getPrice(TicketType.STANDARD_2D)} RON</i><b> 2D</b>
+                    </button>
                   </li>
                   <li>
-                    <span><b>3D:</b> {movie.getPrice(TicketType.STANDARD_3D)} RON</span>
-                    <button type="button" className="btn btn-secondary btn-dark btn-rounded" onClick={() => handleAddToCartClick(TicketType.STANDARD_3D)}>Add to cart</button>
+                    <button type="button" className="btn btn-secondary btn-dark btn-rounded fas fa-shopping-cart text-white"
+                      onClick={() => handleAddToCartClick(TicketType.STANDARD_3D)}><i>{movie.getPrice(TicketType.STANDARD_3D)} RON</i><b> 3D</b>
+                    </button>
                   </li>
                   <li>
-                    <span><b>VIP 2D:</b> {movie.getPrice(TicketType.VIP_2D)} RON</span>
-                    <button type="button" className="btn btn-secondary btn-dark btn-rounded" onClick={() => handleAddToCartClick(TicketType.VIP_2D)}>Add to Cart</button>
+                    <button type="button" className="btn btn-secondary btn-dark btn-rounded fas fa-shopping-cart text-white"
+                      onClick={() => handleAddToCartClick(TicketType.VIP_2D)}><i>{movie.getPrice(TicketType.VIP_2D)} RON</i><b> VIP 2D</b>
+                    </button>
                   </li>
                   <li>
-                    <span><b>VIP 3D:</b> {movie.getPrice(TicketType.VIP_3D)} RON</span>
-                    <button type="button" className="btn btn-secondary btn-dark btn-rounded" onClick={() => handleAddToCartClick(TicketType.VIP_3D)}>Add to cart</button>
+                    <button type="button" className="btn btn-secondary btn-dark btn-rounded fas fa-shopping-cart text-white"
+                      onClick={() => handleAddToCartClick(TicketType.VIP_3D)}><i>{movie.getPrice(TicketType.VIP_3D)} RON</i><b> VIP 3D</b>
+                    </button>
                   </li>
                 </ul>
               </div>

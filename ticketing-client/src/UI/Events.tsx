@@ -7,6 +7,8 @@ import { StandUp } from '../interfaces/StandUp';
 import './CSS/Event.css';
 import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 import BannerCarousel from './BannerCarousel';
+import CartModal2 from './CartElements/CartModal2';
+
 
 
 
@@ -95,7 +97,6 @@ export default function Events() {
       {/* search navbar */}
       <Navbar className="navbar navbar-expand-lg navbar-dark sticky-top" bg="dark" variant="dark">
         <Container fluid>
-          {/* <Navbar.Brand> </Navbar.Brand> */}
 
           <NavDropdown
             title={`Select Event Type${eventType ? `: ${eventType}` : ''}`}
@@ -109,6 +110,7 @@ export default function Events() {
             <NavDropdown.Item eventKey="movies">Movies</NavDropdown.Item>
             <NavDropdown.Item eventKey="standUp">Stand-Up</NavDropdown.Item>
           </NavDropdown>
+          <CartModal2 />
 
           <Form className="d-flex ms-auto">
             <FormControl
