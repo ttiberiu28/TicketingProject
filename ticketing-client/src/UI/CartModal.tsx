@@ -65,6 +65,18 @@ export default function CartModal() {
 
   return (
     <>
+      <i className="fas fa-solid fa-hippo text-white" onClick={handleShow}></i>
+      <i className="fas fa-solid fa-hippo "></i>
+      <i className="fas fa-solid fa-hippo "></i>
+      <i className="fas fa-solid fa-hippo "></i>
+      <i className="fas fa-solid fa-hippo text-white" onClick={handleShow}></i>
+      <i className="fas fa-solid fa-hippo text-white" onClick={handleShow}></i>
+      <i className="fas fa-solid fa-hippo text-white" onClick={handleShow}></i>
+      <i className="fas fa-solid fa-hippo text-white" onClick={handleShow}></i>
+      <i className="fas fa-solid fa-hippo text-white" onClick={handleShow}></i>
+      <i className="fas fa-solid fa-hippo text-white" onClick={handleShow}></i>
+      <i className="fas fa-solid fa-hippo text-white" onClick={handleShow}></i>
+      <i className="fas fa-solid fa-hippo text-white" onClick={handleShow}></i>
       <i className="fas fa-shopping-cart text-white" onClick={handleShow}></i>
 
       <Modal show={show} onHide={handleClose} size="lg" centered>

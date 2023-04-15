@@ -63,22 +63,6 @@ export default function NavBar() {
               Logged in as: <strong>{username}</strong>
             </div>
           )}
-
-          {/* Add other right-aligned elements (e.g., icons) here */}
-          {/* Replace the href attributes with the appropriate routes, if necessary */}
-          <i className="fas fa-solid fa-hippo text-white "></i>
-          <i className="fas fa-solid fa-hippo "></i>
-          <i className="fas fa-solid fa-hippo "></i>
-          <i className="fas fa-solid fa-hippo "></i>
-          <i className="fas fa-solid fa-hippo text-white"></i>
-          <i className="fas fa-solid fa-hippo text-white"></i>
-          <i className="fas fa-solid fa-hippo text-white"></i>
-          <i className="fas fa-solid fa-hippo text-white"></i>
-          <i className="fas fa-solid fa-hippo text-white"></i>
-          <i className="fas fa-solid fa-hippo text-white"></i>
-          <i className="fas fa-solid fa-hippo text-white"></i>
-          <i className="fas fa-solid fa-hippo text-white"></i>
-          {/* Add the CartModal component here */}
           <CartModal />
 
         </div>
