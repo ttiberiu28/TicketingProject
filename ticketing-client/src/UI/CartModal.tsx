@@ -128,7 +128,7 @@ export default function CartModal() {
                       <td>
                         {ticket.movie?.name} {ticketTypeLabel}
                       </td>
-                      <td>{ticket.movie?.getPrice(ticket.ticketType)}</td>
+                      <td>{ticket.movie?.getPrice(ticket.ticketType) * ticketsGroup.length}</td>
                       <td className="qty">
                         <input
                           type="text"
