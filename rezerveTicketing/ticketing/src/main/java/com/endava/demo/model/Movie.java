@@ -1,5 +1,6 @@
 package com.endava.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,6 +16,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Table(name = "movie")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Movie extends Event {
     //asa ii spui ca e primary key-ul tau , cum sa il auto incrementeze
 

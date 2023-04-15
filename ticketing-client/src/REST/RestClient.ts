@@ -32,30 +32,30 @@ export default class RestClient {
 
   static async login(username: string, password: string): Promise<any> {
     const url = `${RestClient.baseUrl}/api/user/login`;
-  
+
     const headers = new Headers();
     headers.set("Content-Type", "application/json");
-  
+
     const body = JSON.stringify({ username: username, password: password });
-  
+
     const response = await fetch(url, { method: "POST", headers: headers, body: body });
-  
+
     if (!response.ok) {
       throw new Error("Login failed");
     }
-  
+
     const token = response.headers.get("Authorization");
     if (token) {
       localStorage.setItem("token", token);
     }
-  
+
     const responseData = await response.json(); // Get the JSON response data
     localStorage.setItem("userId", responseData.id.toString()); // Store the user ID in local storage
     localStorage.setItem("username", responseData.username);
     return responseData;
   }
-  
-  
+
+
 
   static async getLocations(): Promise<any> {
     const url = `${RestClient.baseUrl}/api/location/list`;
@@ -71,19 +71,6 @@ export default class RestClient {
     return response.json();
   }
 
-  static async getOneLocation(id: number): Promise<any> {
-    const url = `${RestClient.baseUrl}/api/location/${id}`;
-    const headers = new Headers();
-    headers.set("Authorization", RestClient.token || "");
-
-    const response = await fetch(url, { headers: headers });
-
-    if (!response.ok) {
-      throw new Error(`Failed to get location with id ${id}`);
-    }
-
-    return response.json();
-  }
 
   static async getMovies(): Promise<any> {
     const url = `${RestClient.baseUrl}/api/movie/list`;
@@ -118,7 +105,7 @@ export default class RestClient {
     const headers = new Headers();
     headers.set("Content-Type", "application/json");
     headers.set("Authorization", RestClient.token || "");
-  
+
     const body = JSON.stringify({
       userId,
       movieId,
@@ -127,17 +114,17 @@ export default class RestClient {
       row: row,
       seatNumber: seatNumber
     });
-  
+
     const response = await fetch(url, {
       method: "POST",
       headers: headers,
       body: body,
     });
-  
+
     if (!response.ok) {
       throw new Error("Failed to add ticket to cart");
     }
-  
+
     return response.json();
   }
 
@@ -146,28 +133,28 @@ export default class RestClient {
     const headers = new Headers();
     headers.set("Content-Type", "application/json");
     headers.set("Authorization", RestClient.token || "");
-  
+
     const response = await fetch(url, {
       method: "GET",
       headers: headers,
     });
-  
+
     if (!response.ok) {
       throw new Error("Failed to fetch cart");
     }
-  
+
     const cartResponse = await response.json();
-  
+
     // Map the tickets array to convert date strings to Date objects
     cartResponse.tickets = cartResponse.tickets.map((ticket: Ticket) => ({
       ...ticket,
       date: new Date(ticket.date),
     }));
-  
+
     return cartResponse;
   }
 
 
-  
+
 }
 

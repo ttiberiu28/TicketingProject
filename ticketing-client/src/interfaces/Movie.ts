@@ -8,17 +8,17 @@ export enum TicketType {
 }
 
 export interface Movie {
-    id: number;
-    price: number;
-    name: string;
-    imdbRating: number;
-    lengthMinutes: number;
-    language: string;
-    tickets: string[];
-    movieDescription: string;
-    imageUrl: string;
-    trailerUrl: string;
-    locations: MyLocation[];
+  id: number;
+  price: number;
+  name: string;
+  imdbRating: number;
+  lengthMinutes: number;
+  language: string;
+  tickets: string[];
+  movieDescription: string;
+  imageUrl: string;
+  trailerUrl: string;
+  locations: MyLocation[];
 
-    getPrice: (ticketType: TicketType) => number;
-  }
+  getPrice: (ticketType: TicketType) => number;
+}

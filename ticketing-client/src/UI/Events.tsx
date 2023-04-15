@@ -100,7 +100,10 @@ export default function Events() {
           <NavDropdown
             title={`Select Event Type${eventType ? `: ${eventType}` : ''}`}
             id="nav-dropdown"
-            onSelect={(selectedKey: React.SetStateAction<string>) => setEventType(selectedKey)}
+            onSelect={(selectedKey: React.SetStateAction<string>) => {
+              setEventType(selectedKey);
+              setCurrentPage(1);
+            }}
           >
             <NavDropdown.Item eventKey="all">All Events</NavDropdown.Item>
             <NavDropdown.Item eventKey="movies">Movies</NavDropdown.Item>

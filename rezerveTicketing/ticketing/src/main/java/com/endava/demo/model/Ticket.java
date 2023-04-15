@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.beans.BeanUtils;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
@@ -35,7 +36,7 @@ public class Ticket {
     @Max(12)
     private int row;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "movie_id")
     @JsonIgnore
     private Movie movie;
@@ -60,8 +61,13 @@ public class Ticket {
         dto.setDate(date);
         dto.setSeatNumber(seatNumber);
         dto.setRow(row);
-        dto.setMovie(movie);
-        dto.setStandUp(standUp);
+
+        if (movie != null) {
+            Movie movieDTO = new Movie();
+            BeanUtils.copyProperties(movie, movieDTO, "tickets", "locations");
+            dto.setMovie(movieDTO);
+        }
+        dto.setStandUp(standUp);//may need to change this after implementing standup
         dto.setTicketType(ticketType);
         return dto;
     }
