@@ -6,43 +6,46 @@ import RestClient from '../../REST/RestClient';
 import { getMovies } from '../../api/api';
 import { TicketType } from '../MovieComponents/Movie';
 import { groupBy, flatMap } from "lodash";
-
-
+import { useCart } from './CartContext';
+import { Ticket } from '../../interfaces/Ticket';
 
 export default function CartModal() {
+
     const [show, setShow] = useState(false);
-    const [cart, setCart] = useState<Cart | null>(null);
+    const { cart, setCart } = useCart();
 
     const handleClose = () => setShow(false);
 
     const userIdString = localStorage.getItem("userId");
     const userId = userIdString ? parseInt(userIdString) : null;
 
-    useEffect(() => {
+    const fetchCart = async () => {
         if (!userId) return;
 
-        const fetchCart = async () => {
-            const fetchedCart = await RestClient.getCart(userId);
+        const fetchedCart = await RestClient.getCart(userId);
 
-            if (fetchedCart) {
-                // Fetch movie details for each ticket and add them to the ticket objects
-                const ticketPromises = fetchedCart.tickets.map(async (ticket) => {
-                    const movie = await getMovies(ticket.movieId);
-                    return { ...ticket, movie: movie[0] };
-                });
+        if (fetchedCart) {
+            // Fetch movie details for each ticket and add them to the ticket objects
+            const ticketPromises = fetchedCart.tickets.map(async (ticket) => {
+                const movie = await getMovies(ticket.movieId);
+                return { ...ticket, movie: movie[0] };
+            });
 
-                const updatedTickets = await Promise.all(ticketPromises);
+            const updatedTickets = await Promise.all(ticketPromises);
+            console.log("Updated tickets:", updatedTickets);
 
-                const groupedTickets = groupBy(updatedTickets, (ticket) => {
-                    return `${ticket.movieId}_${ticket.ticketType}`;
-                });
+            const groupedTickets = groupBy(updatedTickets, (ticket) => {
+                return `${ticket.movieId}_${ticket.ticketType}`;
+            });
+            console.log("Grouped tickets:", groupedTickets);
 
-                setCart({ ...fetchedCart, tickets: flatMap(groupedTickets, (group) => group) });
-            } else {
-                setCart(null);
-            }
-        };
+            setCart({ ...fetchedCart, tickets: flatMap(groupedTickets, (group) => group) });
+        } else {
+            setCart(null);
+        }
+    };
 
+    useEffect(() => {
         fetchCart();
     }, [userId]);
 
@@ -65,14 +68,25 @@ export default function CartModal() {
 
     const calculateTotal = () => {
         if (!cart) return 0;
-        return Object.values(groupBy(cart.tickets, ticket => `${ticket.movieId}_${ticket.ticketType}`)).reduce((total, ticketsGroup: any) => {
-            const ticket = ticketsGroup[0];
-            return total + (ticket.movie?.getPrice(ticket.ticketType) || 0) * ticketsGroup.length;
+        return cart.tickets.reduce((total, ticket) => {
+            return total + (ticket.movie?.getPrice(ticket.ticketType) || 0) * ticket.quantity;
         }, 0);
+
     };
 
-    // <MovieAccordion ticketsGroup={ticketsGroup} ticketsCount={ticketsGroup.length} />
+    const handleIncrement = async (ticketId: number) => {
+        console.log("Incrementing ticketId:", ticketId);
+        await RestClient.incrementTicketQuantity(ticketId);
+        fetchCart();
+    };
 
+    const handleDecrement = async (ticketId: number) => {
+        console.log("Decrementing ticketId:", ticketId);
+        await RestClient.decrementTicketQuantity(ticketId);
+        fetchCart();
+    };
+
+    console.log("Cart:", cart);
 
     return (
         <>
@@ -122,15 +136,31 @@ export default function CartModal() {
                                             <td>
                                                 {ticket.movie?.name} {ticketTypeLabel}
                                             </td>
-                                            <td>{ticket.movie?.getPrice(ticket.ticketType) * ticketsGroup.length}</td>
+                                            <td>{ticket.movie?.getPrice(ticket.ticketType) * ticket.quantity}</td>
                                             <td className="qty">
+                                                <Button
+                                                    variant="outline-primary"
+                                                    size="sm"
+                                                    onClick={() => handleIncrement(ticket.id)}
+                                                >
+                                                    <i className="fa fa-plus"></i>
+                                                </Button>
                                                 <input
                                                     type="text"
                                                     className="form-control"
-                                                    value={ticketsGroup.length}
+                                                    value={ticketsGroup.reduce((total: number, t: Ticket) => total + t.quantity, 0)}
                                                     readOnly
                                                 />
+
+                                                <Button
+                                                    variant="outline-primary"
+                                                    size="sm"
+                                                    onClick={() => handleDecrement(ticket.id)}
+                                                >
+                                                    <i className="fa fa-minus"></i>
+                                                </Button>
                                             </td>
+
                                             <td>{ticket.row}</td>
                                             <td>{ticket.seatNumber}</td>
                                             <td>
@@ -160,4 +190,5 @@ export default function CartModal() {
             </Modal>
         </>
     );
-}
+};
+

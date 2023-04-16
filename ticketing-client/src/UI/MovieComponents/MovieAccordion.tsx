@@ -18,7 +18,6 @@ export const MovieAccordion: React.FC<MovieAccordionProps> = ({ ticketsGroup, ti
 
   const { index = '0' } = useParams<{ index?: string }>();
   const [movie, setMovie] = useState<Movie | null>(null);
-  const [activeIndex, setActiveIndex] = useState(0);
   const [showTickets, setShowTickets] = useState(false);
 
 
@@ -77,7 +76,18 @@ export const MovieAccordion: React.FC<MovieAccordionProps> = ({ ticketsGroup, ti
           return { id: 0, tickets: [ticket] };
         }
 
-        return { ...prevCart, tickets: [...prevCart.tickets, ticket] };
+        // Find existing ticket index with the same movieId and ticketType
+        const existingTicketIndex = prevCart.tickets.findIndex((t: { movieId: number; ticketType: TicketType; }) => t.movieId === movieId && t.ticketType === ticketType);
+
+        if (existingTicketIndex !== -1) {
+          // Update the existing ticket's quantity
+          const updatedTickets = [...prevCart.tickets];
+          updatedTickets[existingTicketIndex] = ticket;
+          return { ...prevCart, tickets: updatedTickets };
+        } else {
+          // Add the new ticket to the cart
+          return { ...prevCart, tickets: [...prevCart.tickets, ticket] };
+        }
       });
     } catch (error) {
       console.error("Failed to add ticket to cart", error);

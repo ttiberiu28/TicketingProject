@@ -8,4 +8,5 @@ export interface Ticket {
   row: number;
   seatNumber: number;
   ticketType: TicketType;
+  quantity: number;
 }

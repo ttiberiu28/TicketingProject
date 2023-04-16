@@ -7,4 +7,5 @@ export interface TicketDTO {
   row: number;
   seatNumber: number;
   ticketType: TicketType; // Assuming ticketType is a string
+  quantity: number;
 }

@@ -11,11 +11,14 @@ import StandUpDetails from './UI/StandupComponents/StandUpDetails';
 import MyLogin from './UI/Login';
 import { AuthProvider, useAuth } from './UI/AuthContext';
 import MySignUp from './UI/SingUp';
+import { CartProvider } from './UI/CartElements/CartContext';
 
 function App() {
   return (
     <AuthProvider>
-      <MainApp />
+      <CartProvider>
+        <MainApp />
+      </CartProvider>
     </AuthProvider>
   );
 }

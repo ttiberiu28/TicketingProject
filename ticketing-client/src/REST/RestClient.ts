@@ -129,7 +129,9 @@ export default class RestClient {
       throw new Error("Failed to add ticket to cart");
     }
 
-    return response.json();
+    const data = await response.json();
+
+    return data as Ticket;
   }
 
   static async getCart(userId: number): Promise<Cart> {
@@ -159,12 +161,14 @@ export default class RestClient {
       row: ticketDTO.row,
       seatNumber: ticketDTO.seatNumber,
       ticketType: ticketDTO.ticketType,
+      quantity: ticketDTO.quantity,
+
     }));
 
     return cartResponse;
   }
 
-  static async incrementTicketQuantity(ticketId: number): Promise<string> {
+  static async incrementTicketQuantity(ticketId: number): Promise<Ticket> {
     const url = `${RestClient.baseUrl}/api/ticket/increment/${ticketId}`;
     const headers = new Headers();
     headers.set("Content-Type", "application/json");
@@ -179,10 +183,11 @@ export default class RestClient {
       throw new Error("Failed to increment ticket quantity");
     }
 
-    return response.text();
+    const data = await response.json();
+    return data as Ticket;
   }
 
-  static async decrementTicketQuantity(ticketId: number): Promise<string> {
+  static async decrementTicketQuantity(ticketId: number): Promise<Ticket> {
     const url = `${RestClient.baseUrl}/api/ticket/decrement/${ticketId}`;
     const headers = new Headers();
     headers.set("Content-Type", "application/json");
@@ -197,7 +202,8 @@ export default class RestClient {
       throw new Error("Failed to decrement ticket quantity");
     }
 
-    return response.text();
+    const data = await response.json();
+    return data as Ticket;
   }
 
 
