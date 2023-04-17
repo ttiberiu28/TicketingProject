@@ -1,9 +1,9 @@
 import RestClient from '../REST/RestClient';
 import { Movie } from '../UI/MovieComponents/Movie';
-import { StandUp } from '../interfaces/StandUp'
+import { StandUp } from '../UI/StandupComponents/StandUp'
+import { Concert } from '../UI/ConcertComponents/Concert'
 
 
-const API_BASE_URL = 'http://localhost:8080';
 
 export async function getMovies(id?: number) {
   const response = await RestClient.getMovies(); // Use RestClient to get movies
@@ -32,3 +32,16 @@ export async function getStandUpEvents(id?: number) {
 
 }
 
+export async function getConcerts(id?: number) {
+  const response = await RestClient.getConcerts(); // Use RestClient to get concerts
+  const concerts = response;
+
+  if (id) {
+
+    const concert = concerts.find((c: Concert) => c.id === id);
+    return concert ? [concert] : [];
+  } else {
+    return concerts;
+  }
+
+}

@@ -73,6 +73,7 @@ export default class RestClient {
     return response.json();
   }
 
+  // get events
 
   static async getMovies(): Promise<Movie[]> {
     const url = `${RestClient.baseUrl}/api/movie/list`;
@@ -90,6 +91,20 @@ export default class RestClient {
     return movies;
   }
 
+  static async getConcerts(): Promise<any> {
+    const url = `${RestClient.baseUrl}/api/concert/list`;
+    const headers = new Headers();
+    headers.set("Authorization", RestClient.token || "");
+
+    const response = await fetch(url, { headers: headers });
+
+    if (!response.ok) {
+      throw new Error("Failed to get concerts");
+    }
+
+    return response.json();
+  }
+
   static async getStandUpEvents(): Promise<any> {
     const url = `${RestClient.baseUrl}/api/standup/list`;
     const headers = new Headers();
@@ -103,6 +118,8 @@ export default class RestClient {
 
     return response.json();
   }
+
+  //finish get events
 
   static async addTicketToCart(userId: number, movieId: number, ticketType: string, date: Date, row: number, seatNumber: number): Promise<Ticket> {
     const url = `${RestClient.baseUrl}/api/ticket/addToCart`;

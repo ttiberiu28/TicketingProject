@@ -47,6 +47,11 @@ public class Ticket {
     private StandUp standUp;
 
     @ManyToOne
+    @JoinColumn(name = "concert_id")
+    @JsonIgnore
+    private Concert concert;
+
+    @ManyToOne
     @JoinColumn(name = "cart_id")
     @JsonIgnore
     private Cart cart;

@@ -62,33 +62,7 @@ public class TicketController {
     public void deleteById(@PathVariable int id){
         ticketService.deleteById(id);
     }
-//
-//    @PostMapping("/increment/{id}")
-//    public ResponseEntity<?> incrementTicketQuantity(@PathVariable int id) {
-//        try {
-//            ticketService.incrementTicketQuantity(id);
-//            return ResponseEntity.ok().body("Ticket quantity incremented successfully.");
-//        } catch (TicketDoesNotExistsException e) {
-//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-//        } catch (Exception e) {
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
-//        }
-//    }
-//
-//    @PostMapping("/decrement/{id}")
-//    public ResponseEntity<?> decrementTicketQuantity(@PathVariable int id) {
-//        try {
-//            ticketService.decrementTicketQuantity(id);
-//            return ResponseEntity.ok().body("Ticket quantity decremented successfully.");
-//        } catch (TicketDoesNotExistsException e) {
-//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-//        } catch (IllegalStateException e) {
-//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-//        } catch (Exception e) {
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
-//        }
-//    }
-
+    
     @PostMapping("/increment/{id}")
     public ResponseEntity<TicketDTO> incrementTicketQuantity(@PathVariable int id) {
             TicketDTO updatedTicket = ticketService.incrementTicketQuantity(id);

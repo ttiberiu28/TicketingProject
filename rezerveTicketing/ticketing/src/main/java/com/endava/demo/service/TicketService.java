@@ -121,22 +121,6 @@ public class TicketService {
         ticketRepo.deleteById(id);
     }
 
-//    public void incrementTicketQuantity(int id) {
-//        Ticket ticket = ticketRepo.findById(id).orElseThrow(() -> new TicketDoesNotExistsException("Ticket not found with ID: " + id));
-//        ticket.setQuantity(ticket.getQuantity() + 1);
-//        ticketRepo.save(ticket);
-//    }
-//
-//    public void decrementTicketQuantity(int id) {
-//        Ticket ticket = ticketRepo.findById(id).orElseThrow(() -> new TicketDoesNotExistsException("Ticket not found with ID: " + id));
-//        int updatedQuantity = ticket.getQuantity() - 1;
-//        if (updatedQuantity < 1) {
-//            throw new IllegalStateException("Ticket quantity cannot be less than 1");
-//        }
-//        ticket.setQuantity(updatedQuantity);
-//        ticketRepo.save(ticket);
-//    }
-
     public TicketDTO incrementTicketQuantity(int id) {
         Ticket ticket = ticketRepo.findById(id).orElseThrow(() -> new TicketDoesNotExistsException("Ticket not found with ID: " + id));
         ticket.setQuantity(ticket.getQuantity() + 1);

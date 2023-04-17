@@ -21,7 +21,6 @@ public class MovieController {
 
     private final MovieService movieService;
 
-
     @GetMapping(Constant.LIST)
     public List<Movie> getMovies(){
         return movieService.getMovieList();

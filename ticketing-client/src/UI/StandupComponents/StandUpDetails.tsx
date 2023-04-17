@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { getStandUpEvents } from '../../api/api';
 import { Container, Row, Col, Card } from 'react-bootstrap';
-import { StandUp } from '../../interfaces/StandUp'; // import the StandUp interface
+import { StandUp } from './StandUp';
 import BannerCarousel from '../BannerCarousel';
 import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 import { MovieAccordion } from '../MovieComponents/MovieAccordion';

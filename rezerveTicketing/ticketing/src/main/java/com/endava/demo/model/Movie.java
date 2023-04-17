@@ -32,6 +32,7 @@ public class Movie extends Event {
     private String movieDescription;
 
     @NotEmpty
+    @Column(name = "trailer_url")
     private String trailerUrl;
 
     @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL)

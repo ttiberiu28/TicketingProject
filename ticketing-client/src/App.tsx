@@ -8,6 +8,7 @@ import NavBar from './UI/Navbar';
 import Events from './UI/Events';
 import MovieDetails from './UI/MovieComponents/MovieDetails';
 import StandUpDetails from './UI/StandupComponents/StandUpDetails';
+import ConcertDetails from './UI/ConcertComponents/ConcertDetails';
 import MyLogin from './UI/Login';
 import { AuthProvider, useAuth } from './UI/AuthContext';
 import MySignUp from './UI/SingUp';
@@ -97,6 +98,14 @@ function MainApp() {
           element={
             <MainLayout>
               <StandUpDetails />
+            </MainLayout>
+          }
+        />
+        <Route
+          path="/concert/:index"
+          element={
+            <MainLayout>
+              <ConcertDetails />
             </MainLayout>
           }
         />

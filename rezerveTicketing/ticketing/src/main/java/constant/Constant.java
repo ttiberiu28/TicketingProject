@@ -15,6 +15,8 @@ public class Constant {
     public static final String USER_CONTROLLER = "/api/user";
     public static final String ROLE_CONTROLLER = "/api/role";
 
+    public static final String CONCERT_CONTROLLER = "/api/concert";
+
     /*
         MAPPING PATHS
      */

@@ -1,25 +1,50 @@
 import React, { useEffect, useState } from 'react';
 import { Navbar, NavDropdown, Form, FormControl, Button, Container, Row, Col } from 'react-bootstrap';
-import { getMovies, getStandUpEvents } from '../api/api';
+import { getConcerts, getMovies, getStandUpEvents } from '../api/api';
 import { Link } from 'react-router-dom';
 import { Movie } from './MovieComponents/Movie';
-import { StandUp } from '../interfaces/StandUp';
+import { StandUp } from './StandupComponents/StandUp';
 import './CSS/Event.css';
 import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 import BannerCarousel from './BannerCarousel';
 import CartModal2 from './CartElements/CartModal2';
+import { Concert } from './ConcertComponents/Concert';
 
 
 
-
-function isMovie(event: Movie | StandUp): event is Movie {
+// i need to choose an unique property for each type of event
+function isMovie(event: Movie | StandUp | Concert): event is Movie {
   return (event as Movie).imdbRating !== undefined;
 }
+
+function isStandUp(event: Movie | StandUp | Concert): event is StandUp {
+  return (event as StandUp).eventOrganizer !== undefined;
+}
+
+function isConcert(event: Movie | StandUp | Concert): event is Concert {
+  return (event as Concert).concertDescription !== undefined;
+}
+
+
+
+function getEventRoute(event: Movie | StandUp | Concert): string {
+  if (isMovie(event)) {
+    return 'movie';
+  } else if (isStandUp(event)) {
+    return 'standup';
+  } else if (isConcert(event)) {
+    return 'concert';
+  } else {
+    throw new Error("Unknown event type");
+  }
+}
+
 
 export default function Events() {
   // Define state hooks for movies and stand-up events
   const [movies, setMovies] = useState<Movie[]>([]);
   const [standUpEvents, setStandUpEvents] = useState<StandUp[]>([]);
+  const [concerts, setConcerts] = useState<Concert[]>([]);
 
   const [filteredEvents, setFilteredEvents] = useState<any[]>([]);
   const [eventType, setEventType] = useState('');
@@ -35,18 +60,22 @@ export default function Events() {
   useEffect(() => {
     getMovies().then((data) => setMovies(data));
     getStandUpEvents().then((data) => setStandUpEvents(data));
+    getConcerts().then((data) => setConcerts(data));
   }, []);
 
   useEffect(() => {
-    const allEvents = [...movies, ...standUpEvents];
+    const allEvents = [...movies, ...standUpEvents, ...concerts];
     let filtered;
 
     switch (eventType) {
       case 'movies':
         filtered = movies;
         break;
-      case 'standUp':
+      case 'standUps':
         filtered = standUpEvents;
+        break;
+      case 'concerts':
+        filtered = concerts;
         break;
       default:
         filtered = allEvents;
@@ -59,7 +88,7 @@ export default function Events() {
     }
 
     setFilteredEvents(filtered);
-  }, [eventType, movies, standUpEvents, searchValue]);
+  }, [eventType, movies, standUpEvents, concerts, searchValue]);
 
   const handlePageChange = (newPage: number) => {
     if (newPage < 1 || newPage > totalPages) {
@@ -74,19 +103,6 @@ export default function Events() {
 
   // Calculate the total number of pages
   const totalPages = Math.ceil(filteredEvents.length / eventsPerPage);
-
-  const onSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchValue(e.target.value);
-  };
-
-  const getSuggestionValue = (suggestion: { name: any; }) => suggestion.name;
-
-  const renderSuggestion = (suggestion: { name: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined; }) => (
-    <div>
-      {suggestion.name}
-    </div>
-  );
-
 
   return (
     <div className="">
@@ -108,7 +124,8 @@ export default function Events() {
           >
             <NavDropdown.Item eventKey="all">All Events</NavDropdown.Item>
             <NavDropdown.Item eventKey="movies">Movies</NavDropdown.Item>
-            <NavDropdown.Item eventKey="standUp">Stand-Up</NavDropdown.Item>
+            <NavDropdown.Item eventKey="standUps">Stand-Ups</NavDropdown.Item>
+            <NavDropdown.Item eventKey="concerts">Concerts</NavDropdown.Item>
           </NavDropdown>
           <CartModal2 />
 
@@ -140,27 +157,35 @@ export default function Events() {
                   sm={6}
                   md={4}
                   lg={3}
-                  key={`${isMovie(event) ? 'movie' : 'standup'}-${event.id}`}
+                  key={`${getEventRoute(event)}-${event.id}`}
                   className="mb-4 d-flex align-items-stretch"
                 >
                   <div className="card w-100">
                     <div className="bg-image hover-overlay ripple">
-                      <Link
-                        to={`/${isMovie(event) ? 'movie' : 'standup'}/${event.id
-                          }`}
-                      >
+                      <Link to={`/${getEventRoute(event)}/${event.id}`}>
                         <img
                           src={event.imageUrl}
                           className="img-fluid"
                           alt={event.name}
                         />
                       </Link>
+
                     </div>
                     <div className="card-body">
                       <h5 className="card-title">{event.name}</h5>
                       {isMovie(event) && (
                         <p className="card-text">
                           IMDb Rating: {event.imdbRating}
+                        </p>
+                      )}
+                      {isStandUp(event) && (
+                        <p className="card-text">
+                          <i>{event.description}</i>
+                        </p>
+                      )}
+                      {isConcert(event) && (
+                        <p className="card-text">
+                          <i>{event.artistName}</i>
                         </p>
                       )}
                     </div>

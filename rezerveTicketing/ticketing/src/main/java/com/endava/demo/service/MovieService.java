@@ -61,6 +61,7 @@ public class MovieService {
             movieRepo.deleteById(id);
     }
 
+    //this will be deleted
     public void assignTicket(int movieId, int ticketId){
         var movie = movieRepo.findById(movieId).orElseThrow(() -> new MovieDoesNotExistsException(String.valueOf(movieId)));
         var ticket = ticketRepo.findById(ticketId).orElseThrow(() -> new TicketDoesNotExistsException(String.valueOf(ticketId)));
