@@ -1,9 +1,10 @@
 import '../CSS/CartModal.css';
 import { Modal, Button, Table } from 'react-bootstrap';
 import React, { useEffect, useState } from 'react';
-import { Cart } from "../../interfaces/Cart";
 import RestClient from '../../REST/RestClient';
-import { getMovies } from '../../api/api';
+
+// needs modification for every entity added to cart
+import { getMovies, getConcerts } from '../../api/api';
 import { TicketType } from '../MovieComponents/Movie';
 import { groupBy, flatMap } from "lodash";
 import { useCart } from './CartContext';

@@ -1,9 +1,7 @@
 package com.endava.demo.service;
 import com.endava.demo.exception.*;
-import com.endava.demo.model.Cart;
-import com.endava.demo.model.Movie;
-import com.endava.demo.model.Ticket;
-import com.endava.demo.model.User;
+import com.endava.demo.model.*;
+import com.endava.demo.repository.ConcertRepo;
 import com.endava.demo.repository.MovieRepo;
 import com.endava.demo.repository.RoleRepo;
 import com.endava.demo.repository.UserRepo;
@@ -29,6 +27,8 @@ public class UserService {
     private final RoleRepo roleRepo;
 
     private final MovieRepo movieRepo;
+
+    private final ConcertRepo concertRepo;
 
     private final PasswordEncoder passwordEncoder;
 
@@ -104,21 +104,44 @@ public class UserService {
 
         role.getUsers().add(user);
     }
+//
+//    public Cart getCartByUserId(int userId) {
+//        User user = userRepo.findById(userId)
+//                .orElseThrow(() -> new UserDoesNotExistsException(String.valueOf(userId)));
+//        Cart cart = user.getCart();
+//        // Fetch movie data for each ticket
+//        for (Ticket ticket : cart.getTickets()) {
+//            Movie movie = ticket.getMovie();
+//            if (movie != null) {
+//                Optional<Movie> movieOpt = movieRepo.findById(movie.getId());
+//                movieOpt.ifPresent(ticket::setMovie);
+//            }
+//        }
+//        return cart;
+//    }
 
     public Cart getCartByUserId(int userId) {
+
         User user = userRepo.findById(userId)
                 .orElseThrow(() -> new UserDoesNotExistsException(String.valueOf(userId)));
         Cart cart = user.getCart();
-        // Fetch movie data for each ticket
+
+        // Fetch movie and concert data for each ticket
         for (Ticket ticket : cart.getTickets()) {
             Movie movie = ticket.getMovie();
+            Concert concert = ticket.getConcert();
             if (movie != null) {
                 Optional<Movie> movieOpt = movieRepo.findById(movie.getId());
                 movieOpt.ifPresent(ticket::setMovie);
             }
+            if (concert != null) {
+                Optional<Concert> concertOpt = concertRepo.findById(concert.getId());
+                concertOpt.ifPresent(ticket::setConcert);
+            }
         }
         return cart;
     }
+
 
 
 

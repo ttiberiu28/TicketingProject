@@ -1,15 +1,10 @@
 package com.endava.demo.service;
 
+import com.endava.demo.dto.AddTicketToCartRequest;
 import com.endava.demo.dto.TicketDTO;
-import com.endava.demo.exception.MovieDoesNotExistsException;
-import com.endava.demo.exception.TicketAlreadyExistsException;
-import com.endava.demo.exception.TicketDoesNotExistsException;
-import com.endava.demo.exception.UserDoesNotExistsException;
+import com.endava.demo.exception.*;
 import com.endava.demo.model.*;
-import com.endava.demo.repository.CartRepo;
-import com.endava.demo.repository.MovieRepo;
-import com.endava.demo.repository.TicketRepo;
-import com.endava.demo.repository.UserRepo;
+import com.endava.demo.repository.*;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -25,44 +21,86 @@ import java.util.stream.Collectors;
 public class TicketService {
 
     private final TicketRepo ticketRepo;
+
     private final CartRepo cartRepo;
     private final UserRepo userRepo;
     private final MovieRepo movieRepo;
 
-    //this method will be deleted
-    public void addTicket(LocalDate date,
-                          int seatNumber, int row){
+    private final ConcertRepo concertRepo;
+//    public TicketDTO addTicketToCart(int userId, int movieId, String ticketType, LocalDate date, int row, int seatNumber) {
+//        User user = userRepo.findById(userId)
+//                .orElseThrow(() -> new UserDoesNotExistsException(String.valueOf(userId)));
+//        Movie movie = movieRepo.findById(movieId)
+//                .orElseThrow(() -> new MovieDoesNotExistsException(String.valueOf(movieId)));
+//
+//        Cart cart = user.getCart();
+//
+//        // Check if a ticket with the same type already exists in the cart
+//        Ticket existingTicket = cart.getTickets().stream()
+//                .filter(ticket -> ticket.getMovie().getId() == movieId
+//                        && ticket.getTicketType().equals(TicketType.valueOf(ticketType)))
+//                .findFirst()
+//                .orElse(null);
+//
+//        if (existingTicket != null) {
+//            // If a ticket with the same type exists, increment its quantity
+//            existingTicket.setQuantity(existingTicket.getQuantity() + 1);
+//            ticketRepo.save(existingTicket);
+//            return existingTicket.toDTO();
+//        } else {
+//            // If not, create a new ticket
+//            Ticket ticket = new Ticket();
+//            ticket.setCart(cart);
+//            ticket.setMovie(movie);
+//            ticket.setTicketType(TicketType.valueOf(ticketType));
+//            ticket.setDate(date);
+//            ticket.setRow(row);
+//            ticket.setSeatNumber(seatNumber);
+//
+//            ticketRepo.save(ticket);
+//
+//            return ticket.toDTO();
+//        }
+//    }
 
-        var t = ticketRepo.findBySeatNumberAndRow(seatNumber, row);
+    public TicketDTO addTicketToCart(AddTicketToCartRequest addTicketToCartRequest) {
+        int userId = addTicketToCartRequest.getUserId();
+        int movieId = addTicketToCartRequest.getMovieId();
+        int concertId = addTicketToCartRequest.getConcertId();
+        String ticketType = addTicketToCartRequest.getTicketType();
+        LocalDate date = addTicketToCartRequest.getLocalDate();
+        int row = addTicketToCartRequest.getRow();
+        int seatNumber = addTicketToCartRequest.getSeatNumber();
 
-        t.ifPresentOrElse(x -> {
-            throw new TicketAlreadyExistsException(x.getSeatNumber(), x.getRow());
-
-        },() -> {
-            Ticket x = new Ticket();
-
-            x.setDate(date);
-            x.setSeatNumber(seatNumber);
-            x.setRow(row);
-
-            ticketRepo.save(x);
-
-        });
-    }
-
-
-    public TicketDTO addTicketToCart(int userId, int movieId, String ticketType, LocalDate date, int row, int seatNumber) {
         User user = userRepo.findById(userId)
                 .orElseThrow(() -> new UserDoesNotExistsException(String.valueOf(userId)));
-        Movie movie = movieRepo.findById(movieId)
-                .orElseThrow(() -> new MovieDoesNotExistsException(String.valueOf(movieId)));
 
         Cart cart = user.getCart();
 
+        Ticket ticket = new Ticket();
+        ticket.setCart(cart);
+        ticket.setTicketType(TicketType.valueOf(ticketType));
+        ticket.setDate(date);
+        ticket.setRow(row);
+        ticket.setSeatNumber(seatNumber);
+
+        if (movieId != 0) {
+            Movie movie = movieRepo.findById(movieId)
+                    .orElseThrow(() -> new MovieDoesNotExistsException(String.valueOf(movieId)));
+            ticket.setMovie(movie);
+        } else if (concertId != 0) {
+            Concert concert = concertRepo.findById(concertId)
+                    .orElseThrow(() -> new ConcertDoesNotExistsException(String.valueOf(concertId)));
+            ticket.setConcert(concert);
+        } else {
+            throw new IllegalArgumentException("Both movieId and concertId cannot be zero");
+        }
+
         // Check if a ticket with the same type already exists in the cart
         Ticket existingTicket = cart.getTickets().stream()
-                .filter(ticket -> ticket.getMovie().getId() == movieId
-                        && ticket.getTicketType().equals(TicketType.valueOf(ticketType)))
+                .filter(t -> Objects.equals(t.getMovie() != null ? t.getMovie().getId() : null, movieId)
+                        && Objects.equals(t.getConcert() != null ? t.getConcert().getId() : null, concertId)
+                        && t.getTicketType().equals(TicketType.valueOf(ticketType)))
                 .findFirst()
                 .orElse(null);
 
@@ -73,19 +111,11 @@ public class TicketService {
             return existingTicket.toDTO();
         } else {
             // If not, create a new ticket
-            Ticket ticket = new Ticket();
-            ticket.setCart(cart);
-            ticket.setMovie(movie);
-            ticket.setTicketType(TicketType.valueOf(ticketType));
-            ticket.setDate(date);
-            ticket.setRow(row);
-            ticket.setSeatNumber(seatNumber);
-
             ticketRepo.save(ticket);
-
             return ticket.toDTO();
         }
     }
+
 
 
 

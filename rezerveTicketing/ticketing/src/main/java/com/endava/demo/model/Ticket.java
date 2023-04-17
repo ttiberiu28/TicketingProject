@@ -66,6 +66,24 @@ public class Ticket {
     private int quantity = 1;
 
 
+//    public TicketDTO toDTO() {
+//        TicketDTO dto = new TicketDTO();
+//        dto.setId(id);
+//        dto.setDate(date);
+//        dto.setSeatNumber(seatNumber);
+//        dto.setRow(row);
+//
+//        if (movie != null) {
+//            Movie movieDTO = new Movie();
+//            BeanUtils.copyProperties(movie, movieDTO, "tickets", "locations");
+//            dto.setMovie(movieDTO);
+//        }
+////        dto.setStandUp(standUp);//may need to change this after implementing standup
+//        dto.setTicketType(ticketType);
+//        dto.setQuantity(quantity);
+//        return dto;
+//    }
+
     public TicketDTO toDTO() {
         TicketDTO dto = new TicketDTO();
         dto.setId(id);
@@ -78,11 +96,18 @@ public class Ticket {
             BeanUtils.copyProperties(movie, movieDTO, "tickets", "locations");
             dto.setMovie(movieDTO);
         }
-        dto.setStandUp(standUp);//may need to change this after implementing standup
+
+        if (concert != null) {
+            Concert concertDTO = new Concert();
+            BeanUtils.copyProperties(concert, concertDTO, "tickets", "locations");
+            dto.setConcert(concertDTO);
+        }
+
         dto.setTicketType(ticketType);
         dto.setQuantity(quantity);
         return dto;
     }
+
 
 
 }

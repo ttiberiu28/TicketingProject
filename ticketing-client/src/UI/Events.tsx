@@ -12,7 +12,7 @@ import { Concert } from './ConcertComponents/Concert';
 
 
 
-// i need to choose an unique property for each type of event
+// I need to choose an unique property for each type of event
 function isMovie(event: Movie | StandUp | Concert): event is Movie {
   return (event as Movie).imdbRating !== undefined;
 }
@@ -25,7 +25,10 @@ function isConcert(event: Movie | StandUp | Concert): event is Concert {
   return (event as Concert).concertDescription !== undefined;
 }
 
+// add other events functions here
 
+
+// needs modification for every entity added to cart
 
 function getEventRoute(event: Movie | StandUp | Concert): string {
   if (isMovie(event)) {
@@ -41,6 +44,7 @@ function getEventRoute(event: Movie | StandUp | Concert): string {
 
 
 export default function Events() {
+
   // Define state hooks for movies and stand-up events
   const [movies, setMovies] = useState<Movie[]>([]);
   const [standUpEvents, setStandUpEvents] = useState<StandUp[]>([]);

@@ -118,10 +118,12 @@ export default class RestClient {
 
     return response.json();
   }
-
   //finish get events
 
-  static async addTicketToCart(userId: number, movieId: number, ticketType: string, date: Date, row: number, seatNumber: number): Promise<Ticket> {
+  // needs modification for every entity added to cart
+
+  static async addTicketToCart(userId: number, movieId: number | null, concertId: number | null,
+    ticketType: string, date: Date, row: number, seatNumber: number): Promise<Ticket> {
     const url = `${RestClient.baseUrl}/api/ticket/addToCart`;
     const headers = new Headers();
     headers.set("Content-Type", "application/json");
@@ -130,6 +132,7 @@ export default class RestClient {
     const body = JSON.stringify({
       userId,
       movieId,
+      concertId,
       ticketType,
       localDate: date.toISOString(),
       row: row,
@@ -151,6 +154,9 @@ export default class RestClient {
     return data as Ticket;
   }
 
+
+  // needs modification for every entity added to cart
+
   static async getCart(userId: number): Promise<Cart> {
     const url = `${RestClient.baseUrl}/api/user/getCart?userId=${userId}`;
     const headers = new Headers();
@@ -169,18 +175,48 @@ export default class RestClient {
     const cartResponse = await response.json();
 
 
-    // Map the tickets array to convert date strings to Date objects and TicketDTOs to Tickets
-    cartResponse.tickets = cartResponse.tickets.map((ticketDTO: TicketDTO) => ({
-      id: ticketDTO.id,
-      movieId: ticketDTO.movie.id,
-      movie: ticketDTO.movie,
-      date: new Date(ticketDTO.date),
-      row: ticketDTO.row,
-      seatNumber: ticketDTO.seatNumber,
-      ticketType: ticketDTO.ticketType,
-      quantity: ticketDTO.quantity,
+    // // Map the tickets array to convert date strings to Date objects and TicketDTOs to Tickets
+    // cartResponse.tickets = cartResponse.tickets.map((ticketDTO: TicketDTO) => ({
+    //   id: ticketDTO.id,
+    //   movieId: ticketDTO.movie.id,
+    //   movie: ticketDTO.movie,
+    //   date: new Date(ticketDTO.date),
+    //   row: ticketDTO.row,
+    //   seatNumber: ticketDTO.seatNumber,
+    //   ticketType: ticketDTO.ticketType,
+    //   quantity: ticketDTO.quantity,
 
-    }));
+    // }
+
+    // ));
+
+    // return cartResponse;
+
+    // Map the tickets array to convert date strings to Date objects and TicketDTOs to Tickets
+    cartResponse.tickets = cartResponse.tickets.map((ticketDTO: TicketDTO) => {
+      const ticket: Ticket = {
+        id: ticketDTO.id,
+        date: new Date(ticketDTO.date),
+        row: ticketDTO.row,
+        seatNumber: ticketDTO.seatNumber,
+        ticketType: ticketDTO.ticketType,
+        quantity: ticketDTO.quantity,
+        movieId: undefined, // Add this line
+        concertId: undefined, // Add this line
+      };
+
+      if (ticketDTO.movie) {
+        ticket.movieId = ticketDTO.movie.id;
+        ticket.movie = ticketDTO.movie;
+      }
+
+      if (ticketDTO.concert) {
+        ticket.concertId = ticketDTO.concert.id;
+        ticket.concert = ticketDTO.concert;
+      }
+
+      return ticket;
+    });
 
     return cartResponse;
   }
@@ -222,9 +258,6 @@ export default class RestClient {
     const data = await response.json();
     return data as Ticket;
   }
-
-
-
 
 }
 

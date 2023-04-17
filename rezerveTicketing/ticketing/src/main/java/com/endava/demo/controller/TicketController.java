@@ -30,31 +30,19 @@ public class TicketController {
         return ticketService.getTicketList();
     }
 
-    @PostMapping(Constant.NEW)
-    public ResponseEntity<?> addTicket(@RequestBody Ticket ticket){
-
-        try{
-            ticketService.addTicket(ticket.getDate(),
-                    ticket.getSeatNumber(),ticket.getRow());
-
-            return ResponseEntity.ok().build();
-
-        }catch(TicketAlreadyExistsException e){
-
-            return ResponseEntity
-                    .badRequest()
-                    .body("This ticket already exists: " +
-                        "seatNumber: " + ticket.getSeatNumber() +
-                            " -- row: " + ticket.getRow());
-        }
-    }
+//    @PostMapping("/addToCart")
+//    public ResponseEntity<TicketDTO> addTicketToCart(@RequestBody AddTicketToCartRequest addTicketToCartRequest) {
+//        TicketDTO ticketDTO = ticketService.addTicketToCart(addTicketToCartRequest.getUserId(), addTicketToCartRequest.getMovieId(), addTicketToCartRequest.getTicketType(),
+//                addTicketToCartRequest.getLocalDate(), addTicketToCartRequest.getRow(), addTicketToCartRequest.getSeatNumber());
+//        return ResponseEntity.ok(ticketDTO);
+//    }
 
     @PostMapping("/addToCart")
     public ResponseEntity<TicketDTO> addTicketToCart(@RequestBody AddTicketToCartRequest addTicketToCartRequest) {
-        TicketDTO ticketDTO = ticketService.addTicketToCart(addTicketToCartRequest.getUserId(), addTicketToCartRequest.getMovieId(), addTicketToCartRequest.getTicketType(),
-                addTicketToCartRequest.getLocalDate(), addTicketToCartRequest.getRow(), addTicketToCartRequest.getSeatNumber());
+        TicketDTO ticketDTO = ticketService.addTicketToCart(addTicketToCartRequest);
         return ResponseEntity.ok(ticketDTO);
     }
+
 
 
 

@@ -67,7 +67,10 @@ export const MovieAccordion: React.FC<MovieAccordionProps> = ({ ticketsGroup, ti
     const selectedSeatNumber = 2;
 
     try {
-      const ticket = await RestClient.addTicketToCart(userId, movieId, ticketType, selectedDate, selectedRow, selectedSeatNumber);
+      // needs modification for every entity added to cart(adding null)
+      const ticket = await RestClient.addTicketToCart(userId, movieId, null,
+        ticketType, selectedDate, selectedRow, selectedSeatNumber);
+
       console.log("Ticket added to cart");
 
       // Update the cart state with the new ticket

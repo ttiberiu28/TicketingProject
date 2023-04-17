@@ -77,7 +77,9 @@ public class UserController {
 
     @GetMapping("/getCart")
     public ResponseEntity<CartDTO> getCart(@RequestParam("userId") int userId) {
+
         Cart cart = userService.getCartByUserId(userId);
+
         List<Ticket> tickets = cart.getTickets();
         List<TicketDTO> ticketDTOs = tickets.stream().map(Ticket::toDTO).collect(Collectors.toList());
         CartDTO cartDTO = new CartDTO(cart.getId(), ticketDTOs); // Create a new CartDTO with the cart ID and ticketDTOs

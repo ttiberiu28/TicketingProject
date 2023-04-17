@@ -1,5 +1,6 @@
 package com.endava.demo.dto;
 
+import com.endava.demo.model.Concert;
 import com.endava.demo.model.Movie;
 import com.endava.demo.model.StandUp;
 import com.endava.demo.model.TicketType;
@@ -22,7 +23,8 @@ public class TicketDTO {
         private int seatNumber;
         private int row;
         private Movie movie;
-        private StandUp standUp;
+        private Concert concert;
+//        private StandUp standUp;
         private TicketType ticketType;
         private int quantity;
 
