@@ -173,6 +173,7 @@ export default function Events() {
                     </div>
                     <div className="card-body">
                       <h5 className="card-title">{event.name}</h5>
+                      {/* card description logic below */}
                       {isMovie(event) && (
                         <p className="card-text">
                           IMDb Rating: {event.imdbRating}

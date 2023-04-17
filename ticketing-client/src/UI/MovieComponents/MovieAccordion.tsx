@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { getMovies } from '../../api/api';
-import { Container, Row, Col, Card, Button, Collapse, Carousel } from 'react-bootstrap';
+import { Button, Collapse } from 'react-bootstrap';
 import { Movie, TicketType } from './Movie';
 import '../CSS/EventDetails.css';
 import RestClient from "../../REST/RestClient";
