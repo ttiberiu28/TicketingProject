@@ -1,5 +1,6 @@
-import { Movie, TicketType } from "../UI/MovieComponents/Movie";
+import { Movie } from "../UI/MovieComponents/Movie";
 import { Concert } from "../UI/ConcertComponents/Concert";
+import { TicketType } from "../UI/TicketType";
 
 
 export interface Ticket {

@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { getConcerts, getMovies } from '../../api/api';
+import { getConcerts } from '../../api/api';
 import { Container, Row, Col, Card, Button, Collapse, Carousel } from 'react-bootstrap';
 import { Concert } from './Concert';
 import '../CSS/EventDetails.css';
 import BannerCarousel from '../BannerCarousel';
 import 'mdb-react-ui-kit/dist/css/mdb.min.css';
-// import { MovieAccordion } from './MovieAccordion';
+import { ConcertAccordion } from './ConcertAccordion';
 
 
 const ConcertDetails: React.FC = () => {
@@ -54,7 +54,7 @@ const ConcertDetails: React.FC = () => {
                             ></iframe>
                         </div>
 
-                        {/* <MovieAccordion ticketsGroup={[]} ticketsCount={0} /> */}
+                        <ConcertAccordion ticketsGroup={[]} ticketsCount={0} />
 
                     </Col>
                 </Row>

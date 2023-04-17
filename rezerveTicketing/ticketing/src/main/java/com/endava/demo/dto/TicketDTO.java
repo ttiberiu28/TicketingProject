@@ -24,7 +24,6 @@ public class TicketDTO {
         private int row;
         private Movie movie;
         private Concert concert;
-//        private StandUp standUp;
         private TicketType ticketType;
         private int quantity;
 

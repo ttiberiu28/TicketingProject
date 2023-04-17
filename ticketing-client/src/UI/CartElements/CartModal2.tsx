@@ -1,10 +1,12 @@
 import '../CSS/CartModal.css';
 import { Modal, Button, Table } from 'react-bootstrap';
 import React, { useEffect, useState } from 'react';
-import { Cart } from "../../interfaces/Cart";
 import RestClient from '../../REST/RestClient';
-import { getMovies } from '../../api/api';
-import { TicketType } from '../MovieComponents/Movie';
+
+// needs modification for every entity added to cart
+import { getMovies, getConcerts } from '../../api/api';
+
+import { TicketType } from '../TicketType';
 import { groupBy, flatMap } from "lodash";
 import { useCart } from './CartContext';
 import { Ticket } from '../../interfaces/Ticket';
@@ -25,10 +27,16 @@ export default function CartModal() {
         const fetchedCart = await RestClient.getCart(userId);
 
         if (fetchedCart) {
-            // Fetch movie details for each ticket and add them to the ticket objects
+
             const ticketPromises = fetchedCart.tickets.map(async (ticket) => {
-                const movie = await getMovies(ticket.movieId);
-                return { ...ticket, movie: movie[0] };
+                if (ticket.movieId) {
+                    const movie = await getMovies(ticket.movieId);
+                    return { ...ticket, movie: movie[0] };
+                } else if (ticket.concertId) {
+                    const concert = await getConcerts(ticket.concertId);
+                    return { ...ticket, concert: concert[0] };
+                }
+                return ticket;
             });
 
             const updatedTickets = await Promise.all(ticketPromises);
@@ -69,9 +77,13 @@ export default function CartModal() {
     const calculateTotal = () => {
         if (!cart) return 0;
         return cart.tickets.reduce((total, ticket) => {
-            return total + (ticket.movie?.getPrice(ticket.ticketType) || 0) * ticket.quantity;
+            if (ticket.movieId) {
+                return total + (ticket.movie?.getPrice(ticket.ticketType) || 0) * ticket.quantity;
+            } else if (ticket.concertId) {
+                return total + (ticket.concert?.getPrice(ticket.ticketType) || 0) * ticket.quantity;
+            }
+            return total;
         }, 0);
-
     };
 
     const handleIncrement = async (ticketId: number) => {
@@ -112,31 +124,44 @@ export default function CartModal() {
                             </tr>
                         </thead>
                         {cart && (
+
                             <tbody>
-                                {Object.values(groupBy(cart.tickets, ticket => `${ticket.movieId}_${ticket.ticketType}`)).map((ticketsGroup: any) => {
+                                {Object.values(
+                                    groupBy(cart.tickets, (ticket) =>
+                                        `${ticket.movieId || ticket.concertId}_${ticket.ticketType}`
+                                    )
+                                ).map((ticketsGroup: any) => {
                                     if (!ticketsGroup || ticketsGroup.length === 0) {
                                         return null;
                                     }
                                     const ticket = ticketsGroup[0];
-                                    const ticketTypeLabel =
-                                        ticket.ticketType === TicketType.STANDARD_2D
-                                            ? "2D"
-                                            : ticket.ticketType === TicketType.STANDARD_3D
-                                                ? "3D"
-                                                : ticket.ticketType;
+                                    const ticketTypeLabel = ticket.ticketType
+                                        .replace("_", " ")
+                                        .toLowerCase()
+                                        .replace(/(?:^|\s)\S/g, (a: string) => a.toUpperCase());
+                                    const eventName = ticket.movie ? ticket.movie.name : ticket.concert.name;
+                                    const imageUrl = ticket.movie
+                                        ? ticket.movie.imageUrl
+                                        : ticket.concert.imageUrl;
+
                                     return (
-                                        <tr key={`${ticket.movieId}_${ticket.ticketType}`}>
+                                        <tr key={`${ticket.movieId || ticket.concertId}_${ticket.ticketType}`}>
                                             <td className="w-25">
                                                 <img
-                                                    src={ticket.movie?.imageUrl}
+                                                    src={imageUrl}
                                                     className="img-fluid img-thumbnail"
-                                                    alt="Movie"
+                                                    alt="Event"
                                                 />
                                             </td>
                                             <td>
-                                                {ticket.movie?.name} {ticketTypeLabel}
+                                                {eventName} {ticketTypeLabel}
                                             </td>
-                                            <td>{ticket.movie?.getPrice(ticket.ticketType) * ticket.quantity}</td>
+                                            <td>
+                                                {(ticket.movie
+                                                    ? ticket.movie.getPrice(ticket.ticketType)
+                                                    : ticket.concert.getPrice(ticket.ticketType)) *
+                                                    ticket.quantity}
+                                            </td>
                                             <td className="qty">
                                                 <Button
                                                     variant="outline-primary"
@@ -148,7 +173,10 @@ export default function CartModal() {
                                                 <input
                                                     type="text"
                                                     className="form-control"
-                                                    value={ticketsGroup.reduce((total: number, t: Ticket) => total + t.quantity, 0)}
+                                                    value={ticketsGroup.reduce(
+                                                        (total: number, t: Ticket) => total + t.quantity,
+                                                        0
+                                                    )}
                                                     readOnly
                                                 />
 

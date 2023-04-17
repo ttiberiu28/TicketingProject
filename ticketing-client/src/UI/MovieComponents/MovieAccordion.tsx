@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { getMovies } from '../../api/api';
 import { Button, Collapse } from 'react-bootstrap';
-import { Movie, TicketType } from './Movie';
+import { Movie } from './Movie';
 import '../CSS/EventDetails.css';
 import RestClient from "../../REST/RestClient";
 import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 import CartModal2 from '../CartElements/CartModal2';
+import { TicketType } from "../TicketType";
 
 
 interface MovieAccordionProps {
@@ -63,6 +64,8 @@ export const MovieAccordion: React.FC<MovieAccordionProps> = ({ ticketsGroup, ti
     const userId = parseInt(userIdString);
     const movieId = movie.id;
     const selectedDate = new Date("2023-04-10");
+
+    // TODO: get these values from the UI using a select seat component
     const selectedRow = 1;
     const selectedSeatNumber = 2;
 

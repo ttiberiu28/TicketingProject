@@ -27,41 +27,7 @@ public class TicketService {
     private final MovieRepo movieRepo;
 
     private final ConcertRepo concertRepo;
-//    public TicketDTO addTicketToCart(int userId, int movieId, String ticketType, LocalDate date, int row, int seatNumber) {
-//        User user = userRepo.findById(userId)
-//                .orElseThrow(() -> new UserDoesNotExistsException(String.valueOf(userId)));
-//        Movie movie = movieRepo.findById(movieId)
-//                .orElseThrow(() -> new MovieDoesNotExistsException(String.valueOf(movieId)));
-//
-//        Cart cart = user.getCart();
-//
-//        // Check if a ticket with the same type already exists in the cart
-//        Ticket existingTicket = cart.getTickets().stream()
-//                .filter(ticket -> ticket.getMovie().getId() == movieId
-//                        && ticket.getTicketType().equals(TicketType.valueOf(ticketType)))
-//                .findFirst()
-//                .orElse(null);
-//
-//        if (existingTicket != null) {
-//            // If a ticket with the same type exists, increment its quantity
-//            existingTicket.setQuantity(existingTicket.getQuantity() + 1);
-//            ticketRepo.save(existingTicket);
-//            return existingTicket.toDTO();
-//        } else {
-//            // If not, create a new ticket
-//            Ticket ticket = new Ticket();
-//            ticket.setCart(cart);
-//            ticket.setMovie(movie);
-//            ticket.setTicketType(TicketType.valueOf(ticketType));
-//            ticket.setDate(date);
-//            ticket.setRow(row);
-//            ticket.setSeatNumber(seatNumber);
-//
-//            ticketRepo.save(ticket);
-//
-//            return ticket.toDTO();
-//        }
-//    }
+
 
     public TicketDTO addTicketToCart(AddTicketToCartRequest addTicketToCartRequest) {
         int userId = addTicketToCartRequest.getUserId();
@@ -115,9 +81,6 @@ public class TicketService {
             return ticket.toDTO();
         }
     }
-
-
-
 
 
     public List<Ticket> getTicketList(){

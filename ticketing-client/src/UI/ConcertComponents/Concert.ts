@@ -1,12 +1,6 @@
 import { MyLocation } from "../../interfaces/MyLocation";
-import { TicketType } from "../MovieComponents/Movie";
+import { TicketType } from "../TicketType";
 
-// export enum TicketTypeConcert {
-
-//     ONE_DAY_PASS = 'ONE_DAY_PASS',
-//     TWO_DAY_PASS = 'TWO_DAY_PASS',
-//     THREE_DAY_PASS = 'THREE_DAY_PASS',
-// }
 
 export class Concert {
 
@@ -39,10 +33,10 @@ export class Concert {
 
         switch (ticketType) {
             case TicketType.TWO_DAY_PASS:
-                price = this.price * 2 - (0.1 * this.price * 2);
+                price = this.price * 2 - (0.05 * this.price * 2);
                 break;
             case TicketType.THREE_DAY_PASS:
-                price = this.price * 3 - (0.2 * this.price * 3);
+                price = this.price * 3 - (0.1 * this.price * 3);
                 break;
             default:
                 price = this.price;

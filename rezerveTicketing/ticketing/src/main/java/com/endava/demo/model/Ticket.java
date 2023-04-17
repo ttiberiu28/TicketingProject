@@ -65,25 +65,6 @@ public class Ticket {
     @Column(name = "quantity")
     private int quantity = 1;
 
-
-//    public TicketDTO toDTO() {
-//        TicketDTO dto = new TicketDTO();
-//        dto.setId(id);
-//        dto.setDate(date);
-//        dto.setSeatNumber(seatNumber);
-//        dto.setRow(row);
-//
-//        if (movie != null) {
-//            Movie movieDTO = new Movie();
-//            BeanUtils.copyProperties(movie, movieDTO, "tickets", "locations");
-//            dto.setMovie(movieDTO);
-//        }
-////        dto.setStandUp(standUp);//may need to change this after implementing standup
-//        dto.setTicketType(ticketType);
-//        dto.setQuantity(quantity);
-//        return dto;
-//    }
-
     public TicketDTO toDTO() {
         TicketDTO dto = new TicketDTO();
         dto.setId(id);

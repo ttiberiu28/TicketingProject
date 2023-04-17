@@ -174,24 +174,6 @@ export default class RestClient {
 
     const cartResponse = await response.json();
 
-
-    // // Map the tickets array to convert date strings to Date objects and TicketDTOs to Tickets
-    // cartResponse.tickets = cartResponse.tickets.map((ticketDTO: TicketDTO) => ({
-    //   id: ticketDTO.id,
-    //   movieId: ticketDTO.movie.id,
-    //   movie: ticketDTO.movie,
-    //   date: new Date(ticketDTO.date),
-    //   row: ticketDTO.row,
-    //   seatNumber: ticketDTO.seatNumber,
-    //   ticketType: ticketDTO.ticketType,
-    //   quantity: ticketDTO.quantity,
-
-    // }
-
-    // ));
-
-    // return cartResponse;
-
     // Map the tickets array to convert date strings to Date objects and TicketDTOs to Tickets
     cartResponse.tickets = cartResponse.tickets.map((ticketDTO: TicketDTO) => {
       const ticket: Ticket = {
