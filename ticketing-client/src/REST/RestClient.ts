@@ -1,7 +1,7 @@
 import { Movie } from "../UI/MovieComponents/Movie";
 import { Cart } from "../interfaces/Cart";
 import { Ticket } from "../interfaces/Ticket";
-import { TicketDTO } from "../interfaces/TicketDTO";
+import { TicketDTO } from "../DTOs/TicketDTO";
 
 export default class RestClient {
   static baseUrl = "http://localhost:8080";
