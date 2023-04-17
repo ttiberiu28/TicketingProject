@@ -43,7 +43,7 @@ export default function CartModal() {
             console.log("Updated tickets:", updatedTickets);
 
             const groupedTickets = groupBy(updatedTickets, (ticket) => {
-                return `${ticket.movieId}_${ticket.ticketType}`;
+                return `${ticket.movieId || ticket.concertId}_${ticket.ticketType}`;
             });
             console.log("Grouped tickets:", groupedTickets);
 
