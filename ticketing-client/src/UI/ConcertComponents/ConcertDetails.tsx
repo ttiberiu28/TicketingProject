@@ -28,39 +28,42 @@ const ConcertDetails: React.FC = () => {
 
     return (
         <div className="">
+            <div className="background-div">
 
-            <BannerCarousel />
 
-            <Container className="content-container">
+                <BannerCarousel />
 
-                <Row>
-                    <Col xs={12} md={4}>
-                        <Card className="movie-poster">
-                            <Card.Img
-                                variant="top" src={concert.imageUrl}
-                                style={{ borderRadius: "2rem 10 1 2rem", objectFit: "cover", height: "100%" }}
-                            />
-                        </Card>
-                    </Col>
+                <Container className="content-container">
 
-                    <Col className="body lead black-text overflow-auto" xs={12} md={8}>
+                    <Row>
+                        <Col xs={12} md={4}>
+                            <Card className="movie-poster">
+                                <Card.Img
+                                    variant="top" src={concert.imageUrl}
+                                    style={{ borderRadius: "2rem 10 1 2rem", objectFit: "cover", height: "100%" }}
+                                />
+                            </Card>
+                        </Col>
 
-                        <h1>{concert.name}</h1>
-                        <br></br>
+                        <Col className="body lead black-text overflow-auto" xs={12} md={8}>
 
-                        <div className="ratio ratio-16x9">
-                            <iframe
-                                src={embedUrl}
-                                title="YouTube video"
-                                allowFullScreen
-                            ></iframe>
-                        </div>
+                            <h1>{concert.name}</h1>
+                            <br></br>
 
-                        <ConcertAccordion ticketsGroup={[]} ticketsCount={0} />
+                            <div className="ratio ratio-16x9">
+                                <iframe
+                                    src={embedUrl}
+                                    title="YouTube video"
+                                    allowFullScreen
+                                ></iframe>
+                            </div>
 
-                    </Col>
-                </Row>
-            </Container>
+                            <ConcertAccordion ticketsGroup={[]} ticketsCount={0} />
+
+                        </Col>
+                    </Row>
+                </Container>
+            </div>
 
             <EventsCarousel />
         </div>

@@ -70,16 +70,17 @@ const CardComponent: React.FC<CardComponentProps> = ({ event }) => {
                 <Link to={`/${route}/${event.id}`}>
 
                     <Card.Img variant="top" src={event.imageUrl} alt={event.name} />
+
+                    <Card.Body>
+                        <Card.Title>{event.name}</Card.Title>
+                        <Card.Text>
+                            {isMovie(event) && `IMDb Rating: ${event.imdbRating}`}
+                            {isStandUp(event) && event.description}
+                            {isConcert(event) && event.artistName}
+                        </Card.Text>
+                    </Card.Body>
                 </Link>
 
-                <Card.Body>
-                    <Card.Title>{event.name}</Card.Title>
-                    <Card.Text>
-                        {isMovie(event) && `IMDb Rating: ${event.imdbRating}`}
-                        {isStandUp(event) && event.description}
-                        {isConcert(event) && event.artistName}
-                    </Card.Text>
-                </Card.Body>
 
             </Card>
 

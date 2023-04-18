@@ -9,7 +9,7 @@ import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 import BannerCarousel from '../BannerCarousel';
 import CartModal2 from '../CartElements/CartModal2';
 import { Concert } from '../ConcertComponents/Concert';
-import styles from "../CSS/CardComponent.module.css";
+import "../CSS/EventDetails.css";
 
 
 
@@ -111,7 +111,7 @@ export default function Events() {
   const totalPages = Math.ceil(filteredEvents.length / eventsPerPage);
 
   return (
-    <div className="">
+    <div className="background-div">
 
       {/* The carousel on the top of the page with sliding images */}
       <BannerCarousel />
