@@ -5,7 +5,7 @@ import Home from './UI/Home';
 import About from './UI/About';
 import MyLocations from './UI/MyLocations';
 import NavBar from './UI/Navbar';
-import Events from './UI/Events';
+import Events from './UI/EventsElements/Events';
 import MovieDetails from './UI/MovieComponents/MovieDetails';
 import StandUpDetails from './UI/StandupComponents/StandUpDetails';
 import ConcertDetails from './UI/ConcertComponents/ConcertDetails';

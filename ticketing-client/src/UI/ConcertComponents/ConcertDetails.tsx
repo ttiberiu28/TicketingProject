@@ -7,6 +7,8 @@ import '../CSS/EventDetails.css';
 import BannerCarousel from '../BannerCarousel';
 import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 import { ConcertAccordion } from './ConcertAccordion';
+import EventsCarousel from '../EventsElements/EventsCarousel';
+
 
 
 const ConcertDetails: React.FC = () => {
@@ -59,6 +61,8 @@ const ConcertDetails: React.FC = () => {
                     </Col>
                 </Row>
             </Container>
+
+            <EventsCarousel />
         </div>
     );
 };

@@ -7,6 +7,8 @@ import '../CSS/EventDetails.css';
 import BannerCarousel from '../BannerCarousel';
 import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 import { MovieAccordion } from './MovieAccordion';
+import EventsCarousel from '../EventsElements/EventsCarousel';
+import "../CSS/CardComponent.module.css"
 
 
 const MovieDetails: React.FC = () => {
@@ -43,7 +45,7 @@ const MovieDetails: React.FC = () => {
 
           <Col className="body lead black-text overflow-auto" xs={12} md={8}>
 
-            <h1>{movie.name}</h1>
+            <h1 className='myh1'>{movie.name}</h1>
             <br></br>
 
             <div className="ratio ratio-16x9">
@@ -59,6 +61,9 @@ const MovieDetails: React.FC = () => {
           </Col>
         </Row>
       </Container>
+
+      <EventsCarousel />
+
     </div>
   );
 };

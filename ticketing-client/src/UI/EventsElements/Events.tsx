@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { Navbar, NavDropdown, Form, FormControl, Button, Container, Row, Col } from 'react-bootstrap';
-import { getConcerts, getMovies, getStandUpEvents } from '../api/api';
+import { getConcerts, getMovies, getStandUpEvents } from '../../api/api';
 import { Link } from 'react-router-dom';
-import { Movie } from './MovieComponents/Movie';
-import { StandUp } from './StandupComponents/StandUp';
-import './CSS/Event.css';
+import { Movie } from '../MovieComponents/Movie';
+import { StandUp } from '../StandupComponents/StandUp';
+import '../CSS/Event.css';
 import 'mdb-react-ui-kit/dist/css/mdb.min.css';
-import BannerCarousel from './BannerCarousel';
-import CartModal2 from './CartElements/CartModal2';
-import { Concert } from './ConcertComponents/Concert';
+import BannerCarousel from '../BannerCarousel';
+import CartModal2 from '../CartElements/CartModal2';
+import { Concert } from '../ConcertComponents/Concert';
+import styles from "../CSS/CardComponent.module.css";
+
 
 
 
