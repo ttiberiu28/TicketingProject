@@ -29,8 +29,8 @@ export default function NavBar() {
 
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <Link className="navbar-brand mt-2 mt-lg-0" to="/">
-            <img src={"https://images.unsplash.com/photo-1635070636690-d887c1a77e7b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=871&q=80"}
-              alt="home" width="80" height="40" className="d-inline-block align-text-top me-2" />
+            <img src={"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCLxwEe2Gm7vhJXjbnfm7v9CdRUno7R5xB7w&usqp=CAU"}
+              alt="home" width="80" height="40" className="d-inline-block align-text-top me-2 round-img" />
           </Link>
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">

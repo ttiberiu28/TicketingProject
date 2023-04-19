@@ -40,12 +40,12 @@ export default function CartModal() {
       });
 
       const updatedTickets = await Promise.all(ticketPromises);
-      console.log("Updated tickets:", updatedTickets);
+      // console.log("Updated tickets:", updatedTickets);
 
       const groupedTickets = groupBy(updatedTickets, (ticket) => {
         return `${ticket.movieId || ticket.concertId}_${ticket.ticketType}`;
       });
-      console.log("Grouped tickets:", groupedTickets);
+      // console.log("Grouped tickets:", groupedTickets);
 
       setCart({ ...fetchedCart, tickets: flatMap(groupedTickets, (group) => group) });
     } else {
@@ -66,7 +66,7 @@ export default function CartModal() {
     setShow(true);
 
     // Add the following log statements to help debug
-    console.log("Cart details:", cart);
+    // console.log("Cart details:", cart);
     if (cart) {
       cart.tickets.forEach((ticket) => {
         console.log("Movie details for ticket:", ticket.movie);
@@ -98,7 +98,7 @@ export default function CartModal() {
     fetchCart();
   };
 
-  console.log("Cart:", cart);
+  // console.log("Cart:", cart);
 
   return (
     <>

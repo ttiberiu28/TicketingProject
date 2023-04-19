@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { getMovies } from '../../api/api';
-import { Button, Collapse } from 'react-bootstrap';
+import { Button, Collapse, Modal } from 'react-bootstrap';
 import { Movie } from './Movie';
 import '../CSS/EventDetails.css';
 import RestClient from "../../REST/RestClient";
 import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 import CartModal2 from '../CartElements/CartModal2';
 import { TicketType } from "../TicketType";
+import "../CSS/SeatPicker.css";
+import { CustomSeatPicker } from "../SeatPicker";
 
 
 interface MovieAccordionProps {
@@ -20,6 +22,10 @@ export const MovieAccordion: React.FC<MovieAccordionProps> = ({ ticketsGroup, ti
   const { index = '0' } = useParams<{ index?: string }>();
   const [movie, setMovie] = useState<Movie | null>(null);
   const [showTickets, setShowTickets] = useState(false);
+  const [selectedSeat, setSelectedSeat] = useState<{ row: number; seat: number } | null>(null);
+  const [showModal, setShowModal] = useState(false);
+  const [selectedTicketType, setSelectedTicketType] = useState<TicketType | null>(null);
+
 
 
   useEffect(() => {
@@ -53,6 +59,25 @@ export const MovieAccordion: React.FC<MovieAccordionProps> = ({ ticketsGroup, ti
     setShowTickets(!showTickets);
   };
 
+  const handleModalVisibility = () => {
+    setShowModal(!showModal);
+  };
+
+  const handleChipClose = () => {
+    setSelectedSeat(null);
+  };
+
+  const handleOpenModalWithTicketType = (ticketType: TicketType) => {
+    setSelectedTicketType(ticketType);
+    handleModalVisibility();
+  };
+
+
+  const handleSeatSelected = (row: number, seat: number) => {
+    setSelectedSeat({ row, seat });
+  };
+
+  // !!!Important method to add ticket to cart and update the cart state
   const handleAddToCartClick = async (ticketType: TicketType) => {
     const userIdString = localStorage.getItem("userId");
 
@@ -61,13 +86,18 @@ export const MovieAccordion: React.FC<MovieAccordionProps> = ({ ticketsGroup, ti
       return;
     }
 
+    if (!selectedSeat) {
+      console.error("No seat selected");
+      alert("No seats selected");
+      return;
+    }
+
     const userId = parseInt(userIdString);
     const movieId = movie.id;
     const selectedDate = new Date("2023-04-10");
 
-    // TODO: get these values from the UI using a select seat component
-    const selectedRow = 1;
-    const selectedSeatNumber = 2;
+
+    const { row: selectedRow, seat: selectedSeatNumber } = selectedSeat;
 
     try {
       // needs modification for every entity added to cart(adding null)
@@ -103,8 +133,6 @@ export const MovieAccordion: React.FC<MovieAccordionProps> = ({ ticketsGroup, ti
     window.location.reload();
   };
 
-
-
   return (
     <div className="accordion accordion-borderless" id="accordionFlushExampleX">
       <div className="accordion-item">
@@ -120,10 +148,9 @@ export const MovieAccordion: React.FC<MovieAccordionProps> = ({ ticketsGroup, ti
           aria-labelledby="flush-headingOneX" >
           <div className="accordion-body">
 
-            <Button variant="btn btn-success" onClick={handleTicketClick} style={{ width: '300px' }}>
+            <Button variant="btn btn-success" onClick={handleTicketClick} style={{ width: '400px' }}>
               Buy tickets
             </Button>
-
 
             <CartModal2 />
 
@@ -131,29 +158,59 @@ export const MovieAccordion: React.FC<MovieAccordionProps> = ({ ticketsGroup, ti
             <Collapse in={showTickets}>
 
               <div className="ticket-section">
+
+                <Modal show={showModal} onHide={handleModalVisibility}>
+                  <Modal.Header closeButton>
+                    <Modal.Title>Select a seat</Modal.Title>
+                  </Modal.Header>
+                  <Modal.Body>
+                    <CustomSeatPicker
+                      rows={10}
+                      seatsPerRow={10}
+                      onSeatSelected={handleSeatSelected}
+                    />
+                    {selectedTicketType && (
+                      <button
+                        className="btn btn-dark fas fa-shopping-cart text-white"
+                        onClick={() => handleAddToCartClick(selectedTicketType)}
+                        style={{ width: "100%" }}
+                      >
+                        Add to cart
+                      </button>
+                    )}
+
+                    {selectedSeat && (
+                      <div className="chip chip-outline btn-outline-dark" data-mdb-ripple-color="dark">
+                        Row: {selectedSeat.row}, Seat: {selectedSeat.seat}
+                        <i className="close fas fa-times" onClick={handleChipClose}></i>
+                      </div>
+                    )}
+                  </Modal.Body>
+                </Modal>
                 <ul>
                   <li>
                     <button type="button" className="btn btn-secondary btn-dark btn-rounded fas fa-shopping-cart text-white"
-                      onClick={() => handleAddToCartClick(TicketType.STANDARD_2D)}><i>{movie.getPrice(TicketType.STANDARD_2D)} RON</i><b> 2D</b>
+                      onClick={() => handleOpenModalWithTicketType(TicketType.STANDARD_2D)}><i>{movie.getPrice(TicketType.STANDARD_2D)} RON</i><b> 2D</b>
                     </button>
                   </li>
                   <li>
                     <button type="button" className="btn btn-secondary btn-dark btn-rounded fas fa-shopping-cart text-white"
-                      onClick={() => handleAddToCartClick(TicketType.STANDARD_3D)}><i>{movie.getPrice(TicketType.STANDARD_3D)} RON</i><b> 3D</b>
+                      onClick={() => handleOpenModalWithTicketType(TicketType.STANDARD_3D)}><i>{movie.getPrice(TicketType.STANDARD_3D)} RON</i><b> 3D</b>
                     </button>
                   </li>
                   <li>
                     <button type="button" className="btn btn-secondary btn-dark btn-rounded fas fa-shopping-cart text-white"
-                      onClick={() => handleAddToCartClick(TicketType.VIP_2D)}><i>{movie.getPrice(TicketType.VIP_2D)} RON</i><b> VIP 2D</b>
+                      onClick={() => handleOpenModalWithTicketType(TicketType.VIP_2D)}><i>{movie.getPrice(TicketType.VIP_2D)} RON</i><b> VIP 2D</b>
                     </button>
                   </li>
                   <li>
                     <button type="button" className="btn btn-secondary btn-dark btn-rounded fas fa-shopping-cart text-white"
-                      onClick={() => handleAddToCartClick(TicketType.VIP_3D)}><i>{movie.getPrice(TicketType.VIP_3D)} RON</i><b> VIP 3D</b>
+                      onClick={() => handleOpenModalWithTicketType(TicketType.VIP_3D)}><i>{movie.getPrice(TicketType.VIP_3D)} RON</i><b> VIP 3D</b>
                     </button>
                   </li>
                 </ul>
               </div>
+
 
             </Collapse>
 

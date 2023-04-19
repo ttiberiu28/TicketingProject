@@ -40,12 +40,12 @@ export default function CartModal() {
             });
 
             const updatedTickets = await Promise.all(ticketPromises);
-            console.log("Updated tickets:", updatedTickets);
+            // console.log("Updated tickets:", updatedTickets);
 
             const groupedTickets = groupBy(updatedTickets, (ticket) => {
                 return `${ticket.movieId || ticket.concertId}_${ticket.ticketType}`;
             });
-            console.log("Grouped tickets:", groupedTickets);
+            // console.log("Grouped tickets:", groupedTickets);
 
             setCart({ ...fetchedCart, tickets: flatMap(groupedTickets, (group) => group) });
         } else {
@@ -66,12 +66,12 @@ export default function CartModal() {
         setShow(true);
 
         // Add the following log statements to help debug
-        console.log("Cart details:", cart);
-        if (cart) {
-            cart.tickets.forEach((ticket) => {
-                console.log("Movie details for ticket:", ticket.movie);
-            });
-        }
+        // console.log("Cart details:", cart);
+        // if (cart) {
+        //     cart.tickets.forEach((ticket) => {
+        //         console.log("Movie details for ticket:", ticket.movie);
+        //     });
+        // }
     };
 
     const calculateTotal = () => {
@@ -87,22 +87,22 @@ export default function CartModal() {
     };
 
     const handleIncrement = async (ticketId: number) => {
-        console.log("Incrementing ticketId:", ticketId);
+        // console.log("Incrementing ticketId:", ticketId);
         await RestClient.incrementTicketQuantity(ticketId);
         fetchCart();
     };
 
     const handleDecrement = async (ticketId: number) => {
-        console.log("Decrementing ticketId:", ticketId);
+        // console.log("Decrementing ticketId:", ticketId);
         await RestClient.decrementTicketQuantity(ticketId);
         fetchCart();
     };
 
-    console.log("Cart:", cart);
+    // console.log("Cart:", cart);
 
     return (
         <>
-            <Button variant="btn btn-secondary fas fa-shopping-cart " onClick={handleShow} style={{ width: '300px' }}>
+            <Button variant="btn btn-secondary fas fa-shopping-cart " onClick={handleShow} style={{ width: '400px' }}>
                 View Cart
             </Button>
 
