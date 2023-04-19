@@ -46,3 +46,42 @@
     background-position: center;
     background-repeat: no-repeat;
   }
+
+
+  .pagination-circle .page-link {
+    background-color: white;
+    color: rgb(0, 0, 0);
+    font-weight: bold;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s, color 0.3s;
+  }
+
+  .pagination-circle .page-link:hover {
+    background-color: rgb(92, 138, 246);
+    color: white;
+  }
+
+  .pagination-circle .page-item.disabled .page-link,
+  .pagination-circle .page-item.active .page-link {
+    cursor: not-allowed;
+    background-color: white;
+    color: rgb(245, 46, 46);
+    font-weight: bold;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .pagination-circle .page-item.disabled .page-link:hover,
+  .pagination-circle .page-item.active .page-link:hover {
+    background-color: rgb(246, 92, 92);
+    color: black;
+  }

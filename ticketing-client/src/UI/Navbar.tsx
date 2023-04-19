@@ -33,15 +33,25 @@ export default function NavBar() {
               alt="home" width="80" height="40" className="d-inline-block align-text-top me-2 round-img" />
           </Link>
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-            <li className="nav-item">
-              <Link className="nav-link" to="/about">About</Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/locations">Locations</Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/events">Events</Link>
-            </li>
+
+            <Link className="nav-link" to="/about">
+              <button type="button" className="btn btn-outline-danger btn-secondary btn-rounded">
+                <i><b>About</b></i>
+              </button>
+            </Link>
+
+            <Link className="nav-link" to="/locations">
+              <button type="button" className="btn btn-outline-danger btn-secondary btn-rounded">
+                <i><b>Locations</b></i>
+              </button>
+            </Link>
+
+            <Link className="nav-link" to="/events">
+              <button type="button" className="btn btn-outline-danger btn-secondary btn-rounded">
+                <i><b>Events</b></i>
+              </button>
+            </Link>
+
           </ul>
         </div>
 
@@ -54,13 +64,13 @@ export default function NavBar() {
 
           {isLoggedIn && (
             <button className="btn btn-warning btn-rounded" onClick={logout}>
-              Logout
+              <i><b>Logout</b></i>
             </button>
           )}
 
           {username && (
             <div className="navbar-text me-3 ml-3">
-              Logged in as: <strong>{username}</strong>
+              <i>Logged in as</i>: <strong>{username}</strong>
             </div>
           )}
 

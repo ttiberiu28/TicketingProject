@@ -210,7 +210,7 @@ export default function Events() {
                   }`}
                 onClick={() => handlePageChange(currentPage - 1)}
               >
-                <a className="page-link">Previous</a>
+                <a className="page-link">Prev</a>
               </li>
               {Array.from({ length: totalPages }, (_, i) => (
                 <li
