@@ -30,12 +30,6 @@ public class TicketController {
         return ticketService.getTicketList();
     }
 
-//    @PostMapping("/addToCart")
-//    public ResponseEntity<TicketDTO> addTicketToCart(@RequestBody AddTicketToCartRequest addTicketToCartRequest) {
-//        TicketDTO ticketDTO = ticketService.addTicketToCart(addTicketToCartRequest.getUserId(), addTicketToCartRequest.getMovieId(), addTicketToCartRequest.getTicketType(),
-//                addTicketToCartRequest.getLocalDate(), addTicketToCartRequest.getRow(), addTicketToCartRequest.getSeatNumber());
-//        return ResponseEntity.ok(ticketDTO);
-//    }
 
     @PostMapping("/addToCart")
     public ResponseEntity<TicketDTO> addTicketToCart(@RequestBody AddTicketToCartRequest addTicketToCartRequest) {

@@ -241,5 +241,20 @@ export default class RestClient {
     return data as Ticket;
   }
 
+  // Add this method to RestClient class
+  static async deleteTicketById(ticketId: number): Promise<void> {
+    const url = `${RestClient.baseUrl}/api/ticket/deletion/${ticketId}`;
+
+    const headers = new Headers();
+    headers.set("Content-Type", "application/json");
+
+    const response = await fetch(url, { method: "DELETE", headers: headers });
+
+    if (!response.ok) {
+      throw new Error("Ticket deletion failed");
+    }
+  }
+
+
 }
 

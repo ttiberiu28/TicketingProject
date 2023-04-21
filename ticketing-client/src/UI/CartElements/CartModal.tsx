@@ -98,6 +98,13 @@ export default function CartModal() {
     fetchCart();
   };
 
+  const handleDelete = async (ticketId: number) => {
+    console.log("Deleting ticketId:", ticketId);
+    await RestClient.deleteTicketById(ticketId);
+    fetchCart();
+  };
+
+
   // console.log("Cart:", cart);
 
   return (
@@ -202,7 +209,7 @@ export default function CartModal() {
                       <td>{ticket.row}</td>
                       <td>{ticket.seatNumber}</td>
                       <td>
-                        <Button variant="danger" size="sm">
+                        <Button variant="danger" size="sm" onClick={() => handleDelete(ticket.id)}>
                           <i className="fa fa-times"></i>
                         </Button>
                       </td>
