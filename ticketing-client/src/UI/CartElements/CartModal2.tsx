@@ -268,7 +268,7 @@ export default function CartModal() {
                     <div className="d-flex justify-content-between align-items-center">
 
                         <h5 className='text-right total-text'>
-                            Total: <span className="price text-success">{calculateTotal()}</span>
+                            Total(RON): <span className="price text-success">{calculateTotal()} </span>
                         </h5>
 
                         <div className="d-flex align-items-center">
