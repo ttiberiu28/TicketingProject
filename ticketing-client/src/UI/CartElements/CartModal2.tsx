@@ -65,13 +65,6 @@ export default function CartModal() {
 
         setShow(true);
 
-        // Add the following log statements to help debug
-        // console.log("Cart details:", cart);
-        // if (cart) {
-        //     cart.tickets.forEach((ticket) => {
-        //         console.log("Movie details for ticket:", ticket.movie);
-        //     });
-        // }
     };
 
     const calculateTotal = () => {
@@ -95,6 +88,13 @@ export default function CartModal() {
     const handleDecrement = async (ticketId: number) => {
         // console.log("Decrementing ticketId:", ticketId);
         await RestClient.decrementTicketQuantity(ticketId);
+        fetchCart();
+    };
+
+
+    const handleDelete = async (ticketId: number) => {
+        console.log("Deleting ticketId:", ticketId);
+        await RestClient.deleteTicketById(ticketId);
         fetchCart();
     };
 
@@ -192,7 +192,7 @@ export default function CartModal() {
                                             <td>{ticket.row}</td>
                                             <td>{ticket.seatNumber}</td>
                                             <td>
-                                                <Button variant="danger" size="sm">
+                                                <Button variant="danger" size="sm" onClick={() => handleDelete(ticket.id)}>
                                                     <i className="fa fa-times"></i>
                                                 </Button>
                                             </td>
