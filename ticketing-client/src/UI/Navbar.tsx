@@ -13,7 +13,7 @@ export default function NavBar() {
   const navigate = useNavigate();
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top custom-navbar">
       <div className="container-fluid">
         <button
           className="navbar-toggler"
@@ -52,6 +52,33 @@ export default function NavBar() {
               </button>
             </Link>
 
+            <Link className="nav-link" to={{
+              pathname: '/events',
+              search: '?filter=concerts',
+            }}>
+              <button type="button" className="btn btn-outline-danger btn-secondary btn-rounded">
+                <i><b>Concerts</b></i>
+              </button>
+            </Link>
+
+            <Link className="nav-link" to={{
+              pathname: '/events',
+              search: '?filter=movies',
+            }}>
+              <button type="button" className="btn btn-outline-danger btn-secondary btn-rounded">
+                <i><b>Movies</b></i>
+              </button>
+            </Link>
+
+            <Link className="nav-link" to={{
+              pathname: '/events',
+              search: '?filter=standUps',
+            }}>
+              <button type="button" className="btn btn-outline-danger btn-secondary btn-rounded">
+                <i><b>Standups</b></i>
+              </button>
+            </Link>
+
           </ul>
         </div>
 
@@ -78,6 +105,6 @@ export default function NavBar() {
 
         </div>
       </div>
-    </nav>
+    </nav >
   );
 }

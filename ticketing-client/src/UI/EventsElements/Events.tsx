@@ -10,7 +10,8 @@ import BannerCarousel from '../BannerCarousel';
 import CartModal2 from '../CartElements/CartModal2';
 import { Concert } from '../ConcertComponents/Concert';
 import "../CSS/EventDetails.css";
-
+import { useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -47,16 +48,27 @@ function getEventRoute(event: Movie | StandUp | Concert): string {
 
 export default function Events() {
 
+
+  // these are used to get the filter from the url and navigate to the url
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const filterFromUrl = queryParams.get('filter');
+  const navigate = useNavigate();
+
+
   // Define state hooks for movies and stand-up events
   const [movies, setMovies] = useState<Movie[]>([]);
   const [standUpEvents, setStandUpEvents] = useState<StandUp[]>([]);
   const [concerts, setConcerts] = useState<Concert[]>([]);
 
   const [filteredEvents, setFilteredEvents] = useState<any[]>([]);
-  const [eventType, setEventType] = useState('');
+  // const [eventType, setEventType] = useState('');
+  const [eventType, setEventType] = useState(filterFromUrl || '');
   const [searchValue, setSearchValue] = useState('');
 
   const [currentPage, setCurrentPage] = useState(1);
+
+
 
 
   // 2 of each kind
@@ -126,7 +138,13 @@ export default function Events() {
             onSelect={(selectedKey: React.SetStateAction<string>) => {
               setEventType(selectedKey);
               setCurrentPage(1);
+              if (selectedKey === 'all') {
+                navigate('/events');
+              } else {
+                navigate(`/events?filter=${selectedKey}`);
+              }
             }}
+
           >
             <NavDropdown.Item eventKey="all">All Events</NavDropdown.Item>
             <NavDropdown.Item eventKey="movies">Movies</NavDropdown.Item>
