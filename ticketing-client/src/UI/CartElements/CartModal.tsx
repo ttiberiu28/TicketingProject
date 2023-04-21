@@ -86,22 +86,74 @@ export default function CartModal() {
     }, 0);
   };
 
+  const updateTicketQuantity = (ticketId: number, quantity: any) => {
+    setCart((prevCart) => {
+      if (!prevCart) {
+        return null;
+      }
+
+      const updatedTickets = prevCart.tickets.map((ticket) => {
+        if (ticket.id === ticketId) {
+          return { ...ticket, quantity };
+        }
+        return ticket;
+      });
+
+      return { ...prevCart, tickets: updatedTickets, id: prevCart.id };
+    });
+  };
+
+
+  // const handleIncrement = async (ticketId: number) => {
+  //   console.log("Incrementing ticketId:", ticketId);
+  //   await RestClient.incrementTicketQuantity(ticketId);
+  //   fetchCart();
+  // };
+
+  // const handleDecrement = async (ticketId: number) => {
+  //   console.log("Decrementing ticketId:", ticketId);
+  //   await RestClient.decrementTicketQuantity(ticketId);
+  //   fetchCart();
+  // };
+
+  // const handleDelete = async (ticketId: number) => {
+  //   console.log("Deleting ticketId:", ticketId);
+  //   await RestClient.deleteTicketById(ticketId);
+  //   fetchCart();
+  // };
+
   const handleIncrement = async (ticketId: number) => {
     console.log("Incrementing ticketId:", ticketId);
     await RestClient.incrementTicketQuantity(ticketId);
-    fetchCart();
+    if (cart) {
+      const foundTicket = cart.tickets.find((t) => t.id === ticketId);
+      if (foundTicket) {
+        updateTicketQuantity(ticketId, foundTicket.quantity + 1);
+      }
+    }
   };
 
   const handleDecrement = async (ticketId: number) => {
     console.log("Decrementing ticketId:", ticketId);
     await RestClient.decrementTicketQuantity(ticketId);
-    fetchCart();
+    if (cart) {
+      const foundTicket = cart.tickets.find((t) => t.id === ticketId);
+      if (foundTicket) {
+        updateTicketQuantity(ticketId, foundTicket.quantity - 1);
+      }
+    }
   };
 
   const handleDelete = async (ticketId: number) => {
     console.log("Deleting ticketId:", ticketId);
     await RestClient.deleteTicketById(ticketId);
-    fetchCart();
+    setCart((prevCart) => {
+      if (!prevCart) {
+        return null;
+      }
+      const updatedTickets = prevCart.tickets.filter((ticket) => ticket.id !== ticketId);
+      return { ...prevCart, tickets: updatedTickets, id: prevCart.id };
+    });
   };
 
 
