@@ -69,17 +69,18 @@ const CardComponent: React.FC<CardComponentProps> = ({ event }) => {
             <Card className={styles.card}>
                 <Link to={`/${route}/${event.id}`}>
 
-                    <Card.Img variant="top" src={event.imageUrl} alt={event.name} />
+                    <Card.Img variant="top my-event-image hover-overlay ripple rounded" src={event.imageUrl} alt={event.name} />
 
-                    <Card.Body>
-                        <Card.Title>{event.name}</Card.Title>
-                        <Card.Text>
-                            {isMovie(event) && `IMDb Rating: ${event.imdbRating}`}
-                            {isStandUp(event) && event.description}
-                            {isConcert(event) && event.artistName}
-                        </Card.Text>
-                    </Card.Body>
                 </Link>
+
+                <Card.Body>
+                    <Card.Title className="card-titlee-bold" >{event.name}</Card.Title>
+                    <Card.Text className="card-bodyy-light">
+                        {isMovie(event) && `IMDb Rating: ${event.imdbRating}`}
+                        {isStandUp(event) && event.description}
+                        {isConcert(event) && event.artistName}
+                    </Card.Text>
+                </Card.Body>
 
 
             </Card>
@@ -168,7 +169,7 @@ export default function EventsCarousel() {
     const totalPages = Math.ceil(filteredEvents.length / eventsPerPage);
 
     return (
-        <div >
+        <div className=''>
 
             {/* search navbar */}
             <Navbar className="navbar navbar-expand-lg navbar-dark sticky-top gradient-custom-search-bar" bg="dark" variant="dark">
@@ -191,21 +192,22 @@ export default function EventsCarousel() {
                 </Container>
             </Navbar>
 
-
-            <Carousel className="carousel-pos " interval={3000}>
+            <Carousel className="carousel-pos" interval={3000}>
                 {chunkedEvents.map((chunk, chunkIndex) => (
                     <Carousel.Item key={`carousel-item-${chunkIndex}`}>
-                        <Row>
-                            {chunk.map((event) => (
-                                <CardComponent
-                                    key={`event-${event.id}`}
-                                    event={event}
-                                    src={''}
-                                    title={''}
-                                    text={''}
-                                />
-                            ))}
-                        </Row>
+                        <div className="carousel-background">
+                            <Row>
+                                {chunk.map((event) => (
+                                    <CardComponent
+                                        key={`event-${event.id}`}
+                                        event={event}
+                                        src={''}
+                                        title={''}
+                                        text={''}
+                                    />
+                                ))}
+                            </Row>
+                        </div>
                     </Carousel.Item>
                 ))}
             </Carousel>

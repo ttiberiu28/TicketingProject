@@ -184,32 +184,36 @@ export default function Events() {
                   key={`${getEventRoute(event)}-${event.id}`}
                   className="mb-4 d-flex align-items-stretch"
                 >
-                  <div className="card w-100">
-                    <div className="bg-image hover-overlay ripple">
+                  <div className="card w-100 card-gradient">
+
+                    <div className="bg-image hover-overlay ripple rounded" data-mdb-ripple-color="green">
+
                       <Link to={`/${getEventRoute(event)}/${event.id}`}>
                         <img
                           src={event.imageUrl}
-                          className="img-fluid"
+                          className="img-fluid my-event-image"
                           alt={event.name}
                         />
-                      </Link>
+                        <div className="mask" style={{ backgroundColor: 'rgb(126, 243, 188,0.2)' }}></div>
 
+                      </Link>
                     </div>
+
                     <div className="card-body">
-                      <h5 className="card-title">{event.name}</h5>
+                      <h5 className="card-title card-titlee-bold">{event.name}</h5>
                       {/* card description logic below */}
                       {isMovie(event) && (
-                        <p className="card-text">
+                        <p className="card-text card-bodyy-light">
                           IMDb Rating: {event.imdbRating}
                         </p>
                       )}
                       {isStandUp(event) && (
-                        <p className="card-text">
+                        <p className="card-text card-bodyy-light">
                           <i>{event.description}</i>
                         </p>
                       )}
                       {isConcert(event) && (
-                        <p className="card-text">
+                        <p className="card-text card-bodyy-light">
                           <i>{event.artistName}</i>
                         </p>
                       )}

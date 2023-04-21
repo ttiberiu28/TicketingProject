@@ -104,24 +104,6 @@ export default function CartModal() {
   };
 
 
-  // const handleIncrement = async (ticketId: number) => {
-  //   console.log("Incrementing ticketId:", ticketId);
-  //   await RestClient.incrementTicketQuantity(ticketId);
-  //   fetchCart();
-  // };
-
-  // const handleDecrement = async (ticketId: number) => {
-  //   console.log("Decrementing ticketId:", ticketId);
-  //   await RestClient.decrementTicketQuantity(ticketId);
-  //   fetchCart();
-  // };
-
-  // const handleDelete = async (ticketId: number) => {
-  //   console.log("Deleting ticketId:", ticketId);
-  //   await RestClient.deleteTicketById(ticketId);
-  //   fetchCart();
-  // };
-
   const handleIncrement = async (ticketId: number) => {
     console.log("Incrementing ticketId:", ticketId);
     await RestClient.incrementTicketQuantity(ticketId);

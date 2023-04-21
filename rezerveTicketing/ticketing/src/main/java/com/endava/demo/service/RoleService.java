@@ -29,7 +29,6 @@ public class RoleService {
             x.setName(name);
 
             roleRepo.save(x);
-
         });
     }
 }
