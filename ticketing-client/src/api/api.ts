@@ -18,6 +18,20 @@ export async function getMovies(id?: number) {
   }
 }
 
+export async function getConcerts(id?: number) {
+  const response = await RestClient.getConcerts(); // Use RestClient to get concerts
+  const concerts = response;
+
+  if (id) {
+
+    const concert = concerts.find((c: Concert) => c.id === id);
+    return concert ? [concert] : [];
+  } else {
+    return concerts;
+  }
+
+}
+
 export async function getStandUpEvents(id?: number) {
   const response = await RestClient.getStandUpEvents(); // Use RestClient to get stand-up events
   const standUps = response;
@@ -32,16 +46,4 @@ export async function getStandUpEvents(id?: number) {
 
 }
 
-export async function getConcerts(id?: number) {
-  const response = await RestClient.getConcerts(); // Use RestClient to get concerts
-  const concerts = response;
 
-  if (id) {
-
-    const concert = concerts.find((c: Concert) => c.id === id);
-    return concert ? [concert] : [];
-  } else {
-    return concerts;
-  }
-
-}

@@ -2,6 +2,7 @@ import { Movie } from "../UI/MovieComponents/Movie";
 import { Cart } from "../interfaces/Cart";
 import { Ticket } from "../interfaces/Ticket";
 import { TicketDTO } from "../DTOs/TicketDTO";
+import { Concert } from "../UI/ConcertComponents/Concert";
 
 export default class RestClient {
   static baseUrl = "http://localhost:8080";
@@ -73,7 +74,8 @@ export default class RestClient {
     return response.json();
   }
 
-  // get events
+
+  // // // 
 
   static async getMovies(): Promise<Movie[]> {
     const url = `${RestClient.baseUrl}/api/movie/list`;
@@ -91,7 +93,7 @@ export default class RestClient {
     return movies;
   }
 
-  static async getConcerts(): Promise<any> {
+  static async getConcerts(): Promise<Concert[]> {
     const url = `${RestClient.baseUrl}/api/concert/list`;
     const headers = new Headers();
     headers.set("Authorization", RestClient.token || "");
@@ -102,8 +104,15 @@ export default class RestClient {
       throw new Error("Failed to get concerts");
     }
 
-    return response.json();
+    const jsonData = await response.json();
+    const concerts = jsonData.map((concertData: any) => new Concert(concertData));
+    return concerts;
   }
+
+  // // // 
+
+
+
 
   static async getStandUpEvents(): Promise<any> {
     const url = `${RestClient.baseUrl}/api/standup/list`;
@@ -118,7 +127,6 @@ export default class RestClient {
 
     return response.json();
   }
-  //finish get events
 
   // needs modification for every entity added to cart
 
