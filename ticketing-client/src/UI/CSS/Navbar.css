@@ -15,3 +15,8 @@
 .custom-navbar {
   color: #b5ebd7;
 }
+
+.custom-dropdown-item .btn {
+  width: 100%;
+  text-align: center;
+}

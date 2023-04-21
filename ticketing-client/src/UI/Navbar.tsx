@@ -18,8 +18,8 @@ export default function NavBar() {
         <button
           className="navbar-toggler"
           type="button"
-          data-mdb-toggle="collapse"
-          data-mdb-target="#navbarSupportedContent"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
           aria-controls="navbarSupportedContent"
           aria-expanded="false"
           aria-label="Toggle navigation"
@@ -34,50 +34,63 @@ export default function NavBar() {
           </Link>
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
 
-            <Link className="nav-link" to="/about">
-              <button type="button" className="btn btn-outline-danger btn-secondary btn-rounded">
-                <i><b>About</b></i>
-              </button>
-            </Link>
+            <li className="nav-item custom-dropdown-item">
+              <Link className="nav-link" to="/about">
+                <button type="button" className="btn btn-outline-danger btn-secondary btn-rounded">
+                  <i><b>About</b></i>
+                </button>
+              </Link>
+            </li>
 
-            <Link className="nav-link" to="/locations">
-              <button type="button" className="btn btn-outline-danger btn-secondary btn-rounded">
-                <i><b>Locations</b></i>
-              </button>
-            </Link>
+            <li className="nav-item custom-dropdown-item">
+              <Link className="nav-link" to="/locations">
+                <button type="button" className="btn btn-outline-danger btn-secondary btn-rounded">
+                  <i><b>Locations</b></i>
+                </button>
+              </Link>
+            </li>
 
-            <Link className="nav-link" to="/events">
-              <button type="button" className="btn btn-outline-danger btn-secondary btn-rounded">
-                <i><b>Events</b></i>
-              </button>
-            </Link>
+            <li className="nav-item custom-dropdown-item">
+              <Link className="nav-link" to="/events">
+                <button type="button" className="btn btn-outline-danger btn-secondary btn-rounded">
+                  <i><b>Events</b></i>
+                </button>
+              </Link>
+            </li>
 
-            <Link className="nav-link" to={{
-              pathname: '/events',
-              search: '?filter=concerts',
-            }}>
-              <button type="button" className="btn btn-outline-danger btn-secondary btn-rounded">
-                <i><b>Concerts</b></i>
-              </button>
-            </Link>
+            <li className="nav-item custom-dropdown-item">
+              <Link className="nav-link" to={{
+                pathname: '/events',
+                search: '?filter=concerts',
+              }}>
+                <button type="button" className="btn btn-outline-danger btn-secondary btn-rounded">
+                  <i><b>Concerts</b></i>
+                </button>
+              </Link>
+            </li>
 
-            <Link className="nav-link" to={{
-              pathname: '/events',
-              search: '?filter=movies',
-            }}>
-              <button type="button" className="btn btn-outline-danger btn-secondary btn-rounded">
-                <i><b>Movies</b></i>
-              </button>
-            </Link>
+            <li className="nav-item custom-dropdown-item">
+              <Link className="nav-link" to={{
+                pathname: '/events',
+                search: '?filter=movies',
+              }}>
+                <button type="button" className="btn btn-outline-danger btn-secondary btn-rounded">
 
-            <Link className="nav-link" to={{
-              pathname: '/events',
-              search: '?filter=standUps',
-            }}>
-              <button type="button" className="btn btn-outline-danger btn-secondary btn-rounded">
-                <i><b>Standups</b></i>
-              </button>
-            </Link>
+                  <i><b>Movies</b></i>
+                </button>
+              </Link>
+            </li>
+
+            <li className="nav-item custom-dropdown-item">
+              <Link className="nav-link" to={{
+                pathname: '/events',
+                search: '?filter=standUps',
+              }}>
+                <button type="button" className="btn btn-outline-danger btn-secondary btn-rounded">
+                  <i><b>Standups</b></i>
+                </button>
+              </Link>
+            </li>
 
           </ul>
         </div>
