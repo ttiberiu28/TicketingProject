@@ -85,3 +85,17 @@
     background-color: rgb(246, 92, 92);
     color: black;
   }
+
+  .gradient-custom-search-bar {
+
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: -webkit-linear-gradient(to right, rgb(141, 113, 142), rgb(114, 142, 113));
+
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: linear-gradient(to right, rgb(141, 113, 142), rgb(255, 172, 99));
+
+  }
+
+  .bolded .dropdown-toggle {
+    color: rgb(223, 234, 234);
+  }

@@ -129,10 +129,10 @@ export default function Events() {
       <BannerCarousel />
 
       {/* search navbar */}
-      <Navbar className="navbar navbar-expand-lg navbar-dark sticky-top" bg="dark" variant="dark">
+      <Navbar className="navbar navbar-expand-lg navbar-dark sticky-top gradient-custom-search-bar" bg="dark" variant="dark">
         <Container fluid>
 
-          <NavDropdown
+          <NavDropdown className="bolded"
             title={`Select Event Type${eventType ? `: ${eventType}` : ''}`}
             id="nav-dropdown"
             onSelect={(selectedKey: React.SetStateAction<string>) => {

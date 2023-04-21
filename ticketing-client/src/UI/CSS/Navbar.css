@@ -20,3 +20,16 @@
   width: 100%;
   text-align: center;
 }
+
+.gradient-custom-navbar {
+
+  /* Chrome 10-25, Safari 5.1-6 */
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: -webkit-linear-gradient(to right, rgb(52, 37, 60), rgb(45, 60, 37));
+
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: linear-gradient(to right, rgb(233, 147, 101), rgb(102, 79, 124));
+
+  color: #e77171;
+  /* for the elepthants */
+}

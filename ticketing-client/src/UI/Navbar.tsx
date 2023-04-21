@@ -13,7 +13,7 @@ export default function NavBar() {
   const navigate = useNavigate();
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top custom-navbar">
+    <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top gradient-custom-navbar">
       <div className="container-fluid">
         <button
           className="navbar-toggler"
@@ -103,7 +103,7 @@ export default function NavBar() {
           )}
 
           {isLoggedIn && (
-            <button className="btn btn-warning btn-rounded" onClick={logout}>
+            <button className="btn btn-danger btn-rounded" onClick={logout}>
               <i><b>Logout</b></i>
             </button>
           )}

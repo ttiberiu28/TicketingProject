@@ -27,3 +27,27 @@
 .modal-footer {
   padding-top: 0rem;
 }
+
+.gradient-custom {
+  /* fallback for old browsers */
+  background: #6a11cb;
+
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: -webkit-linear-gradient(to right, rgb(206, 98, 49), rgb(49, 157, 206));
+
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: linear-gradient(to right, rgb(206, 98, 49), rgb(49, 157, 206));
+}
+
+.gradient-custom-footer {
+
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: -webkit-linear-gradient(to right, rgb(49, 157, 206), rgb(206, 98, 49));
+
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: linear-gradient(to right, rgb(49, 157, 206), rgb(206, 98, 49));
+}
+
+.text-left {
+  text-align: left;
+}

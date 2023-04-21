@@ -123,18 +123,19 @@ export default function CartModal() {
       <i className="fas fa-solid fa-hippo text-white" onClick={handleShow}></i>
       <i className="fas fa-shopping-cart text-white" onClick={handleShow}></i>
 
-      <Modal show={show} onHide={handleClose} size="lg" centered>
-        <Modal.Header closeButton className="border-bottom-0">
-          <Modal.Title>Your Shopping Cart</Modal.Title>
+      <Modal show={show} onHide={handleClose} size="xl" centered>
+        <Modal.Header closeButton className="border-bottom-0 gradient-custom">
+          <Modal.Title>
+          </Modal.Title>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body className="">
           <Table bordered={false} hover>
             <thead>
               <tr>
                 <th></th>
-                <th>Product</th>
+                <th><strong>Product</strong></th>
                 <th>Price</th>
-                <th>Qty</th>
+                <th>Quantity</th>
                 <th>Row</th>
                 <th>Seat</th>
                 <th>Actions</th>
@@ -164,11 +165,12 @@ export default function CartModal() {
                   return (
                     <tr key={`${ticket.movieId || ticket.concertId}_${ticket.ticketType}`}>
                       <td className="w-25">
-                        <img
-                          src={imageUrl}
-                          className="img-fluid img-thumbnail"
-                          alt="Event"
-                        />
+                        <div className="bg-image hover-overlay hover-zoom ripple rounded" data-mdb-ripple-color="light">
+                          <img src={imageUrl} className="w-100 img-fluid img-thumbnail" alt="Event" />
+                          <a href="#!">
+                            <div className="mask" style={{ backgroundColor: 'rgba(251, 251, 251, 0.2)' }}></div>
+                          </a>
+                        </div>
                       </td>
                       <td>
                         {eventName} {ticketTypeLabel}
@@ -180,30 +182,30 @@ export default function CartModal() {
                           ticket.quantity}
                       </td>
                       <td className="qty">
-                        <Button
-                          variant="outline-primary"
-                          size="sm"
-                          onClick={() => handleIncrement(ticket.id)}
-                        >
-                          <i className="fa fa-plus"></i>
-                        </Button>
-                        <input
-                          type="text"
-                          className="form-control"
-                          value={ticketsGroup.reduce(
-                            (total: number, t: Ticket) => total + t.quantity,
-                            0
-                          )}
-                          readOnly
-                        />
+                        <div className="d-flex align-items-center">
+                          <Button className="btn  px-3 me-2" onClick={() => handleDecrement(ticket.id)}>
+                            <i className="fas fa-minus"></i>
+                          </Button>
 
-                        <Button
-                          variant="outline-primary"
-                          size="sm"
-                          onClick={() => handleDecrement(ticket.id)}
-                        >
-                          <i className="fa fa-minus"></i>
-                        </Button>
+                          <div className="form-outline">
+                            <input
+                              id="form1"
+                              name="quantity"
+                              value={ticketsGroup.reduce(
+                                (total: number, t: Ticket) => total + t.quantity,
+                                0
+                              )}
+                              type="text"
+                              className="form-control"
+                              readOnly
+                            />
+                            <label className="form-label" htmlFor="form1">Quantity</label>
+                          </div>
+
+                          <Button className="btn px-3 ms-2" onClick={() => handleIncrement(ticket.id)}>
+                            <i className="fas fa-plus"></i>
+                          </Button>
+                        </div>
                       </td>
 
                       <td>{ticket.row}</td>
@@ -220,17 +222,27 @@ export default function CartModal() {
             )}
 
           </Table>
-          <div className="d-flex justify-content-end">
-            <h5>
+
+          <div className="d-flex justify-content-between align-items-center">
+
+            <h5 className='text-right total-text'>
               Total: <span className="price text-success">{calculateTotal()}</span>
             </h5>
+
+            <div className="d-flex align-items-center">
+              <img className="me-2" width="45px"
+                src="https://mdbcdn.b-cdn.net/wp-content/plugins/woocommerce-gateway-stripe/assets/images/visa.svg"
+                alt="Visa" />
+              <img className="me-2" width="45px"
+                src="https://mdbcdn.b-cdn.net/wp-content/plugins/woocommerce-gateway-stripe/assets/images/mastercard.svg"
+                alt="Mastercard" />
+            </div>
           </div>
         </Modal.Body>
-        <Modal.Footer className="border-top-0 d-flex justify-content-between">
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
+        <Modal.Footer className="border-top-0 d-flex justify-content-between gradient-custom-footer">
+          <Button variant="secondary fas fa-long-arrow-alt-left me-2" onClick={handleClose}></Button>
           <Button variant="success">Checkout</Button>
+
         </Modal.Footer>
       </Modal>
     </>
