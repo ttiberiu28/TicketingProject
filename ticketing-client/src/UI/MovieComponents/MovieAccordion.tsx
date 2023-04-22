@@ -10,6 +10,7 @@ import CartModal2 from '../CartElements/CartModal2';
 import { TicketType } from "../TicketType";
 import "../CSS/SeatPicker.css";
 import { CustomSeatPicker } from "../SeatPicker";
+import { MyLocation } from "../../interfaces/MyLocation";
 
 
 interface MovieAccordionProps {
@@ -25,6 +26,8 @@ export const MovieAccordion: React.FC<MovieAccordionProps> = ({ ticketsGroup, ti
   const [selectedSeat, setSelectedSeat] = useState<{ row: number; seat: number } | null>(null);
   const [showModal, setShowModal] = useState(false);
   const [selectedTicketType, setSelectedTicketType] = useState<TicketType | null>(null);
+  const [selectedLocation, setSelectedLocation] = useState<MyLocation | null>(null);
+
 
 
 
@@ -66,6 +69,11 @@ export const MovieAccordion: React.FC<MovieAccordionProps> = ({ ticketsGroup, ti
   const handleChipClose = () => {
     setSelectedSeat(null);
   };
+
+  const handleLocationSelected = (location: MyLocation) => {
+    setSelectedLocation(location);
+  };
+
 
   const handleOpenModalWithTicketType = (ticketType: TicketType) => {
     setSelectedTicketType(ticketType);
@@ -164,11 +172,17 @@ export const MovieAccordion: React.FC<MovieAccordionProps> = ({ ticketsGroup, ti
                     <Modal.Title>Select a seat</Modal.Title>
                   </Modal.Header>
                   <Modal.Body>
-                    <CustomSeatPicker
+                    {/* <CustomSeatPicker
                       rows={10}
                       seatsPerRow={10}
                       onSeatSelected={handleSeatSelected}
+                    /> */}
+                    <CustomSeatPicker
+                      rows={selectedLocation ? Math.sqrt(selectedLocation.capacity) : 0}
+                      seatsPerRow={selectedLocation ? Math.sqrt(selectedLocation.capacity) : 0}
+                      onSeatSelected={handleSeatSelected}
                     />
+
                     {selectedTicketType && (
                       <button
                         className="btn btn-dark fas fa-shopping-cart text-white"
@@ -227,19 +241,33 @@ export const MovieAccordion: React.FC<MovieAccordionProps> = ({ ticketsGroup, ti
         <div id="flush-collapseTwoX" className="accordion-collapse collapse" aria-labelledby="flush-headingTwoX"
           data-bs-parent="#accordionFlushExampleX">
           <div className="accordion-body">
-
             <h3>Locations:</h3>
             <code>
-
               {movie.locations
                 .map((location) => location.place)
                 .join(', ')}
-
             </code>
-
+            <div>
+              <label htmlFor="location-select">Choose a location:</label>
+              <select id="location-select" className="select" onChange={(e) => {
+                const selectedId = parseInt(e.target.value);
+                const location = movie.locations.find(loc => loc.id === selectedId);
+                if (location) {
+                  handleLocationSelected(location);
+                }
+              }}>
+                <option value="">Select a location</option>
+                {movie.locations.map((location) => (
+                  <option key={location.id} value={location.id}>
+                    {location.place}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
         </div>
       </div>
+
       <div className="accordion-item">
         <h2 className="accordion-header" id="flush-headingThreeX">
           <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse"

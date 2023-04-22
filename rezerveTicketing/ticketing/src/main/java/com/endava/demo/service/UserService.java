@@ -104,21 +104,6 @@ public class UserService {
 
         role.getUsers().add(user);
     }
-//
-//    public Cart getCartByUserId(int userId) {
-//        User user = userRepo.findById(userId)
-//                .orElseThrow(() -> new UserDoesNotExistsException(String.valueOf(userId)));
-//        Cart cart = user.getCart();
-//        // Fetch movie data for each ticket
-//        for (Ticket ticket : cart.getTickets()) {
-//            Movie movie = ticket.getMovie();
-//            if (movie != null) {
-//                Optional<Movie> movieOpt = movieRepo.findById(movie.getId());
-//                movieOpt.ifPresent(ticket::setMovie);
-//            }
-//        }
-//        return cart;
-//    }
 
     public Cart getCartByUserId(int userId) {
 

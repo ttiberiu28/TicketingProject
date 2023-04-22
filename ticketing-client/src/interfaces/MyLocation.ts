@@ -1,5 +1,5 @@
 export interface MyLocation {
-    id: number;
-    place: string;
-    capacity: number;
-  }  
+  id: number;
+  place: string;
+  capacity: number;
+}  
