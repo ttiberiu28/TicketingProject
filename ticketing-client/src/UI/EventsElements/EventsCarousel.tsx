@@ -192,10 +192,10 @@ export default function EventsCarousel() {
                 </Container>
             </Navbar>
 
-            <Carousel className="carousel-pos" interval={3000}>
+            <Carousel className="card-gradient" interval={3000}>
                 {chunkedEvents.map((chunk, chunkIndex) => (
                     <Carousel.Item key={`carousel-item-${chunkIndex}`}>
-                        <div className="carousel-background">
+                        <div className="card-gradient">
                             <Row>
                                 {chunk.map((event) => (
                                     <CardComponent

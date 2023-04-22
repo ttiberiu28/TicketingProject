@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Home from './UI/Home';
 import About from './UI/About';
-import MyLocations from './UI/MyLocations';
+import MyLocations from './UI/LocationsComponents/MyLocations';
 import NavBar from './UI/Navbar';
 import Events from './UI/EventsElements/Events';
 import MovieDetails from './UI/MovieComponents/MovieDetails';
@@ -106,6 +106,13 @@ function MainApp() {
           element={
             <MainLayout>
               <ConcertDetails />
+            </MainLayout>
+          }
+        />
+        <Route
+          path="/location/:index"
+          element={
+            <MainLayout>
             </MainLayout>
           }
         />
