@@ -2,6 +2,7 @@
     height: 100%;
     display: flex;
     flex-direction: column;
+    border-radius: 10px;
 }
 
 .hover-overlay:hover {
@@ -32,9 +33,17 @@
     padding-top: 65px;
 }
 
-.card {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    min-height: 350px;
+.card-gradient {
+
+    background: -webkit-linear-gradient(to right, rgb(206, 98, 49), rgb(49, 157, 206));
+
+    background: linear-gradient(to right, rgb(206, 98, 49), rgb(49, 157, 206));
+
+}
+
+.my-location-image {
+    object-fit: cover;
+    height: 440px;
+    min-height: 440px;
+    border-radius: 10px 10px 0 0;
 }

@@ -42,7 +42,7 @@ export default function MyLocations() {
   );
 
   return (
-    <div className="background-div">
+    <div className="background-div backgroundDiv">
       <BannerCarousel />
 
       <Navbar className="navbar navbar-expand-lg navbar-dark sticky-top gradient-custom-search-bar" bg="dark" variant="dark">
@@ -66,71 +66,79 @@ export default function MyLocations() {
         </Container>
       </Navbar>
 
-      <Container className="my-5">
+      <Container className="my-5 ">
+        <Col className="text-center">
 
-        <Row className="justify-content-center">
-          {filteredLocations.slice(startIndex, endIndex).map((location, index) => (
-            <Col
-              xs={12}
-              sm={6}
-              md={4}
-              lg={3}
-              key={index}
-              className="mb-4 d-flex align-items-stretch"
-            >
-              <Link to={`/location/${location.id}`}>
-                <div className="card w-100">
-                  <div className="bg-image hover-overlay ripple rounded">
-                    <img
-                      src={location.imageUrl}
-                      className="img-fluid carousel-img"
-                      alt={location.place}
-                    />
-                    <div
-                      className="mask"
-                      style={{ backgroundColor: 'rgba(126, 243, 188, 0.2)' }}
-                    ></div>
+          <Row className="justify-content-center">
+            {filteredLocations.slice(startIndex, endIndex).map((location, index) => (
+              <Col
+                xs={12}
+                sm={6}
+                md={4}
+                lg={3}
+                key={index}
+                className="mb-4 d-flex align-items-stretch"
+              >
+                <div className="card w-100 card-gradient">
+
+                  <div className="bg-image hover-overlay ripple rounded ">
+                    <Link to={`/location/${location.id}`}>
+
+                      <img
+                        src={location.imageUrl}
+                        className="img-fluid carousel-img my-location-img"
+                        alt={location.place}
+                      />
+                      <div
+                        className="mask"
+                        style={{ backgroundColor: 'rgba(126, 243, 188, 0.2)' }}
+                      ></div>
+                    </Link>
+
                   </div>
-                  <div className="card-body">
+                  <div className="card-body text-center">
                     <h5 className="card-title card-titlee-bold">{location.place}</h5>
                     <p className="card-text card-bodyy-light">{location.city}</p>
                   </div>
-                </div>
-              </Link>
-            </Col>
-          ))}
-        </Row>
 
-        <nav aria-label="Page navigation example">
-          <ul className="pagination pagination-circle justify-content-center">
-            <li
-              className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}
-              onClick={() => handlePageChange(currentPage - 1)}
-            >
-              <a className="page-link">Prev</a>
-            </li>
-            {Array.from({ length: totalPages }, (_, i) => (
-              <li
-                className={`page-item ${currentPage === i + 1 ? 'active' : ''}`}
-                key={i}
-                onClick={() => handlePageChange(i + 1)}          >
-                <a className="page-link" href="#">
-                  {i + 1}
-                  {currentPage === i + 1 && (
-                    <span className="visually-hidden">(current)</span>
-                  )}
-                </a>
-              </li>
+                </div>
+              </Col>
             ))}
-            <li
-              className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}
-              onClick={() => handlePageChange(currentPage + 1)}
-            >
-              <a className="page-link">Next</a>
-            </li>
-          </ul>
-        </nav>
+          </Row>
+
+          <nav aria-label="Page navigation example">
+            <ul className="pagination pagination-circle justify-content-center">
+              <li
+                className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}
+                onClick={() => handlePageChange(currentPage - 1)}
+              >
+                <a className="page-link">Prev</a>
+              </li>
+              {Array.from({ length: totalPages }, (_, i) => (
+                <li
+                  className={`page-item ${currentPage === i + 1 ? 'active' : ''}`}
+                  key={i}
+                  onClick={() => handlePageChange(i + 1)}
+                >
+                  <a className="page-link" href="#">
+                    {i + 1}
+                    {currentPage === i + 1 && (
+                      <span className="visually-hidden">(current)</span>
+                    )}
+                  </a>
+                </li>
+              ))}
+              <li
+                className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}
+                onClick={() => handlePageChange(currentPage + 1)}
+              >
+                <a className="page-link">Next</a>
+              </li>
+            </ul>
+          </nav>
+
+        </Col>
       </Container>
-    </div>
+    </div >
   );
 }
