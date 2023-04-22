@@ -43,7 +43,7 @@ public class LocationController {
     public ResponseEntity<?> addLocation(@RequestBody Location location){
 
         try{
-            locationService.addLocation(location.getPlace(), location.getCapacity(), location.getImageUrl());
+            locationService.addLocation(location.getPlace(), location.getCapacity(), location.getImageUrl(), location.getAddress(), location.getCity());
 
             return ResponseEntity.ok().build();
 

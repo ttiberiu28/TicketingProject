@@ -53,6 +53,11 @@ public class Location {
     @NotEmpty
     private String imageUrl;
 
+    @NotEmpty
+    private String address;
+
+    private String city;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

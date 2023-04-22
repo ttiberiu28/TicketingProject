@@ -3,4 +3,6 @@ export interface MyLocation {
   place: string;
   capacity: number;
   imageUrl: string;
+  address: string;
+  city: string;
 }  

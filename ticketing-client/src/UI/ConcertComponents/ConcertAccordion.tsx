@@ -150,7 +150,7 @@ export const ConcertAccordion: React.FC<ConcertAccordionProps> = ({ ticketsGroup
                 <h2 className="accordion-header" id="flush-headingTwoX">
                     <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                         data-bs-target="#flush-collapseTwoX" aria-expanded="false" aria-controls="flush-collapseTwoX">
-                        Locations
+                        Location
                     </button>
                 </h2>
                 <div id="flush-collapseTwoX" className="accordion-collapse collapse" aria-labelledby="flush-headingTwoX"
