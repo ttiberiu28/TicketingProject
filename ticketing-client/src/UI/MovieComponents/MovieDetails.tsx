@@ -36,6 +36,30 @@ const MovieDetails: React.FC = () => {
         <Container className="content-container ">
 
           <Row>
+            {/* <Col xs={12} md={2}>
+              <div className="multi-carousel vertical" style={{ maxWidth: "20rem" }}>
+                <div className="multi-carousel-inner">
+                </div>
+                <button
+                  className="carousel-control-prev"
+                  type="button"
+                  tabIndex={0}
+                  data-mdb-slide="prev"
+                >
+                  <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+                </button>
+                <button
+                  className="carousel-control-next"
+                  type="button"
+                  tabIndex={0}
+                  data-mdb-slide="next"
+                >
+                  <span className="carousel-control-next-icon" aria-hidden="true"></span>
+                </button>
+
+              </div>
+            </Col> 
+            !!ADD md={6} to the last Col*/}
             <Col xs={12} md={4}>
               <Card className="movie-poster">
                 <Card.Img
