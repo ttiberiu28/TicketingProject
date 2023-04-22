@@ -136,3 +136,20 @@
     text-align: center;
     width: 50%;
   }
+
+  .event-container-gradient {
+
+    background: -webkit-linear-gradient(to right, rgb(206, 98, 49), rgb(49, 157, 206));
+
+    background: linear-gradient(to right, rgb(96, 81, 116), rgb(242, 122, 63));
+
+    border-radius: 15px;
+
+  }
+
+  .card-bodyy-light2 {
+    font-weight: bold;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-style: italic;
+    color: rgb(21, 5, 32);
+  }

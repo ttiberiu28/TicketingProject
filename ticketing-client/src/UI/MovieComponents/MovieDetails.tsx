@@ -33,7 +33,7 @@ const MovieDetails: React.FC = () => {
 
         <BannerCarousel />
 
-        <Container className="content-container">
+        <Container className="content-container ">
 
           <Row>
             <Col xs={12} md={4}>
@@ -45,9 +45,9 @@ const MovieDetails: React.FC = () => {
               </Card>
             </Col>
 
-            <Col className="body lead black-text overflow-auto" xs={12} md={8}>
+            <Col className="body lead black-text overflow-auto event-container-gradient" xs={12} md={8}>
 
-              <h1 className='myh1'>{movie.name}</h1>
+              <h1 className='myh1 text-center card-bodyy-light2'>{movie.name}</h1>
               <br></br>
 
               <div className="ratio ratio-16x9">

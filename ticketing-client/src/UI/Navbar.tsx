@@ -97,13 +97,13 @@ export default function NavBar() {
 
         <div className="d-flex align-items-center">
           {!isLoggedIn && (
-            <button className="btn btn-success btn-rounded" onClick={() => navigate("/login")}>
+            <button className="btn btn-success btn-rounded btn-outline-dark" onClick={() => navigate("/login")}>
               Login
             </button>
           )}
 
           {isLoggedIn && (
-            <button className="btn btn-danger btn-rounded" onClick={logout}>
+            <button className="btn btn-danger btn-rounded btn-outline-purple" onClick={logout}>
               <i><b>Logout</b></i>
             </button>
           )}
