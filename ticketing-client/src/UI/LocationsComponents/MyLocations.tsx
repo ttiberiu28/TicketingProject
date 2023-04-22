@@ -81,7 +81,7 @@ export default function MyLocations() {
               >
                 <div className="card w-100 card-gradient">
 
-                  <div className="bg-image hover-overlay ripple rounded ">
+                  <div className="bg-image hover-overlay hover-zoom ripple rounded">
                     <Link to={`/location/${location.id}`}>
 
                       <img

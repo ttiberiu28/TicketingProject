@@ -185,8 +185,7 @@ export default function Events() {
                   className="mb-4 d-flex align-items-stretch"
                 >
                   <div className="card w-100 card-gradient">
-
-                    <div className="bg-image hover-overlay ripple rounded" data-mdb-ripple-color="green">
+                    <div className="bg-image hover-overlay hover-zoom ripple rounded" data-mdb-ripple-color="green">
 
                       <Link to={`/${getEventRoute(event)}/${event.id}`}>
                         <img
