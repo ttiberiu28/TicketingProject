@@ -34,7 +34,7 @@ public class LocationService {
 
     }
 
-    public void addLocation(String place, int capacity){
+    public void addLocation(String place, int capacity, String imageUrl){
 
         var l = locationRepo.findByPlace(place);
 
@@ -47,6 +47,7 @@ public class LocationService {
 
             x.setPlace(place);
             x.setCapacity(capacity);
+            x.setImageUrl(imageUrl);
 
             locationRepo.save(x);
 

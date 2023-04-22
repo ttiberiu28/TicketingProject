@@ -128,3 +128,13 @@
     object-fit: cover;
     height: 440px;
   }
+
+  .my-select {
+    background-color: #acc4ed;
+    color: #141414;
+    font-family: "Roboto", arial, sans-serif;
+    font-size: 16px;
+    margin: 20px 0;
+    text-align: center;
+    width: 50%;
+  }

@@ -76,13 +76,25 @@ export const MovieAccordion: React.FC<MovieAccordionProps> = ({ ticketsGroup, ti
 
 
   const handleOpenModalWithTicketType = (ticketType: TicketType) => {
+    if (!selectedLocation) {
+      alert('Please select a location first');
+      return;
+    }
     setSelectedTicketType(ticketType);
     handleModalVisibility();
   };
 
 
+
   const handleSeatSelected = (row: number, seat: number) => {
     setSelectedSeat({ row, seat });
+  };
+
+  const getRowsAndSeatsPerRow = (capacity: number) => {
+    const dimension = Math.floor(Math.sqrt(capacity));
+    const rows = dimension;
+    const seatsPerRow = Math.ceil(capacity / rows);
+    return { rows, seatsPerRow };
   };
 
   // !!!Important method to add ticket to cart and update the cart state
@@ -166,20 +178,33 @@ export const MovieAccordion: React.FC<MovieAccordionProps> = ({ ticketsGroup, ti
             <Collapse in={showTickets}>
 
               <div className="ticket-section">
+                <div>
+                  <label htmlFor="location-select">Choose a location:</label>
+                  <select id="location-select" className="select my-select" value={selectedLocation ? selectedLocation.id : ""} onChange={(e) => {
+                    const selectedId = parseInt(e.target.value);
+                    const location = movie.locations.find(loc => loc.id === selectedId);
+                    if (location) {
+                      handleLocationSelected(location);
+                    }
+                  }}>
+                    {!selectedLocation && <option value="">Select a location</option>}
+                    {movie.locations.map((location) => (
+                      <option key={location.id} value={location.id}>
+                        {location.place}
+                      </option>
+                    ))}
+                  </select>
+
+                </div>
 
                 <Modal show={showModal} onHide={handleModalVisibility}>
                   <Modal.Header closeButton>
                     <Modal.Title>Select a seat</Modal.Title>
                   </Modal.Header>
                   <Modal.Body>
-                    {/* <CustomSeatPicker
-                      rows={10}
-                      seatsPerRow={10}
-                      onSeatSelected={handleSeatSelected}
-                    /> */}
                     <CustomSeatPicker
-                      rows={selectedLocation ? Math.sqrt(selectedLocation.capacity) : 0}
-                      seatsPerRow={selectedLocation ? Math.sqrt(selectedLocation.capacity) : 0}
+                      rows={selectedLocation ? getRowsAndSeatsPerRow(selectedLocation.capacity).rows : 0}
+                      seatsPerRow={selectedLocation ? getRowsAndSeatsPerRow(selectedLocation.capacity).seatsPerRow : 0}
                       onSeatSelected={handleSeatSelected}
                     />
 
@@ -247,23 +272,6 @@ export const MovieAccordion: React.FC<MovieAccordionProps> = ({ ticketsGroup, ti
                 .map((location) => location.place)
                 .join(', ')}
             </code>
-            <div>
-              <label htmlFor="location-select">Choose a location:</label>
-              <select id="location-select" className="select" onChange={(e) => {
-                const selectedId = parseInt(e.target.value);
-                const location = movie.locations.find(loc => loc.id === selectedId);
-                if (location) {
-                  handleLocationSelected(location);
-                }
-              }}>
-                <option value="">Select a location</option>
-                {movie.locations.map((location) => (
-                  <option key={location.id} value={location.id}>
-                    {location.place}
-                  </option>
-                ))}
-              </select>
-            </div>
           </div>
         </div>
       </div>

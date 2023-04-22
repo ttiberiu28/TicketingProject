@@ -27,7 +27,6 @@ public class Location {
     @NotEmpty
     private String place;
 
-    @Max(200)
     private int capacity;
     @ManyToMany
     @JoinTable(name = "movie_locations",

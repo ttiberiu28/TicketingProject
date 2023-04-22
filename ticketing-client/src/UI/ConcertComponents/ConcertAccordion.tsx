@@ -8,6 +8,7 @@ import '../CSS/EventDetails.css';
 import RestClient from "../../REST/RestClient";
 import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 import CartModal2 from '../CartElements/CartModal2';
+import { MyLocation } from '../../interfaces/MyLocation';
 
 
 interface ConcertAccordionProps {
@@ -20,25 +21,15 @@ export const ConcertAccordion: React.FC<ConcertAccordionProps> = ({ ticketsGroup
     const { index = '0' } = useParams<{ index?: string }>();
     const [concert, setConcert] = useState<Concert | null>(null);
     const [showTickets, setShowTickets] = useState(false);
+    const [selectedLocation, setSelectedLocation] = useState<MyLocation | null>(null);
+
 
 
     useEffect(() => {
         getConcerts(parseInt(index)).then((data) => {
             const fetchedConcert = data[0];
             const concertInstance = new Concert(fetchedConcert);
-            // setConcert({
-            //     ...fetchedConcert,
-            //     getPrice: (ticketType: TicketType) => {
-            //         switch (ticketType) {
-            //             case TicketType.TWO_DAY_PASS:
-            //                 return fetchedConcert.getPrice(TicketType.TWO_DAY_PASS);
-            //             case TicketType.THREE_DAY_PASS:
-            //                 return fetchedConcert.getPrice(TicketType.THREE_DAY_PASS);
-            //             default:
-            //                 return fetchedConcert.getPrice(TicketType.ONE_DAY_PASS);
-            //         }
-            //     },
-            // });
+
             setConcert(concertInstance);
         });
     }, [index]);
