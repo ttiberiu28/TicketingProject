@@ -171,7 +171,7 @@ export default function Events() {
       </Navbar>
 
 
-      <Container className="movies-and-standups">
+      <Container className="">
         <Col className="text-center">
           <Row className="justify-content-center">
             <React.Fragment>

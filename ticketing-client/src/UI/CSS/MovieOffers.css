@@ -1,0 +1,7 @@
+.gradient-custom-offer-container {
+
+    background: -webkit-linear-gradient(to right, rgb(89, 118, 138), rgb(130, 105, 154));
+
+    background: linear-gradient(to right, rgb(89, 118, 138), rgb(130, 105, 154));
+
+}

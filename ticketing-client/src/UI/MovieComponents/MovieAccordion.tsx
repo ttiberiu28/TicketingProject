@@ -11,6 +11,9 @@ import { TicketType } from "../TicketType";
 import "../CSS/SeatPicker.css";
 import { CustomSeatPicker } from "../SeatPicker";
 import { MyLocation } from "../../interfaces/MyLocation";
+import { Link } from 'react-router-dom';
+
+
 
 
 interface MovieAccordionProps {
@@ -27,8 +30,6 @@ export const MovieAccordion: React.FC<MovieAccordionProps> = ({ ticketsGroup, ti
   const [showModal, setShowModal] = useState(false);
   const [selectedTicketType, setSelectedTicketType] = useState<TicketType | null>(null);
   const [selectedLocation, setSelectedLocation] = useState<MyLocation | null>(null);
-
-
 
 
   useEffect(() => {
@@ -267,12 +268,17 @@ export const MovieAccordion: React.FC<MovieAccordionProps> = ({ ticketsGroup, ti
           data-bs-parent="#accordionFlushExampleX">
           <div className="accordion-body">
             <h3>Locations:</h3>
-            <code>
-              {movie.locations
-                .map((location) => location.place)
-                .join(', ')}
-            </code>
+            {movie.locations.map((location) => (
+              <Link
+                key={location.id}
+                to={`/location/${location.id}`} // Update the path based on your routing configuration
+                className="location-link"
+              >
+                {location.place + ','}
+              </Link>
+            ))}
           </div>
+
         </div>
       </div>
 

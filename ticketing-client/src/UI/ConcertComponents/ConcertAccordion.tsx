@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { getConcerts } from '../../api/api';
 import { Button, Collapse } from 'react-bootstrap';
 import { TicketType } from "../TicketType";
@@ -156,15 +156,17 @@ export const ConcertAccordion: React.FC<ConcertAccordionProps> = ({ ticketsGroup
                 <div id="flush-collapseTwoX" className="accordion-collapse collapse" aria-labelledby="flush-headingTwoX"
                     data-bs-parent="#accordionFlushExampleX">
                     <div className="accordion-body">
-
                         <h3>Locations:</h3>
-                        <code>
-
-                            {concert.locations
-                                .map((location) => location.place)
-                                .join(', ')}
-
-                        </code>
+                        {concert.locations.map((location) => (
+                            <Link
+                                key={location.id}
+                                to={`/location/${location.id}`} // Update the path based on your routing configuration
+                                className="location-link"
+                            >
+                                {location.place + ','}
+                            </Link>
+                        )
+                        )}
 
                     </div>
                 </div>

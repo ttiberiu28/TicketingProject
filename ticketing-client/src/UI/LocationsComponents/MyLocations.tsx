@@ -6,9 +6,9 @@ import { Col, Container, Row, Form, FormControl } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { Navbar } from 'react-bootstrap';
 import CartModal2 from '../CartElements/CartModal2';
-import { NavDropdown } from 'react-bootstrap';
 import BannerCarousel from '../BannerCarousel';
-import styles from '.././MyLocations.module.css';
+import "../CSS/EventDetails.css";
+
 
 export default function MyLocations() {
   const [locations, setLocations] = useState<MyLocation[]>([]);
@@ -42,7 +42,7 @@ export default function MyLocations() {
   );
 
   return (
-    <div className="background-div backgroundDiv">
+    <div className="background-div">
       <BannerCarousel />
 
       <Navbar className="navbar navbar-expand-lg navbar-dark sticky-top gradient-custom-search-bar" bg="dark" variant="dark">
@@ -66,7 +66,7 @@ export default function MyLocations() {
         </Container>
       </Navbar>
 
-      <Container className="my-5 ">
+      <Container className=" ">
         <Col className="text-center">
 
           <Row className="justify-content-center">
