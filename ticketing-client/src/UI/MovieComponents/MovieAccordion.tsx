@@ -175,10 +175,10 @@ export const MovieAccordion: React.FC<MovieAccordionProps> = ({ ticketsGroup, ti
         }
       });
 
-      window.location.reload();
     } catch (error) {
       console.error("Failed to add ticket to cart", error);
     }
+    window.location.reload();
   };
 
 
