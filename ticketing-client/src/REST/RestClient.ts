@@ -191,8 +191,8 @@ export default class RestClient {
         seatNumber: ticketDTO.seatNumber,
         ticketType: ticketDTO.ticketType,
         quantity: ticketDTO.quantity,
-        movieId: undefined, // Add this line
-        concertId: undefined, // Add this line
+        movieId: undefined,
+        concertId: undefined,
       };
 
       if (ticketDTO.movie) {
@@ -249,7 +249,6 @@ export default class RestClient {
     return data as Ticket;
   }
 
-  // Add this method to RestClient class
   static async deleteTicketById(ticketId: number): Promise<void> {
     const url = `${RestClient.baseUrl}/api/ticket/deletion/${ticketId}`;
 

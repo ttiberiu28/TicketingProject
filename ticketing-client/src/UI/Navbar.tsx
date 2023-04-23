@@ -92,6 +92,22 @@ export default function NavBar() {
               </Link>
             </li>
 
+            <li className="nav-item custom-dropdown-item">
+              <Link className="nav-link" to="/locations">
+                <button type="button" className="btn btn-outline-danger btn-secondary btn-rounded gradient-custom-button">
+                  <i className='but-text'><b>Locations</b></i>
+                </button>
+              </Link>
+            </li>
+
+            <li className="nav-item custom-dropdown-item">
+              <Link className="nav-link" to="/offers">
+                <button type="button" className="btn btn-outline-danger btn-secondary btn-rounded gradient-custom-button">
+                  <i className='but-text'><b>Movie Offers</b></i>
+                </button>
+              </Link>
+            </li>
+
           </ul>
         </div>
 

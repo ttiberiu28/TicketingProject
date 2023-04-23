@@ -65,10 +65,8 @@
 
 .carousel-gradient {
 
-    /* Chrome 10-25, Safari 5.1-6 */
     background: -webkit-linear-gradient(to right, rgb(175, 169, 175), rgb(169, 171, 165));
 
-    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
     background: linear-gradient(to right, rgb(175, 169, 175), rgb(169, 171, 165));
 
 }
@@ -98,4 +96,10 @@
 .my-event-image {
     object-fit: cover;
     height: 440px;
+}
+
+.truncate-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }

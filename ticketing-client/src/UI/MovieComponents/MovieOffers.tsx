@@ -10,6 +10,9 @@ import '.././CSS/MovieOffers.css';
 
 
 const MovieOffers = () => {
+
+    const eventType = "movie";
+
     return (
         <div className="my-container-padding ">
             <div className="background-div ">
@@ -38,7 +41,8 @@ const MovieOffers = () => {
                             />
 
                             <Row className="d-flex flex-column" style={{ flex: 1 }}>
-                                <h3 style={{ padding: "1rem" }}>Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                                <h3 className='offer-writing-bold'
+                                    style={{ padding: "1rem" }}>Lorem ipsum dolor sit amet consectetur adipisicing elit.
                                     Saepe mollitia adipisci nemo provident voluptatem totam aperiam perspiciatis a eaque,
                                     deleniti, possimus iste consequatur harum vel praesentium?
                                     Dignissimos adipisci quaerat cum!</h3>
@@ -53,7 +57,8 @@ const MovieOffers = () => {
 
                 </Container>
             </div>
-            <EventsCarousel />
+            <EventsCarousel initialEventType={eventType} />
+
         </div>
     );
 };

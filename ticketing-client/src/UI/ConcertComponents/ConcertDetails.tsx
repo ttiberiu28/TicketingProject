@@ -15,6 +15,8 @@ const ConcertDetails: React.FC = () => {
     const { index = '0' } = useParams<{ index?: string }>();
     const [concert, setConcert] = useState<Concert | null>(null);
 
+    const eventType = "concert";
+
     useEffect(() => {
         getConcerts(parseInt(index)).then((data) => setConcert(data[0]));
     }, [index]);
@@ -65,7 +67,7 @@ const ConcertDetails: React.FC = () => {
                 </Container>
             </div>
 
-            <EventsCarousel />
+            <EventsCarousel initialEventType={eventType} />
         </div>
     );
 };

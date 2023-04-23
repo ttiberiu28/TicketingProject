@@ -13,9 +13,9 @@ import { Concert } from '../ConcertComponents/Concert';
 import styles from "../CSS/CardComponent.module.css";
 import { Link } from 'react-router-dom';
 
-
-
-
+interface EventsCarouselProps {
+    initialEventType: string;
+}
 // I need to choose an unique property for each type of event
 function isMovie(event: Movie | StandUp | Concert): event is Movie {
     return (event as Movie).imdbRating !== undefined;
@@ -44,14 +44,6 @@ function getEventRoute(event: Movie | StandUp | Concert): string {
     }
 }
 
-function chunkArray(array: any[], chunkSize: number) {
-    const result = [];
-    for (let i = 0; i < array.length; i += chunkSize) {
-        result.push(array.slice(i, i + chunkSize));
-    }
-    return result;
-}
-
 
 interface CardComponentProps {
     src: string;
@@ -64,7 +56,7 @@ const CardComponent: React.FC<CardComponentProps> = ({ event }) => {
     const route = getEventRoute(event);
 
     return (
-        <Col xs={12} sm={6} md={4} lg={2} className="mb-2">
+        <Col xs={12} sm={6} md={4} lg={2} className="mb-2 my-card-custom-height">
 
             <Card className={styles.card}>
                 <Link to={`/${route}/${event.id}`}>
@@ -75,7 +67,7 @@ const CardComponent: React.FC<CardComponentProps> = ({ event }) => {
 
                 <Card.Body>
                     <Card.Title className="card-titlee-bold" >{event.name}</Card.Title>
-                    <Card.Text className="card-bodyy-light">
+                    <Card.Text className="card-bodyy-light truncate-text">
                         {isMovie(event) && `IMDb Rating: ${event.imdbRating}`}
                         {isStandUp(event) && event.description}
                         {isConcert(event) && event.artistName}
@@ -90,7 +82,7 @@ const CardComponent: React.FC<CardComponentProps> = ({ event }) => {
 };
 
 
-export default function EventsCarousel() {
+export default function EventsCarousel({ initialEventType }: EventsCarouselProps) {
 
 
     // Define state hooks for movies and stand-up events
@@ -99,7 +91,7 @@ export default function EventsCarousel() {
     const [concerts, setConcerts] = useState<Concert[]>([]);
 
     const [filteredEvents, setFilteredEvents] = useState<any[]>([]);
-    const [eventType, setEventType] = useState('');
+    const [eventType, setEventType] = useState(initialEventType);
     const [searchValue, setSearchValue] = useState('');
 
     const [currentPage, setCurrentPage] = useState(1);
@@ -161,7 +153,11 @@ export default function EventsCarousel() {
     const slideCount = Math.ceil(filteredEvents.length / chunkSize)
     const chunkedEvents = Array(slideCount)
         .fill(0)
-        .map((_, i) => filteredEvents.slice(i * chunkSize, (i + 1) * chunkSize));
+        .map((_, i) => filteredEvents.slice(i * chunkSize, (i * chunkSize) + chunkSize))
+        .filter((chunk, i) => chunk.length === chunkSize || i === slideCount - 1);
+
+
+
 
 
 
@@ -192,7 +188,7 @@ export default function EventsCarousel() {
                 </Container>
             </Navbar>
 
-            <Carousel className="card-gradient" interval={3000}>
+            <Carousel className="card-gradient" interval={3000} activeIndex={activeSlideIndex} onSelect={(selectedIndex: React.SetStateAction<number>) => setActiveSlideIndex(selectedIndex)}>
                 {chunkedEvents.map((chunk, chunkIndex) => (
                     <Carousel.Item key={`carousel-item-${chunkIndex}`}>
                         <div className="card-gradient">

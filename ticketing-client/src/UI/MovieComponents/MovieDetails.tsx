@@ -17,6 +17,8 @@ const MovieDetails: React.FC = () => {
   const { index = '0' } = useParams<{ index?: string }>();
   const [movie, setMovie] = useState<Movie | null>(null);
 
+  const eventType = "movie";
+
   useEffect(() => {
     getMovies(parseInt(index)).then((data) => setMovie(data[0]));
   }, [index]);
@@ -123,7 +125,8 @@ const MovieDetails: React.FC = () => {
         </Container>
 
       </div>
-      <EventsCarousel />
+      <EventsCarousel initialEventType={eventType} />
+
 
     </div >
   );

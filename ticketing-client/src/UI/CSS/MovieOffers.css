@@ -3,5 +3,11 @@
     background: -webkit-linear-gradient(to right, rgb(89, 118, 138), rgb(130, 105, 154));
 
     background: linear-gradient(to right, rgb(89, 118, 138), rgb(130, 105, 154));
+}
 
+
+.offer-writing-bold {
+    font-weight: bold;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    color: rgb(14, 3, 39)
 }
