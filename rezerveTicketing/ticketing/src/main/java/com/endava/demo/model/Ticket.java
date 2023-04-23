@@ -1,8 +1,10 @@
 package com.endava.demo.model;
 
 import com.endava.demo.dto.TicketDTO;
+import com.endava.demo.dto.TicketSeatDTO;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.BeanUtils;
@@ -12,6 +14,10 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Entity
 @Getter
 @Setter
@@ -28,12 +34,8 @@ public class Ticket {
 
     @Column(name = "seat_number")
     @NotNull
-    @Min(1)
-    @Max(20)
     private int seatNumber;
     @NotNull
-    @Min(1)
-    @Max(12)
     private int row;
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -65,6 +67,19 @@ public class Ticket {
     @Column(name = "quantity")
     private int quantity = 1;
 
+    @OneToMany(mappedBy = "ticket", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<TicketSeat> ticketSeats = new ArrayList<>();
+
+    public void addTicketSeat(TicketSeat ticketSeat) {
+        ticketSeats.add(ticketSeat);
+        ticketSeat.setTicket(this);
+    }
+
+    public void removeTicketSeat(TicketSeat ticketSeat) {
+        ticketSeats.remove(ticketSeat);
+        ticketSeat.setTicket(null);
+    }
     public TicketDTO toDTO() {
         TicketDTO dto = new TicketDTO();
         dto.setId(id);
@@ -86,8 +101,15 @@ public class Ticket {
 
         dto.setTicketType(ticketType);
         dto.setQuantity(quantity);
+
+        List<TicketSeatDTO> ticketSeatDTOs = ticketSeats.stream()
+                .map(TicketSeat::toDTO)
+                .collect(Collectors.toList());
+        dto.setTicketSeats(ticketSeatDTOs);
         return dto;
     }
+
+
 
 
 

@@ -55,13 +55,21 @@ export const ConcertAccordion: React.FC<ConcertAccordionProps> = ({ ticketsGroup
         const selectedDate = new Date("2023-04-10");
 
         // TODO: get these values from the UI using a select seat component
-        const selectedRow = 3;
-        const selectedSeatNumber = 4;
+        const selectedRow = 2;
+        const selectedSeatNumber = 2;
 
         try {
             // needs modification for every entity added to cart(adding null)
-            const ticket = await RestClient.addTicketToCart(userId, null, concertId,
-                ticketType, selectedDate, selectedRow, selectedSeatNumber);
+            const ticket = await RestClient.addTicketToCart(
+                userId,
+                null,
+                null,
+                concertId,
+                ticketType,
+                selectedDate,
+                [{ row: selectedRow, seat: selectedSeatNumber }]
+            );
+
 
             console.log("Ticket added to cart");
 

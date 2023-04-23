@@ -19,5 +19,6 @@ export interface Ticket {
   row: number;
   seatNumber: number;
   ticketType: TicketType;
+  ticketSeats: { row: number; seatNumber: number }[];
   quantity: number;
 }

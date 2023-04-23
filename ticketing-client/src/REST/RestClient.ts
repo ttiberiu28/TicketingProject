@@ -130,8 +130,15 @@ export default class RestClient {
 
   // needs modification for every entity added to cart
 
-  static async addTicketToCart(userId: number, movieId: number | null, concertId: number | null,
-    ticketType: string, date: Date, row: number, seatNumber: number): Promise<Ticket> {
+  static async addTicketToCart(
+    userId: number,
+    eventId: number | null,
+    movieId: number | null,
+    concertId: number | null,
+    ticketType: string,
+    date: Date,
+    selectedSeats: { row: number; seat: number }[]
+  ): Promise<Ticket> {
     const url = `${RestClient.baseUrl}/api/ticket/addToCart`;
     const headers = new Headers();
     headers.set("Content-Type", "application/json");
@@ -140,12 +147,14 @@ export default class RestClient {
     const body = JSON.stringify({
       userId,
       movieId,
+      eventId,
       concertId,
       ticketType,
       localDate: date.toISOString(),
-      row: row,
-      seatNumber: seatNumber
+      seats: selectedSeats.map((seat) => ({ row: seat.row, seatNumber: seat.seat })),
     });
+
+
 
     const response = await fetch(url, {
       method: "POST",
@@ -163,8 +172,8 @@ export default class RestClient {
   }
 
 
-  // needs modification for every entity added to cart
 
+  // needs modification for every entity added to cart
   static async getCart(userId: number): Promise<Cart> {
     const url = `${RestClient.baseUrl}/api/user/getCart?userId=${userId}`;
     const headers = new Headers();
@@ -190,6 +199,7 @@ export default class RestClient {
         row: ticketDTO.row,
         seatNumber: ticketDTO.seatNumber,
         ticketType: ticketDTO.ticketType,
+        ticketSeats: ticketDTO.ticketSeats,
         quantity: ticketDTO.quantity,
         movieId: undefined,
         concertId: undefined,

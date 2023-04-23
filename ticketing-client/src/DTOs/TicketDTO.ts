@@ -13,5 +13,6 @@ export interface TicketDTO {
   row: number;
   seatNumber: number;
   ticketType: TicketType;
+  ticketSeats: { row: number; seatNumber: number }[];
   quantity: number;
 }

@@ -30,6 +30,8 @@ export const MovieAccordion: React.FC<MovieAccordionProps> = ({ ticketsGroup, ti
   const [showModal, setShowModal] = useState(false);
   const [selectedTicketType, setSelectedTicketType] = useState<TicketType | null>(null);
   const [selectedLocation, setSelectedLocation] = useState<MyLocation | null>(null);
+  const [selectedSeats, setSelectedSeats] = useState<Array<{ row: number; seat: number }>>([]);
+
 
 
   useEffect(() => {
@@ -67,9 +69,10 @@ export const MovieAccordion: React.FC<MovieAccordionProps> = ({ ticketsGroup, ti
     setShowModal(!showModal);
   };
 
-  const handleChipClose = () => {
-    setSelectedSeat(null);
+  const handleChipClose = (index: number) => {
+    setSelectedSeats(selectedSeats.filter((_, i) => i !== index));
   };
+
 
   const handleLocationSelected = (location: MyLocation) => {
     setSelectedLocation(location);
@@ -85,20 +88,37 @@ export const MovieAccordion: React.FC<MovieAccordionProps> = ({ ticketsGroup, ti
     handleModalVisibility();
   };
 
+  const handleSeatClick = (row: number, seat: number) => {
+    const seatIndex = selectedSeats.findIndex((s) => s.row === row && s.seat === seat);
+    if (seatIndex === -1) {
+      setSelectedSeats([...selectedSeats, { row, seat }]);
+    } else {
+      setSelectedSeats(selectedSeats.filter((_, i) => i !== seatIndex));
+    }
+  };
 
 
   const handleSeatSelected = (row: number, seat: number) => {
-    setSelectedSeat({ row, seat });
+    const seatIndex = selectedSeats.findIndex((s) => s.row === row && s.seat === seat);
+    if (seatIndex === -1) {
+      setSelectedSeats([...selectedSeats, { row, seat }]);
+    } else {
+      setSelectedSeats(selectedSeats.filter((_, i) => i !== seatIndex));
+    }
   };
 
+
+
+
+
   const getRowsAndSeatsPerRow = (capacity: number) => {
-    const dimension = Math.floor(Math.sqrt(capacity));
-    const rows = dimension;
-    const seatsPerRow = Math.ceil(capacity / rows);
+    const seatsPerRow = 10; // You can adjust this value based on your requirements
+    const rows = Math.ceil(capacity / seatsPerRow);
     return { rows, seatsPerRow };
   };
 
-  // !!!Important method to add ticket to cart and update the cart state
+
+
   const handleAddToCartClick = async (ticketType: TicketType) => {
     const userIdString = localStorage.getItem("userId");
 
@@ -106,8 +126,7 @@ export const MovieAccordion: React.FC<MovieAccordionProps> = ({ ticketsGroup, ti
       console.error("User not logged in");
       return;
     }
-
-    if (!selectedSeat) {
+    if (selectedSeats.length === 0) {
       console.error("No seat selected");
       alert("No seats selected");
       return;
@@ -117,42 +136,52 @@ export const MovieAccordion: React.FC<MovieAccordionProps> = ({ ticketsGroup, ti
     const movieId = movie.id;
     const selectedDate = new Date("2023-04-10");
 
-
-    const { row: selectedRow, seat: selectedSeatNumber } = selectedSeat;
-
     try {
-      // needs modification for every entity added to cart(adding null)
-      const ticket = await RestClient.addTicketToCart(userId, movieId, null,
-        ticketType, selectedDate, selectedRow, selectedSeatNumber);
+
+      if (selectedSeats.length === 0) {
+        console.error("No seat selected");
+        alert("No seats selected");
+        return;
+      }
+
+      const ticket = await RestClient.addTicketToCart(
+        userId,
+        null,
+        movieId,
+        null,
+        ticketType,
+        selectedDate,
+        selectedSeats // Pass the selectedSeats array here
+      );
 
       console.log("Ticket added to cart");
 
-      // Update the cart state with the new ticket
       setCart((prevCart) => {
         if (!prevCart) {
           return { id: 0, tickets: [ticket] };
         }
 
-        // Find existing ticket index with the same movieId and ticketType
-        const existingTicketIndex = prevCart.tickets.findIndex((t: { movieId: number; ticketType: TicketType; }) => t.movieId === movieId && t.ticketType === ticketType);
+        const existingTicketIndex = prevCart.tickets.findIndex(
+          (t: { movieId: number; ticketType: TicketType }) =>
+            t.movieId === movieId && t.ticketType === ticketType
+        );
 
         if (existingTicketIndex !== -1) {
-          // Update the existing ticket's quantity
           const updatedTickets = [...prevCart.tickets];
           updatedTickets[existingTicketIndex] = ticket;
           return { ...prevCart, tickets: updatedTickets };
         } else {
-          // Add the new ticket to the cart
           return { ...prevCart, tickets: [...prevCart.tickets, ticket] };
         }
       });
+
+      window.location.reload();
     } catch (error) {
       console.error("Failed to add ticket to cart", error);
     }
-
-    // reload the page to update the cart
-    window.location.reload();
   };
+
+
 
   return (
     <div className="accordion accordion-borderless" id="accordionFlushExampleX">
@@ -207,6 +236,7 @@ export const MovieAccordion: React.FC<MovieAccordionProps> = ({ ticketsGroup, ti
                       rows={selectedLocation ? getRowsAndSeatsPerRow(selectedLocation.capacity).rows : 0}
                       seatsPerRow={selectedLocation ? getRowsAndSeatsPerRow(selectedLocation.capacity).seatsPerRow : 0}
                       onSeatSelected={handleSeatSelected}
+                      selectedSeats={selectedSeats}
                     />
 
                     {selectedTicketType && (
@@ -219,12 +249,13 @@ export const MovieAccordion: React.FC<MovieAccordionProps> = ({ ticketsGroup, ti
                       </button>
                     )}
 
-                    {selectedSeat && (
-                      <div className="chip chip-outline btn-outline-dark" data-mdb-ripple-color="dark">
-                        Row: {selectedSeat.row}, Seat: {selectedSeat.seat}
-                        <i className="close fas fa-times" onClick={handleChipClose}></i>
+                    {selectedSeats.map((seat, index) => (
+                      <div key={index} className="chip chip-outline btn-outline-dark" data-mdb-ripple-color="dark">
+                        Row: {seat.row}, Seat: {seat.seat}
+                        <i className="close fas fa-times" onClick={() => handleChipClose(index)}></i>
                       </div>
-                    )}
+                    ))}
+
                   </Modal.Body>
                 </Modal>
                 <ul>

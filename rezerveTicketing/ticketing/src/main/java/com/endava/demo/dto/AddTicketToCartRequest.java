@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter
@@ -20,4 +21,5 @@ public class AddTicketToCartRequest {
     private LocalDate localDate;
     private int row;
     private int seatNumber;
+    private List<Seat> seats;
 }

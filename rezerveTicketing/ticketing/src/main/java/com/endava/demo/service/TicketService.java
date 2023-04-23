@@ -1,6 +1,7 @@
 package com.endava.demo.service;
 
 import com.endava.demo.dto.AddTicketToCartRequest;
+import com.endava.demo.dto.Seat;
 import com.endava.demo.dto.TicketDTO;
 import com.endava.demo.exception.*;
 import com.endava.demo.model.*;
@@ -35,8 +36,11 @@ public class TicketService {
         int concertId = addTicketToCartRequest.getConcertId();
         String ticketType = addTicketToCartRequest.getTicketType();
         LocalDate date = addTicketToCartRequest.getLocalDate();
-        int row = addTicketToCartRequest.getRow();
-        int seatNumber = addTicketToCartRequest.getSeatNumber();
+        List<Seat> seats = addTicketToCartRequest.getSeats();
+
+        if (seats == null) {
+            throw new IllegalArgumentException("Seats list cannot be null");
+        }
 
         User user = userRepo.findById(userId)
                 .orElseThrow(() -> new UserDoesNotExistsException(String.valueOf(userId)));
@@ -47,8 +51,6 @@ public class TicketService {
         ticket.setCart(cart);
         ticket.setTicketType(TicketType.valueOf(ticketType));
         ticket.setDate(date);
-        ticket.setRow(row);
-        ticket.setSeatNumber(seatNumber);
 
         if (movieId != 0) {
             Movie movie = movieRepo.findById(movieId)
@@ -72,15 +74,35 @@ public class TicketService {
 
         if (existingTicket != null) {
             // If a ticket with the same type exists, increment its quantity
-            existingTicket.setQuantity(existingTicket.getQuantity() + 1);
+            existingTicket.setQuantity(existingTicket.getQuantity() + seats.size());
+
+            // Add the new TicketSeat instances to the existing ticket
+            for (Seat seat : seats) {
+                TicketSeat ticketSeat = new TicketSeat();
+                ticketSeat.setRow(seat.getRow());
+                ticketSeat.setSeatNumber(seat.getSeatNumber());
+                existingTicket.addTicketSeat(ticketSeat);
+            }
+
             ticketRepo.save(existingTicket);
-            return existingTicket.toDTO();
         } else {
-            // If not, create a new ticket
+            // If not, create a new ticket with the desired quantity (number of selected seats)
+                ticket.setQuantity(seats.size());
+
+            // Add the new TicketSeat instances to the new ticket
+                for (Seat seat : seats) {
+                    TicketSeat ticketSeat = new TicketSeat();
+                    ticketSeat.setRow(seat.getRow());
+                    ticketSeat.setSeatNumber(seat.getSeatNumber());
+                    ticket.addTicketSeat(ticketSeat);
+                }
+
             ticketRepo.save(ticket);
-            return ticket.toDTO();
         }
+
+        return ticket.toDTO(); // Return the first ticket as a DTO
     }
+
 
 
     public List<Ticket> getTicketList(){

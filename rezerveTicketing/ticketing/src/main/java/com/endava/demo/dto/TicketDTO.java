@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter
@@ -26,5 +27,6 @@ public class TicketDTO {
         private Concert concert;
         private TicketType ticketType;
         private int quantity;
+        private List<TicketSeatDTO> ticketSeats;
 
     }
