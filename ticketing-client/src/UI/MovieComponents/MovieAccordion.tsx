@@ -6,13 +6,13 @@ import { Movie } from './Movie';
 import '../CSS/EventDetails.css';
 import RestClient from "../../REST/RestClient";
 import 'mdb-react-ui-kit/dist/css/mdb.min.css';
-import CartModal2 from '../CartElements/CartModal2';
 import { TicketType } from "../TicketType";
 import "../CSS/SeatPicker.css";
 import { CustomSeatPicker } from "../SeatPicker";
 import { MyLocation } from "../../interfaces/MyLocation";
 import { Link } from 'react-router-dom';
-
+import CartModal from '../CartElements/CartModal';
+import { useCartContext } from "../CartElements/CartContext";
 
 
 
@@ -31,8 +31,8 @@ export const MovieAccordion: React.FC<MovieAccordionProps> = ({ ticketsGroup, ti
   const [selectedTicketType, setSelectedTicketType] = useState<TicketType | null>(null);
   const [selectedLocation, setSelectedLocation] = useState<MyLocation | null>(null);
   const [selectedSeats, setSelectedSeats] = useState<Array<{ row: number; seat: number }>>([]);
-
-
+  const { cart, setCart, fetchCart } = useCartContext();
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   useEffect(() => {
     getMovies(parseInt(index)).then((data) => {
@@ -81,7 +81,7 @@ export const MovieAccordion: React.FC<MovieAccordionProps> = ({ ticketsGroup, ti
 
   const handleOpenModalWithTicketType = (ticketType: TicketType) => {
     if (!selectedLocation) {
-      alert('Please select a location first');
+      setErrorMessage("Choose a location first");
       return;
     }
     setSelectedTicketType(ticketType);
@@ -137,16 +137,8 @@ export const MovieAccordion: React.FC<MovieAccordionProps> = ({ ticketsGroup, ti
     const selectedDate = new Date("2023-04-10");
 
     try {
-
-      if (selectedSeats.length === 0) {
-        console.error("No seat selected");
-        alert("No seats selected");
-        return;
-      }
-
       const ticket = await RestClient.addTicketToCart(
         userId,
-        null,
         movieId,
         null,
         ticketType,
@@ -156,32 +148,15 @@ export const MovieAccordion: React.FC<MovieAccordionProps> = ({ ticketsGroup, ti
 
       console.log("Ticket added to cart");
 
-      setCart((prevCart) => {
-        if (!prevCart) {
-          return { id: 0, tickets: [ticket] };
-        }
-
-        const existingTicketIndex = prevCart.tickets.findIndex(
-          (t: { movieId: number; ticketType: TicketType }) =>
-            t.movieId === movieId && t.ticketType === ticketType
-        );
-
-        if (existingTicketIndex !== -1) {
-          const updatedTickets = [...prevCart.tickets];
-          updatedTickets[existingTicketIndex] = ticket;
-          return { ...prevCart, tickets: updatedTickets };
-        } else {
-          return { ...prevCart, tickets: [...prevCart.tickets, ticket] };
-        }
-      });
+      if (fetchCart) {
+        fetchCart();
+      }
 
     } catch (error) {
       console.error("Failed to add ticket to cart", error);
     }
     window.location.reload();
   };
-
-
 
   return (
     <div className="accordion accordion-borderless" id="accordionFlushExampleX">
@@ -202,7 +177,7 @@ export const MovieAccordion: React.FC<MovieAccordionProps> = ({ ticketsGroup, ti
               Buy tickets
             </Button>
 
-            <CartModal2 />
+            <CartModal />
 
 
             <Collapse in={showTickets}>
@@ -224,7 +199,11 @@ export const MovieAccordion: React.FC<MovieAccordionProps> = ({ ticketsGroup, ti
                       </option>
                     ))}
                   </select>
-
+                  {errorMessage && (
+                    <div className="alert alert-danger" role="alert">
+                      {errorMessage}
+                    </div>
+                  )}
                 </div>
 
                 <Modal show={showModal} onHide={handleModalVisibility}>

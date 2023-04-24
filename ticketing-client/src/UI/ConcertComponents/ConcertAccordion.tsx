@@ -7,8 +7,9 @@ import { Concert } from './Concert';
 import '../CSS/EventDetails.css';
 import RestClient from "../../REST/RestClient";
 import 'mdb-react-ui-kit/dist/css/mdb.min.css';
-import CartModal2 from '../CartElements/CartModal2';
 import { MyLocation } from '../../interfaces/MyLocation';
+import CartModal from '../CartElements/CartModal';
+import { useCartContext } from "../CartElements/CartContext";
 
 
 interface ConcertAccordionProps {
@@ -23,6 +24,7 @@ export const ConcertAccordion: React.FC<ConcertAccordionProps> = ({ ticketsGroup
     const [showTickets, setShowTickets] = useState(false);
     const [selectedLocation, setSelectedLocation] = useState<MyLocation | null>(null);
 
+    const { fetchCart } = useCartContext();
 
 
     useEffect(() => {
@@ -54,15 +56,12 @@ export const ConcertAccordion: React.FC<ConcertAccordionProps> = ({ ticketsGroup
         const concertId = concert.id;
         const selectedDate = new Date("2023-04-10");
 
-        // TODO: get these values from the UI using a select seat component
         const selectedRow = 2;
         const selectedSeatNumber = 2;
 
         try {
-            // needs modification for every entity added to cart(adding null)
             const ticket = await RestClient.addTicketToCart(
                 userId,
-                null,
                 null,
                 concertId,
                 ticketType,
@@ -70,35 +69,15 @@ export const ConcertAccordion: React.FC<ConcertAccordionProps> = ({ ticketsGroup
                 [{ row: selectedRow, seat: selectedSeatNumber }]
             );
 
-
             console.log("Ticket added to cart");
 
-            // Update the cart state with the new ticket
-            setCart((prevCart) => {
-                if (!prevCart) {
-                    return { id: 0, tickets: [ticket] };
-                }
+            // Call fetchCart to refresh the cart data
+            fetchCart();
 
-                // Find existing ticket index with the same movieId and ticketType
-                const existingTicketIndex = prevCart.tickets.findIndex((t: { concertId: number; ticketType: TicketType; }) => t.concertId === concertId && t.ticketType === ticketType);
-
-                if (existingTicketIndex !== -1) {
-
-                    // Update the existing ticket's quantity
-                    const updatedTickets = [...prevCart.tickets];
-                    updatedTickets[existingTicketIndex] = ticket;
-                    return { ...prevCart, tickets: updatedTickets };
-                } else {
-
-                    // Add the new ticket to the cart
-                    return { ...prevCart, tickets: [...prevCart.tickets, ticket] };
-                }
-            });
         } catch (error) {
             console.error("Failed to add ticket to cart", error);
         }
 
-        // reload the page to update the cart
         window.location.reload();
     };
 
@@ -124,7 +103,7 @@ export const ConcertAccordion: React.FC<ConcertAccordionProps> = ({ ticketsGroup
                         </Button>
 
 
-                        <CartModal2 />
+                        <CartModal />
 
 
                         <Collapse in={showTickets}>

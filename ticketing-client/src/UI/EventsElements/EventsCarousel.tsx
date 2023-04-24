@@ -8,10 +8,10 @@ import { Movie } from '../MovieComponents/Movie';
 import { StandUp } from '../StandupComponents/StandUp';
 import '../CSS/EventCarousel.css';
 import 'mdb-react-ui-kit/dist/css/mdb.min.css';
-import CartModal2 from '../CartElements/CartModal2';
 import { Concert } from '../ConcertComponents/Concert';
 import styles from "../CSS/CardComponent.module.css";
 import { Link } from 'react-router-dom';
+import CartModal from '../CartElements/CartModal';
 
 interface EventsCarouselProps {
     initialEventType: string;
@@ -184,7 +184,7 @@ export default function EventsCarousel({ initialEventType }: EventsCarouselProps
                         <NavDropdown.Item eventKey="standUps">Stand-Ups</NavDropdown.Item>
                         <NavDropdown.Item eventKey="concerts">Concerts</NavDropdown.Item>
                     </NavDropdown>
-                    <CartModal2 />
+                    <CartModal />
                 </Container>
             </Navbar>
 

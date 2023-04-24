@@ -5,9 +5,9 @@ import '.././CSS/MyLocations.css';
 import { Col, Container, Row, Form, FormControl } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { Navbar } from 'react-bootstrap';
-import CartModal2 from '../CartElements/CartModal2';
 import BannerCarousel from '../BannerCarousel';
 import "../CSS/EventDetails.css";
+import CartModal from '../CartElements/CartModal';
 
 
 export default function MyLocations() {
@@ -47,7 +47,7 @@ export default function MyLocations() {
 
       <Navbar className="navbar navbar-expand-lg navbar-dark sticky-top gradient-custom-search-bar" bg="dark" variant="dark">
         <Container fluid>
-          <CartModal2 />
+          <CartModal />
 
           <Form className="d-flex ms-auto">
             <FormControl

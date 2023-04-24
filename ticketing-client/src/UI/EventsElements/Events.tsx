@@ -7,11 +7,11 @@ import { StandUp } from '../StandupComponents/StandUp';
 import '../CSS/Event.css';
 import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 import BannerCarousel from '../BannerCarousel';
-import CartModal2 from '../CartElements/CartModal2';
 import { Concert } from '../ConcertComponents/Concert';
 import "../CSS/EventDetails.css";
 import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import CartModal from '../CartElements/CartModal';
 
 
 
@@ -151,7 +151,7 @@ export default function Events() {
             <NavDropdown.Item eventKey="standUps">Stand-Ups</NavDropdown.Item>
             <NavDropdown.Item eventKey="concerts">Concerts</NavDropdown.Item>
           </NavDropdown>
-          <CartModal2 />
+          <CartModal />
 
           <Form className="d-flex ms-auto">
             <FormControl

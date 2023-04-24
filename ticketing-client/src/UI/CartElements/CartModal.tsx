@@ -5,10 +5,9 @@ import RestClient from '../../REST/RestClient';
 
 // needs modification for every entity added to cart
 import { getMovies, getConcerts } from '../../api/api';
-
 import { TicketType } from '../TicketType';
 import { groupBy, flatMap } from "lodash";
-import { useCart } from './CartContext';
+import { useCartContext } from './CartContext';
 import { Ticket } from '../../interfaces/Ticket';
 import { Seat } from '../../interfaces/Seat';
 import { Dropdown } from 'react-bootstrap';
@@ -22,9 +21,12 @@ export default function CartModal() {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
 
-  const { cart, setCart } = useCart();
+  const { cart, setCart } = useCartContext();
 
-  const handleClose = () => setShow(false);
+  const handleClose = () => {
+    setShow(false);
+    fetchCart();
+  }
 
   const userIdString = localStorage.getItem("userId");
   const userId = userIdString ? parseInt(userIdString) : null;
@@ -230,19 +232,9 @@ export default function CartModal() {
 
   return (
     <>
-      <i className="fas fa-solid fa-hippo text-white" onClick={handleShow}></i>
-      <i className="fas fa-solid fa-hippo "></i>
-      <i className="fas fa-solid fa-hippo "></i>
-      <i className="fas fa-solid fa-hippo "></i>
-      <i className="fas fa-solid fa-hippo text-white" onClick={handleShow}></i>
-      <i className="fas fa-solid fa-hippo text-white" onClick={handleShow}></i>
-      <i className="fas fa-solid fa-hippo text-white" onClick={handleShow}></i>
-      <i className="fas fa-solid fa-hippo text-white" onClick={handleShow}></i>
-      <i className="fas fa-solid fa-hippo text-white" onClick={handleShow}></i>
-      <i className="fas fa-solid fa-hippo text-white" onClick={handleShow}></i>
-      <i className="fas fa-solid fa-hippo text-white" onClick={handleShow}></i>
-      <i className="fas fa-solid fa-hippo text-white" onClick={handleShow}></i>
-      <i className="fas fa-shopping-cart text-white" onClick={handleShow}></i>
+      <Button variant="btn btn-secondary btn-outline-dark fas fa-shopping-cart " onClick={handleShow} style={{ width: '400px' }}>
+        View Cart
+      </Button>
 
       <Modal show={show} onHide={handleClose} size="xl" centered>
         <Modal.Header closeButton className="border-bottom-0 gradient-custom">

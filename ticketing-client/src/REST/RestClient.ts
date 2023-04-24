@@ -132,7 +132,6 @@ export default class RestClient {
 
   static async addTicketToCart(
     userId: number,
-    eventId: number | null,
     movieId: number | null,
     concertId: number | null,
     ticketType: string,
@@ -147,7 +146,6 @@ export default class RestClient {
     const body = JSON.stringify({
       userId,
       movieId,
-      eventId,
       concertId,
       ticketType,
       localDate: date.toISOString(),
