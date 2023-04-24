@@ -42,3 +42,7 @@
 .seat.reserved {
     background-color: gray;
 }
+
+.seat.empty {
+    background-color: white;
+}
