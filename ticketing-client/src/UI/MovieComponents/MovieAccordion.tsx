@@ -34,6 +34,7 @@ export const MovieAccordion: React.FC<MovieAccordionProps> = ({ ticketsGroup, ti
   const { cart, setCart, fetchCart } = useCartContext();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
+
   useEffect(() => {
     getMovies(parseInt(index)).then((data) => {
       const fetchedMovie = data[0];

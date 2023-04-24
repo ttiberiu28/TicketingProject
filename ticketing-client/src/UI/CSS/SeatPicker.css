@@ -3,6 +3,9 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    font-family: sans-serif;
+    text-align: center;
+    margin: auto;
 }
 
 .screen {
@@ -10,6 +13,7 @@
     height: 20px;
     background-color: #120f0f;
     margin-bottom: 10px;
+    color: wheat;
 }
 
 .row {
@@ -24,8 +28,17 @@
     border-radius: 50% 50% 0px 0px;
     margin: 3px;
     cursor: pointer;
+    background-color: green;
 }
 
 .seat:hover {
     transform: scale(1.1);
+}
+
+.seat.selected {
+    background-color: blue;
+}
+
+.seat.reserved {
+    background-color: gray;
 }

@@ -119,14 +119,14 @@ export default function NavBar() {
           )}
 
           {isLoggedIn && (
-            <button className="btn btn-danger btn-rounded btn-outline-purple" onClick={logout}>
+            <button className="btn btn-danger btn-rounded btn-outline-dark" onClick={logout}>
               <i><b>Logout</b></i>
             </button>
           )}
 
           {username && (
             <div className="navbar-text me-3 ml-3">
-              <i>Logged in as</i>: <strong>{username}</strong>
+              <i className='logged2-text'>Logged in as: </i> <strong className='logged-text'><i>{username}</i></strong>
             </div>
           )}
 
