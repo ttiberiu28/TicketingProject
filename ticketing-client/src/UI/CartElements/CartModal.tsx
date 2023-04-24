@@ -79,9 +79,8 @@ export default function CartModal() {
     }
 
     setShow(true);
+    fetchCart();
 
-    // Add the following log statements to help debug
-    // console.log("Cart details:", cart);
     if (cart) {
       cart.tickets.forEach((ticket) => {
         console.log("Movie details for ticket:", ticket.movie);
@@ -100,6 +99,14 @@ export default function CartModal() {
       return total;
     }, 0);
   };
+
+  const getTotalItems = () => {
+    if (!cart) return 0;
+
+    const totalItems = cart.tickets.reduce((acc, ticket) => acc + ticket.quantity, 0);
+    return totalItems;
+  };
+
 
 
   const updateTicketQuantity = (ticketId: number, quantity: any) => {
@@ -232,7 +239,11 @@ export default function CartModal() {
 
   return (
     <>
-      <Button variant="btn btn-secondary btn-outline-dark fas fa-shopping-cart " onClick={handleShow} style={{ width: '400px' }}>
+      <Button variant="btn btn-dark btn-outline-success" onClick={handleShow} style={{ width: '400px' }}>
+        <span>
+          <span className="badge badge-pill bg-danger">{getTotalItems()}</span>
+          <i className="fas fa-shopping-cart"></i>
+        </span>
         View Cart
       </Button>
 
