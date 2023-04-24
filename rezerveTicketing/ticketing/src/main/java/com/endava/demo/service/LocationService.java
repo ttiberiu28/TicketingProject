@@ -34,28 +34,30 @@ public class LocationService {
 
     }
 
-    public void addLocation(String place, int capacity, String imageUrl, String address, String city){
+    public void addLocation(String place, int capacity, String imageUrl, String address, String city, String seatsLayout) {
 
         var l = locationRepo.findByPlace(place);
 
         l.ifPresentOrElse(x -> {
-            throw new LocationAlreadyExistsException(x.getPlace());
+                    throw new LocationAlreadyExistsException(x.getPlace());
 
-        }, () -> {
+                }, () -> {
 
-            Location x = new Location();
+                    Location x = new Location();
 
-            x.setPlace(place);
-            x.setCapacity(capacity);
-            x.setImageUrl(imageUrl);
-            x.setAddress(address);
-            x.setCity(city);
+                    x.setPlace(place);
+                    x.setCapacity(capacity);
+                    x.setImageUrl(imageUrl);
+                    x.setAddress(address);
+                    x.setCity(city);
+                    x.setSeatsLayout(seatsLayout); // Add this line
 
-            locationRepo.save(x);
+                    locationRepo.save(x);
 
-        }
+                }
         );
     }
+
     public void deleteById(int id){
         locationRepo.deleteById(id);
     }

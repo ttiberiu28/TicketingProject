@@ -5,4 +5,5 @@ export interface MyLocation {
   imageUrl: string;
   address: string;
   city: string;
+  seatsLayout: string;
 }  

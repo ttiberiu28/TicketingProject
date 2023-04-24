@@ -58,6 +58,9 @@ public class Location {
 
     private String city;
 
+    @Column(name = "seats_layout", length = 2048)
+    private String seatsLayout;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

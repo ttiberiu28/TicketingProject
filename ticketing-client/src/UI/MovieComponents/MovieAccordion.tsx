@@ -207,17 +207,24 @@ export const MovieAccordion: React.FC<MovieAccordionProps> = ({ ticketsGroup, ti
                   )}
                 </div>
 
-                <Modal show={showModal} onHide={handleModalVisibility}>
+                <Modal size="xl" show={showModal} onHide={handleModalVisibility}>
                   <Modal.Header closeButton>
                     <Modal.Title>Select a seat</Modal.Title>
                   </Modal.Header>
                   <Modal.Body>
                     <CustomSeatPicker
-                      rows={selectedLocation ? getRowsAndSeatsPerRow(selectedLocation.capacity).rows : 0}
-                      seatsPerRow={selectedLocation ? getRowsAndSeatsPerRow(selectedLocation.capacity).seatsPerRow : 0}
+                      seatsLayout={
+                        selectedLocation
+                          ? (() => {
+                            console.log("selectedLocation.seatsLayout", selectedLocation.seatsLayout);
+                            return JSON.parse(selectedLocation.seatsLayout);
+                          })()
+                          : [[]]
+                      }
                       onSeatSelected={handleSeatSelected}
                       selectedSeats={selectedSeats}
                     />
+
 
                     {selectedTicketType && (
                       <button
