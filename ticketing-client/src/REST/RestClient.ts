@@ -272,6 +272,19 @@ export default class RestClient {
     }
   }
 
+  static async deleteSeatById(seatId: number): Promise<void> {
+    const url = `${RestClient.baseUrl}/api/ticketSeat/deletion/${seatId}`;
+
+    const headers = new Headers();
+    headers.set("Content-Type", "application/json");
+
+    const response = await fetch(url, { method: "DELETE", headers: headers });
+
+    if (!response.ok) {
+      throw new Error("Seat deletion failed");
+    }
+  }
+
 
 }
 

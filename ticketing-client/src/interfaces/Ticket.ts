@@ -1,6 +1,7 @@
 import { Movie } from "../UI/MovieComponents/Movie";
 import { Concert } from "../UI/ConcertComponents/Concert";
 import { TicketType } from "../UI/TicketType";
+import { Seat } from "./Seat";
 
 
 export interface Ticket {
@@ -19,6 +20,6 @@ export interface Ticket {
   row: number;
   seatNumber: number;
   ticketType: TicketType;
-  ticketSeats: { row: number; seatNumber: number }[];
+  ticketSeats: Seat[];
   quantity: number;
 }

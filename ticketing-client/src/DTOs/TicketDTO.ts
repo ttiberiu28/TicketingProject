@@ -1,6 +1,7 @@
 import { Movie } from "../UI/MovieComponents/Movie";
 import { Concert } from "../UI/ConcertComponents/Concert";
 import { TicketType } from "../UI/TicketType";
+import { Seat } from "../interfaces/Seat";
 
 export interface TicketDTO {
   id: number;
@@ -13,6 +14,6 @@ export interface TicketDTO {
   row: number;
   seatNumber: number;
   ticketType: TicketType;
-  ticketSeats: { row: number; seatNumber: number }[];
+  ticketSeats: Seat[];
   quantity: number;
 }

@@ -17,6 +17,9 @@ public class Constant {
 
     public static final String CONCERT_CONTROLLER = "/api/concert";
 
+    public static final String TICKET_SEAT_CONTROLLER = "/api/ticketSeat";
+
+
     /*
         MAPPING PATHS
      */

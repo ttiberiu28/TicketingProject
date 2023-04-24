@@ -1,5 +1,5 @@
 import '../CSS/CartModal.css';
-import { Modal, Button, Table } from 'react-bootstrap';
+import { Modal, Button, Table, FormControl } from 'react-bootstrap';
 import React, { useEffect, useState } from 'react';
 import RestClient from '../../REST/RestClient';
 
@@ -10,10 +10,18 @@ import { TicketType } from '../TicketType';
 import { groupBy, flatMap } from "lodash";
 import { useCart } from './CartContext';
 import { Ticket } from '../../interfaces/Ticket';
+import { Seat } from '../../interfaces/Seat';
+import { Dropdown } from 'react-bootstrap';
+import { Cart } from '../../interfaces/Cart';
 
 export default function CartModal() {
 
   const [show, setShow] = useState(false);
+  const [updatedCart, setUpdatedCart] = useState<Cart | null>(null);
+  const [updatedTicketsGroups, setUpdatedTicketsGroups] = useState<any[] | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+
   const { cart, setCart } = useCart();
 
   const handleClose = () => setShow(false);
@@ -21,7 +29,7 @@ export default function CartModal() {
   const userIdString = localStorage.getItem("userId");
   const userId = userIdString ? parseInt(userIdString) : null;
 
-  const fetchCart = async () => {
+  const fetchCart = async (callback?: () => void) => {
     if (!userId) return;
 
     const fetchedCart = await RestClient.getCart(userId);
@@ -47,9 +55,14 @@ export default function CartModal() {
       });
       // console.log("Grouped tickets:", groupedTickets);
 
-      setCart({ ...fetchedCart, tickets: flatMap(groupedTickets, (group) => group) });
+      if (callback) {
+        callback();
+      }
+
+      setUpdatedCart({ ...fetchedCart, tickets: flatMap(groupedTickets, (group) => group) });
+      setUpdatedTicketsGroups(Object.values(groupedTickets));
     } else {
-      setCart(null);
+      setUpdatedCart(null);
     }
   };
 
@@ -75,8 +88,8 @@ export default function CartModal() {
   };
 
   const calculateTotal = () => {
-    if (!cart) return 0;
-    return cart.tickets.reduce((total, ticket) => {
+    if (!updatedCart) return 0;
+    return updatedCart.tickets.reduce((total, ticket) => {
       if (ticket.movieId) {
         return total + (ticket.movie?.getPrice(ticket.ticketType) || 0) * ticket.quantity;
       } else if (ticket.concertId) {
@@ -86,8 +99,9 @@ export default function CartModal() {
     }, 0);
   };
 
+
   const updateTicketQuantity = (ticketId: number, quantity: any) => {
-    setCart((prevCart) => {
+    setUpdatedCart((prevCart) => {
       if (!prevCart) {
         return null;
       }
@@ -107,24 +121,89 @@ export default function CartModal() {
   const handleIncrement = async (ticketId: number) => {
     console.log("Incrementing ticketId:", ticketId);
     await RestClient.incrementTicketQuantity(ticketId);
-    if (cart) {
-      const foundTicket = cart.tickets.find((t) => t.id === ticketId);
+    if (updatedCart) {
+      const foundTicket = updatedCart.tickets.find((t) => t.id === ticketId);
       if (foundTicket) {
         updateTicketQuantity(ticketId, foundTicket.quantity + 1);
       }
     }
   };
 
-  const handleDecrement = async (ticketId: number) => {
+  const handleDecrement = async (ticketId: number, seatId?: number) => {
     console.log("Decrementing ticketId:", ticketId);
-    await RestClient.decrementTicketQuantity(ticketId);
-    if (cart) {
-      const foundTicket = cart.tickets.find((t) => t.id === ticketId);
-      if (foundTicket) {
-        updateTicketQuantity(ticketId, foundTicket.quantity - 1);
+
+    if (seatId) {
+      const foundTicket = updatedCart?.tickets.find((t) => t.id === ticketId);
+      if (foundTicket && foundTicket.quantity === 1) {
+        setErrorMessage("Cannot delete the last seat.");
+        return;
       }
+      await RestClient.deleteSeatById(seatId);
+    } else {
+      await RestClient.decrementTicketQuantity(ticketId);
     }
+
+    fetchCart(() => {
+      if (updatedCart) {
+        const foundTicket = updatedCart.tickets.find((t) => t.id === ticketId);
+        if (foundTicket) {
+          updateTicketQuantity(ticketId, foundTicket.quantity - 1);
+        }
+      }
+    });
+
+    setCart((prevCart) => {
+      if (!prevCart) {
+        return null;
+      }
+
+      return {
+        ...prevCart,
+        tickets: prevCart.tickets.map((ticket) => {
+          if (ticket.id === ticketId) {
+            if (seatId) {
+              return {
+                ...ticket,
+                ticketSeats: ticket.ticketSeats.filter((seat) => seat.id !== seatId),
+              };
+            } else {
+              return {
+                ...ticket,
+                quantity: ticket.quantity - 1,
+              };
+            }
+          }
+          return ticket;
+        }),
+      };
+    });
+
+    setUpdatedTicketsGroups((prevGroups) => {
+      if (!prevGroups) {
+        return null;
+      }
+
+      return prevGroups.map((group) => {
+        if (group[0].id === ticketId) {
+          if (seatId) {
+            return group.map((ticket: Ticket) => ({
+              ...ticket,
+              ticketSeats: ticket.ticketSeats.filter((seat) => seat.id !== seatId),
+            }));
+          } else {
+            return group.map((ticket: Ticket) => ({
+              ...ticket,
+              quantity: ticket.quantity - 1,
+            }));
+          }
+        }
+        return group;
+      });
+    });
   };
+
+
+
 
   const handleDelete = async (ticketId: number) => {
     console.log("Deleting ticketId:", ticketId);
@@ -135,6 +214,14 @@ export default function CartModal() {
       }
       const updatedTickets = prevCart.tickets.filter((ticket) => ticket.id !== ticketId);
       return { ...prevCart, tickets: updatedTickets, id: prevCart.id };
+    });
+
+    setUpdatedCart((prevUpdatedCart) => {
+      if (!prevUpdatedCart) {
+        return null;
+      }
+      const updatedTickets = prevUpdatedCart.tickets.filter((ticket) => ticket.id !== ticketId);
+      return { ...prevUpdatedCart, tickets: updatedTickets, id: prevUpdatedCart.id };
     });
   };
 
@@ -163,6 +250,11 @@ export default function CartModal() {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body className="">
+          {errorMessage && (
+            <div className="alert alert-danger" role="alert">
+              {errorMessage}
+            </div>
+          )}
           <Table bordered={false} hover>
             <thead>
               <tr>
@@ -210,40 +302,65 @@ export default function CartModal() {
                         {eventName} {ticketTypeLabel}
                       </td>
                       <td>
-                        {(ticket.movie
-                          ? ticket.movie.getPrice(ticket.ticketType)
-                          : ticket.concert.getPrice(ticket.ticketType)) *
-                          ticket.quantity}
+                        {(
+                          ticket.movie
+                            ? ticket.movie.getPrice(ticket.ticketType)
+                            : ticket.concert.getPrice(ticket.ticketType)
+                        ) * (updatedCart?.tickets.find(t => t.id === ticket.id)?.quantity || ticket.quantity)}
                       </td>
+
                       <td className="qty">
                         <div className="d-flex align-items-center">
-                          <Button className="btn  px-3 me-2" onClick={() => handleDecrement(ticket.id)}>
-                            <i className="fas fa-minus"></i>
-                          </Button>
+                          <Dropdown>
+                            <Dropdown.Toggle variant="btn" className="px-3 me-2">
+                              <i className="fas fa-minus"></i>
+                            </Dropdown.Toggle>
+                            <Dropdown.Menu>
+                              {ticket.ticketSeats.map((seat: Seat) => (
+                                <Dropdown.Item
+                                  key={seat.id}
+                                  onClick={() => handleDecrement(ticket.id, seat.id)}
+                                >
+                                  {seat.row}:{seat.seatNumber} (Delete)
+                                </Dropdown.Item>
+                              ))}
+                            </Dropdown.Menu>
+                          </Dropdown>
+
 
                           <div className="form-outline">
                             <input
                               id="form1"
                               name="quantity"
-                              value={ticketsGroup.reduce(
-                                (total: number, t: Ticket) => total + t.quantity,
-                                0
-                              )}
+                              value={updatedCart?.tickets.find(t => t.id === ticket.id)?.quantity || ticket.quantity}
                               type="text"
                               className="form-control"
                               readOnly
                             />
+
+
                             <label className="form-label" htmlFor="form1">Quantity</label>
                           </div>
 
-                          <Button className="btn px-3 ms-2" onClick={() => handleIncrement(ticket.id)}>
+                          <Button className="btn px-3 ms-2" disabled onClick={() => handleIncrement(ticket.id)}>
                             <i className="fas fa-plus"></i>
                           </Button>
                         </div>
+
                       </td>
 
-                      <td>{ticket.row}</td>
-                      <td>{ticket.seatNumber}</td>
+                      <td>
+                        {ticket.ticketSeats.map((seat: { row: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined; }) => (
+                          <div>{seat.row}</div>
+                        ))}
+                      </td>
+                      <td>
+                        {ticket.ticketSeats.map((seat: { seatNumber: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined; }) => (
+                          <div>{seat.seatNumber}</div>
+                        ))}
+                      </td>
+
+
                       <td>
                         <Button variant="danger" size="sm" onClick={() => handleDelete(ticket.id)}>
                           <i className="fa fa-times"></i>
