@@ -269,6 +269,7 @@ export default function CartModal() {
                 <th>Price</th>
                 <th>Quantity</th>
                 <th>Row</th>
+                <th>Date</th>
                 <th>Seat</th>
                 <th>Actions</th>
               </tr>

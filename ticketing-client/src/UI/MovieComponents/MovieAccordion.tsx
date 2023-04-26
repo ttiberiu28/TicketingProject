@@ -13,6 +13,7 @@ import { MyLocation } from "../../interfaces/MyLocation";
 import { Link } from 'react-router-dom';
 import CartModal from '../CartElements/CartModal';
 import { useCartContext } from "../CartElements/CartContext";
+import MyDateTimePicker from '../MyDateTimePicker';
 
 
 
@@ -33,7 +34,43 @@ export const MovieAccordion: React.FC<MovieAccordionProps> = ({ ticketsGroup, ti
   const [selectedSeats, setSelectedSeats] = useState<Array<{ row: number; seat: number }>>([]);
   const { cart, setCart, fetchCart } = useCartContext();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [selectedDateTime, setSelectedDateTime] = useState<Date>(new Date());
 
+
+  // Sample available hours data
+  const movieAvailableHours = [
+    {
+      movieId: 1,
+      availableHours: ['10:00', '12:30', '15:00', '18:00', '20:30'],
+    },
+    // ...
+  ];
+
+  const findClosestAvailableTime = (movieId: number, selectedDate: string | number | Date) => {
+    const movieData = movieAvailableHours.find((movie) => movie.movieId === movieId);
+    if (!movieData) {
+      return null;
+    }
+
+    const selectedDateTime = new Date(selectedDate);
+    let closestHour = null; // Initialize closestHour to null instead of leaving it undefined.
+    let minDiff = Number.MAX_SAFE_INTEGER;
+
+    movieData.availableHours.forEach((hour: string) => {
+      const [hours, minutes] = hour.split(':');
+      const movieDateTime = new Date(selectedDateTime);
+      movieDateTime.setHours(parseInt(hours));
+      movieDateTime.setMinutes(parseInt(minutes));
+
+      const diff = Math.abs(movieDateTime.getTime() - selectedDateTime.getTime());
+      if (diff < minDiff) {
+        closestHour = hour;
+        minDiff = diff;
+      }
+    });
+
+    return closestHour;
+  };
 
   useEffect(() => {
     getMovies(parseInt(index)).then((data) => {
@@ -109,6 +146,8 @@ export const MovieAccordion: React.FC<MovieAccordionProps> = ({ ticketsGroup, ti
   };
 
 
+
+
   const handleAddToCartClick = async (ticketType: TicketType) => {
     const userIdString = localStorage.getItem("userId");
 
@@ -125,8 +164,18 @@ export const MovieAccordion: React.FC<MovieAccordionProps> = ({ ticketsGroup, ti
     const userId = parseInt(userIdString);
     const movieId = movie.id;
 
-    // todo - get the selected date from the date picker
-    const selectedDate = new Date("2023-04-10");
+    const selectedDate = new Date(selectedDateTime);
+    const closestAvailableTime: string | null = findClosestAvailableTime(movie.id, selectedDate);
+
+    if (closestAvailableTime) {
+      const [hours, minutes] = (closestAvailableTime as string).split(':');
+      selectedDate.setHours(parseInt(hours));
+      selectedDate.setMinutes(parseInt(minutes));
+    } else {
+      console.error("No available hours found for the movie");
+      return;
+    }
+
 
     try {
       const ticket = await RestClient.addTicketToCart(
@@ -135,7 +184,7 @@ export const MovieAccordion: React.FC<MovieAccordionProps> = ({ ticketsGroup, ti
         null,
         ticketType,
         selectedDate,
-        selectedSeats // Pass the selectedSeats array here
+        selectedSeats
       );
 
       console.log("Ticket added to cart");
@@ -177,13 +226,14 @@ export const MovieAccordion: React.FC<MovieAccordionProps> = ({ ticketsGroup, ti
               <div className="ticket-section">
                 <div>
                   <label htmlFor="location-select">Choose a location:</label>
-                  <select id="location-select" className="select my-select" value={selectedLocation ? selectedLocation.id : ""} onChange={(e) => {
-                    const selectedId = parseInt(e.target.value);
-                    const location = movie.locations.find(loc => loc.id === selectedId);
-                    if (location) {
-                      handleLocationSelected(location);
-                    }
-                  }}>
+                  <select id="location-select" className="select my-select" value={selectedLocation ? selectedLocation.id : ""}
+                    onChange={(e) => {
+                      const selectedId = parseInt(e.target.value);
+                      const location = movie.locations.find(loc => loc.id === selectedId);
+                      if (location) {
+                        handleLocationSelected(location);
+                      }
+                    }}>
                     {!selectedLocation && <option value="">Select a location</option>}
                     {movie.locations.map((location) => (
                       <option key={location.id} value={location.id}>
@@ -203,6 +253,15 @@ export const MovieAccordion: React.FC<MovieAccordionProps> = ({ ticketsGroup, ti
                     <Modal.Title>Select a seat</Modal.Title>
                   </Modal.Header>
                   <Modal.Body>
+
+                    <div className="date-time-picker">
+                      <label>Select Date and Time:</label>
+                      <MyDateTimePicker
+                        selected={selectedDateTime}
+                        onChange={(date: Date) => setSelectedDateTime(date)}
+                      />
+                    </div>
+
                     <CustomSeatPicker
                       seatsLayout={
                         selectedLocation
