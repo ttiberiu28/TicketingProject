@@ -6,7 +6,7 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import { useNavigate } from "react-router-dom";
-import CartModal from './CartElements/CartModal';
+import CartModal2 from './CartElements/CartModal2';
 
 export default function NavBar() {
   const { username, isLoggedIn, logout } = useAuth();
@@ -130,7 +130,8 @@ export default function NavBar() {
             </div>
           )}
 
-          <CartModal />
+          {/* TODO: fit it in the navbar when on smaller screens */}
+          <CartModal2 />
 
         </div>
       </div>

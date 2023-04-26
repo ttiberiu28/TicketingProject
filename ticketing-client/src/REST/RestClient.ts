@@ -5,7 +5,9 @@ import { TicketDTO } from "../DTOs/TicketDTO";
 import { Concert } from "../UI/ConcertComponents/Concert";
 
 export default class RestClient {
-  static baseUrl = "http://localhost:8080";
+  // static baseUrl = "http://localhost:8080";
+  static baseUrl = "http://192.168.1.95:8080";
+
   static token?: string;
 
   static async signUp(username: string, password: string, confirmPassword: string, email: string, firstName: string, lastName: string): Promise<any> {

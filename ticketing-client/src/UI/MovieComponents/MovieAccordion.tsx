@@ -109,17 +109,6 @@ export const MovieAccordion: React.FC<MovieAccordionProps> = ({ ticketsGroup, ti
   };
 
 
-
-
-
-  const getRowsAndSeatsPerRow = (capacity: number) => {
-    const seatsPerRow = 10; // You can adjust this value based on your requirements
-    const rows = Math.ceil(capacity / seatsPerRow);
-    return { rows, seatsPerRow };
-  };
-
-
-
   const handleAddToCartClick = async (ticketType: TicketType) => {
     const userIdString = localStorage.getItem("userId");
 
@@ -135,6 +124,8 @@ export const MovieAccordion: React.FC<MovieAccordionProps> = ({ ticketsGroup, ti
 
     const userId = parseInt(userIdString);
     const movieId = movie.id;
+
+    // todo - get the selected date from the date picker
     const selectedDate = new Date("2023-04-10");
 
     try {

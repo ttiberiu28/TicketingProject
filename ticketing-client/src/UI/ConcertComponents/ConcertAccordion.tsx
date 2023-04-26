@@ -54,6 +54,7 @@ export const ConcertAccordion: React.FC<ConcertAccordionProps> = ({ ticketsGroup
 
         const userId = parseInt(userIdString);
         const concertId = concert.id;
+
         const selectedDate = new Date("2023-04-10");
 
         const selectedRow = 2;

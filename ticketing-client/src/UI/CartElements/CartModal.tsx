@@ -12,6 +12,7 @@ import { Ticket } from '../../interfaces/Ticket';
 import { Seat } from '../../interfaces/Seat';
 import { Dropdown } from 'react-bootstrap';
 import { Cart } from '../../interfaces/Cart';
+import { useNavigate } from 'react-router-dom';
 
 export default function CartModal() {
 
@@ -27,6 +28,8 @@ export default function CartModal() {
     setShow(false);
     fetchCart();
   }
+
+  const navigate = useNavigate();
 
   const userIdString = localStorage.getItem("userId");
   const userId = userIdString ? parseInt(userIdString) : null;
@@ -239,7 +242,7 @@ export default function CartModal() {
 
   return (
     <>
-      <Button variant="btn btn-dark btn-outline-success" onClick={handleShow} style={{ width: '400px' }}>
+      <Button className="flex" variant="btn btn-dark btn-outline-success" onClick={handleShow} style={{ width: '400px' }}>
         <span>
           <span className="badge badge-pill bg-danger">{getTotalItems()}</span>
           <i className="fas fa-shopping-cart"></i>
@@ -395,7 +398,7 @@ export default function CartModal() {
         </Modal.Body>
         <Modal.Footer className="border-top-0 d-flex justify-content-between gradient-custom-footer">
           <Button variant="secondary fas fa-long-arrow-alt-left me-2" onClick={handleClose}></Button>
-          <Button variant="success">Checkout</Button>
+          <Button variant="success" onClick={() => { navigate('/checkout') }}>Checkout</Button>
 
         </Modal.Footer>
       </Modal>

@@ -14,6 +14,7 @@ import { AuthProvider, useAuth } from './UI/AuthContext';
 import MySignUp from './UI/SingUp';
 import { CartProvider } from './UI/CartElements/CartContext';
 import MovieOffers from './UI/MovieComponents/MovieOffers';
+import Checkout from './UI/CartElements/Checkout';
 
 function App() {
   return (
@@ -125,7 +126,18 @@ function MainApp() {
             </MainLayout>
           }
         />
+
+        <Route
+          path="/checkout"
+          element={
+            <MainLayout>
+              <Checkout />
+            </MainLayout>
+          }
+        />
+
       </Routes>
+
     </BrowserRouter>
   );
 }
