@@ -21,5 +21,6 @@ public class AddTicketToCartRequest {
     private LocalDate localDate;
     private int row;
     private int seatNumber;
+    private String selectedTime;
     private List<Seat> seats;
 }

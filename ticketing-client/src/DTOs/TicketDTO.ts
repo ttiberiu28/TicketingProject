@@ -16,4 +16,5 @@ export interface TicketDTO {
   ticketType: TicketType;
   ticketSeats: Seat[];
   quantity: number;
+  selectedTime: string;
 }

@@ -35,12 +35,17 @@ public class Movie extends Event {
     @Column(name = "trailer_url")
     private String trailerUrl;
 
+    @Column(name = "available_hours", length = 255)
+    private String availableHours;
+
+
     @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL)
     private List<Ticket> tickets;
 
     //mappedBy = "numele variabilei din locations"
     @ManyToMany(mappedBy = "movies")
     private Set<Location> locations;
+
 
     public Movie() {}
 

@@ -14,10 +14,7 @@ const MyDateTimePicker: React.FC<MyDateTimePickerProps> = ({ selected, onChange 
         <DatePicker
             selected={selectedDateTime}
             onChange={(date) => date && setSelectedDateTime(date)}
-            showTimeSelect
-            timeFormat="HH:mm"
-            timeIntervals={30}
-            dateFormat="dd-MM-yyyy HH:mm"
+            dateFormat="dd-MM-yyyy"
         />
     );
 };

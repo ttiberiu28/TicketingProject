@@ -22,6 +22,11 @@ interface MovieAccordionProps {
   ticketsCount: number;
 }
 
+interface MovieAvailableHour {
+  movieId: number;
+  availableHours: string;
+}
+
 export const MovieAccordion: React.FC<MovieAccordionProps> = ({ ticketsGroup, ticketsCount }) => {
 
   const { index = '0' } = useParams<{ index?: string }>();
@@ -33,30 +38,30 @@ export const MovieAccordion: React.FC<MovieAccordionProps> = ({ ticketsGroup, ti
   const [selectedLocation, setSelectedLocation] = useState<MyLocation | null>(null);
   const [selectedSeats, setSelectedSeats] = useState<Array<{ row: number; seat: number }>>([]);
   const { cart, setCart, fetchCart } = useCartContext();
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [locationError, setlocationError] = useState<string | null>(null);
   const [selectedDateTime, setSelectedDateTime] = useState<Date>(new Date());
+  const [movieAvailableHours, setMovieAvailableHours] = useState<MovieAvailableHour[]>([]);
+  const [dateError, setDateError] = useState<string | null>(null);
+  const [selectedHour, setSelectedHour] = useState<string | null>(null);
 
-
-  // Sample available hours data
-  const movieAvailableHours = [
-    {
-      movieId: 1,
-      availableHours: ['10:00', '12:30', '15:00', '18:00', '20:30'],
-    },
-    // ...
-  ];
-
-  const findClosestAvailableTime = (movieId: number, selectedDate: string | number | Date) => {
+  const findClosestAvailableTime = (
+    movieId: number,
+    selectedDate: string | number | Date,
+    movieAvailableHours: MovieAvailableHour[]
+  ) => {
     const movieData = movieAvailableHours.find((movie) => movie.movieId === movieId);
     if (!movieData) {
       return null;
     }
 
     const selectedDateTime = new Date(selectedDate);
-    let closestHour = null; // Initialize closestHour to null instead of leaving it undefined.
+    let closestHour = null;
     let minDiff = Number.MAX_SAFE_INTEGER;
 
-    movieData.availableHours.forEach((hour: string) => {
+    // Parse the availableHours string into an array of strings
+    const parsedAvailableHours = JSON.parse(movieData.availableHours);
+
+    parsedAvailableHours.forEach((hour: string) => {
       const [hours, minutes] = hour.split(':');
       const movieDateTime = new Date(selectedDateTime);
       movieDateTime.setHours(parseInt(hours));
@@ -71,6 +76,17 @@ export const MovieAccordion: React.FC<MovieAccordionProps> = ({ ticketsGroup, ti
 
     return closestHour;
   };
+
+  const handleHourBadgeClick = (hour: string) => {
+    const [hours, minutes] = hour.split(':');
+    const updatedSelectedDateTime = new Date(selectedDateTime);
+    updatedSelectedDateTime.setHours(parseInt(hours));
+    updatedSelectedDateTime.setMinutes(parseInt(minutes));
+    setSelectedDateTime(updatedSelectedDateTime);
+    setSelectedHour(hour);
+  };
+
+
 
   useEffect(() => {
     getMovies(parseInt(index)).then((data) => {
@@ -92,6 +108,11 @@ export const MovieAccordion: React.FC<MovieAccordionProps> = ({ ticketsGroup, ti
           }
         },
       });
+      setMovieAvailableHours([
+        ...movieAvailableHours,
+        { movieId: fetchedMovie.id, availableHours: fetchedMovie.availableHours },
+      ]);
+
     });
   }, [index]);
 
@@ -119,7 +140,7 @@ export const MovieAccordion: React.FC<MovieAccordionProps> = ({ ticketsGroup, ti
 
   const handleOpenModalWithTicketType = (ticketType: TicketType) => {
     if (!selectedLocation) {
-      setErrorMessage("Choose a location first");
+      setlocationError("Choose a location first");
       return;
     }
     setSelectedTicketType(ticketType);
@@ -155,17 +176,32 @@ export const MovieAccordion: React.FC<MovieAccordionProps> = ({ ticketsGroup, ti
       console.error("User not logged in");
       return;
     }
+
     if (selectedSeats.length === 0) {
       console.error("No seat selected");
       alert("No seats selected");
       return;
     }
 
+    if (!selectedDateTime) {
+      setDateError("Please select a date");
+      return;
+    } else {
+      setDateError(null);
+    }
+
     const userId = parseInt(userIdString);
     const movieId = movie.id;
 
     const selectedDate = new Date(selectedDateTime);
-    const closestAvailableTime: string | null = findClosestAvailableTime(movie.id, selectedDate);
+
+    const closestAvailableTime: string | null = findClosestAvailableTime(
+      movie.id,
+      selectedDate,
+      movieAvailableHours
+    );
+
+
 
     if (closestAvailableTime) {
       const [hours, minutes] = (closestAvailableTime as string).split(':');
@@ -184,7 +220,8 @@ export const MovieAccordion: React.FC<MovieAccordionProps> = ({ ticketsGroup, ti
         null,
         ticketType,
         selectedDate,
-        selectedSeats
+        selectedSeats,
+        closestAvailableTime,
       );
 
       console.log("Ticket added to cart");
@@ -241,9 +278,9 @@ export const MovieAccordion: React.FC<MovieAccordionProps> = ({ ticketsGroup, ti
                       </option>
                     ))}
                   </select>
-                  {errorMessage && (
+                  {locationError && (
                     <div className="alert alert-danger" role="alert">
-                      {errorMessage}
+                      {locationError}
                     </div>
                   )}
                 </div>
@@ -255,11 +292,33 @@ export const MovieAccordion: React.FC<MovieAccordionProps> = ({ ticketsGroup, ti
                   <Modal.Body>
 
                     <div className="date-time-picker">
-                      <label>Select Date and Time:</label>
+                      <label>Select Date:</label>
                       <MyDateTimePicker
                         selected={selectedDateTime}
                         onChange={(date: Date) => setSelectedDateTime(date)}
                       />
+                      {dateError && (
+                        <div className="alert alert-danger mt-2" role="alert">
+                          {dateError}
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="available-hours">
+                      <div className="d-flex align-items-center">
+                        <label className="me-2">Available Hours:</label>
+                        {JSON.parse(movie.availableHours).map((hour: string, index: number) => (
+                          <span
+                            key={index}
+                            className={`badge rounded-pill me-2 ${hour === selectedHour ? "badge-success" : "badge-info"
+                              } hour-badge`}
+                            onClick={() => handleHourBadgeClick(hour)}
+                            style={{ cursor: "pointer", fontSize: "1.1rem" }}
+                          >
+                            {hour}
+                          </span>
+                        ))}
+                      </div>
                     </div>
 
                     <CustomSeatPicker

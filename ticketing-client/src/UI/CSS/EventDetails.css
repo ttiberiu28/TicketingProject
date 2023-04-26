@@ -199,3 +199,21 @@
     width: 100%;
     height: 100%;
   }
+
+
+  .available-hours {
+    display: inline-block;
+    margin-left: 20px;
+    vertical-align: top;
+  }
+
+  .available-hours ul {
+    list-style-type: none;
+    padding: 0;
+  }
+
+  .hour-badge:hover {
+    background-color: #28a745;
+    border-color: #28a745;
+    color: white;
+  }

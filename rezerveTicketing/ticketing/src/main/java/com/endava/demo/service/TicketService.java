@@ -35,6 +35,7 @@ public class TicketService {
         int movieId = addTicketToCartRequest.getMovieId();
         int concertId = addTicketToCartRequest.getConcertId();
         String ticketType = addTicketToCartRequest.getTicketType();
+        String selectedTime = addTicketToCartRequest.getSelectedTime();
         LocalDate date = addTicketToCartRequest.getLocalDate();
         List<Seat> seats = addTicketToCartRequest.getSeats();
 
@@ -51,6 +52,7 @@ public class TicketService {
         ticket.setCart(cart);
         ticket.setTicketType(TicketType.valueOf(ticketType));
         ticket.setDate(date);
+        ticket.setSelectedTime(selectedTime);
 
         if (movieId != 0) {
             Movie movie = movieRepo.findById(movieId)

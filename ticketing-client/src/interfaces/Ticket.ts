@@ -22,4 +22,5 @@ export interface Ticket {
   ticketType: TicketType;
   ticketSeats: Seat[];
   quantity: number;
+  selectedTime: string;
 }

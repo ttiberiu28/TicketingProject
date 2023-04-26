@@ -138,7 +138,8 @@ export default class RestClient {
     concertId: number | null,
     ticketType: string,
     date: Date,
-    selectedSeats: { row: number; seat: number }[]
+    selectedSeats: { row: number; seat: number }[],
+    selectedTime: string
   ): Promise<Ticket> {
     const url = `${RestClient.baseUrl}/api/ticket/addToCart`;
     const headers = new Headers();
@@ -152,6 +153,7 @@ export default class RestClient {
       ticketType,
       localDate: date.toISOString(),
       seats: selectedSeats.map((seat) => ({ row: seat.row, seatNumber: seat.seat })),
+      selectedTime,
     });
 
 
@@ -201,6 +203,7 @@ export default class RestClient {
         ticketType: ticketDTO.ticketType,
         ticketSeats: ticketDTO.ticketSeats,
         quantity: ticketDTO.quantity,
+        selectedTime: ticketDTO.selectedTime,
         movieId: undefined,
         concertId: undefined,
       };

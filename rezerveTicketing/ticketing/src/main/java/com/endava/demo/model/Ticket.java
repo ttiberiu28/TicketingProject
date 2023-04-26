@@ -67,6 +67,9 @@ public class Ticket {
     @Column(name = "quantity")
     private int quantity = 1;
 
+    @Column(name = "selected_time", nullable = true, length = 100)
+    private String selectedTime;
+
     @OneToMany(mappedBy = "ticket", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<TicketSeat> ticketSeats = new ArrayList<>();
@@ -101,6 +104,7 @@ public class Ticket {
 
         dto.setTicketType(ticketType);
         dto.setQuantity(quantity);
+        dto.setSelectedTime(selectedTime);
 
         List<TicketSeatDTO> ticketSeatDTOs = ticketSeats.stream()
                 .map(TicketSeat::toDTO)

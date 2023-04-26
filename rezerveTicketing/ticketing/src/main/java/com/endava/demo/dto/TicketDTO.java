@@ -27,6 +27,7 @@ public class TicketDTO {
         private Concert concert;
         private TicketType ticketType;
         private int quantity;
+        private String selectedTime;
         private List<TicketSeatDTO> ticketSeats;
 
     }

@@ -67,7 +67,8 @@ export const ConcertAccordion: React.FC<ConcertAccordionProps> = ({ ticketsGroup
                 concertId,
                 ticketType,
                 selectedDate,
-                [{ row: selectedRow, seat: selectedSeatNumber }]
+                [{ row: selectedRow, seat: selectedSeatNumber }],
+                "12:00"
             );
 
             console.log("Ticket added to cart");

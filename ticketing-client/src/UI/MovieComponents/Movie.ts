@@ -12,6 +12,7 @@ export class Movie {
   movieDescription: string;
   imageUrl: string;
   trailerUrl: string;
+  availableHours: string;
   locations: MyLocation[];
 
   constructor(data: any) {
@@ -25,6 +26,7 @@ export class Movie {
     this.movieDescription = data.movieDescription;
     this.imageUrl = data.imageUrl;
     this.trailerUrl = data.trailerUrl;
+    this.availableHours = data.availableHours;
     this.locations = data.locations;
   }
 
