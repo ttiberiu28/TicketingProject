@@ -346,9 +346,13 @@ export default function CartModal() {
                             <label className="form-label" htmlFor="form1">Quantity</label>
                           </div>
 
-                          <Button className="btn px-3 ms-2" disabled onClick={() => handleIncrement(ticket.id)}>
-                            <i className="fas fa-plus"></i>
-                          </Button>
+                          {
+                            ticket.concertId ? (
+                              <Button className="btn px-3 ms-2" onClick={() => handleIncrement(ticket.id)}>
+                                <i className="fas fa-plus"></i>
+                              </Button>
+                            ) : null
+                          }
                         </div>
 
                       </td>

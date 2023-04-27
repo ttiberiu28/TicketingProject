@@ -38,6 +38,15 @@ export class Concert {
             case TicketType.THREE_DAY_PASS:
                 price = this.price * 3 - (0.1 * this.price * 3);
                 break;
+            case TicketType.STUDENT_ONE_DAY_PASS:
+                price = this.price - (0.05 * this.price) - 25;
+                break;
+            case TicketType.STUDENT_TWO_DAY_PASS:
+                price = this.price * 2 - (0.05 * this.price * 2) - 75;
+                break;
+            case TicketType.STUDENT_THREE_DAY_PASS:
+                price = this.price * 3 - (0.1 * this.price * 3) - 100;
+                break;
             default:
                 price = this.price;
 

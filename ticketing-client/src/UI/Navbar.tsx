@@ -50,46 +50,18 @@ export default function NavBar() {
               </Link>
             </li>
 
-            <li className="nav-item custom-dropdown-item">
-              <Link className="nav-link" to="/events">
+            <li className="nav-item dropdown custom-dropdown-item">
+              <Link className="nav-link dropdown-toggle" to="#" id="eventsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 <button type="button" className="btn btn-outline-danger btn-secondary btn-rounded gradient-custom-button">
                   <i className='but-text'><b>Events</b></i>
                 </button>
               </Link>
-            </li>
-
-            <li className="nav-item custom-dropdown-item">
-              <Link className="nav-link" to={{
-                pathname: '/events',
-                search: '?filter=concerts',
-              }}>
-                <button type="button" className="btn btn-outline-danger btn-secondary btn-rounded gradient-custom-button">
-                  <i className='but-text'><b>Concerts</b></i>
-                </button>
-              </Link>
-            </li>
-
-            <li className="nav-item custom-dropdown-item">
-              <Link className="nav-link" to={{
-                pathname: '/events',
-                search: '?filter=movies',
-              }}>
-                <button type="button" className="btn btn-outline-danger btn-secondary btn-rounded gradient-custom-button">
-
-                  <i className='but-text'><b>Movies</b></i>
-                </button>
-              </Link>
-            </li>
-
-            <li className="nav-item custom-dropdown-item">
-              <Link className="nav-link" to={{
-                pathname: '/events',
-                search: '?filter=standUps',
-              }}>
-                <button type="button" className="btn btn-outline-danger btn-secondary btn-rounded gradient-custom-button">
-                  <i className='but-text'><b>Standups</b></i>
-                </button>
-              </Link>
+              <div className="dropdown-menu" aria-labelledby="eventsDropdown">
+                <Link className="dropdown-item" to="/events">All events</Link>
+                <Link className="dropdown-item" to={{ pathname: '/events', search: '?filter=concerts' }}>Concerts</Link>
+                <Link className="dropdown-item" to={{ pathname: '/events', search: '?filter=movies' }}>Movies</Link>
+                <Link className="dropdown-item" to={{ pathname: '/events', search: '?filter=standUps' }}>Standups</Link>
+              </div>
             </li>
 
             <li className="nav-item custom-dropdown-item">

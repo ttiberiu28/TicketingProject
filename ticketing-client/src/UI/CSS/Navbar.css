@@ -67,3 +67,24 @@
 .logged2-text {
   color: #0b1a03;
 }
+
+.dropdown-item {
+  display: block;
+  width: 100%;
+  padding: 0.5rem 1rem;
+  clear: both;
+  font-weight: 400;
+  color: #212529;
+  text-align: inherit;
+  white-space: nowrap;
+  background-color: transparent;
+  border: 0;
+  text-decoration: none;
+}
+
+.dropdown-item:hover,
+.dropdown-item:focus {
+  color: #1d2124;
+  text-decoration: none;
+  background-color: rgba(220, 53, 69, 0.1);
+}

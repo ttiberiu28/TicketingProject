@@ -26,6 +26,15 @@ export const ConcertAccordion: React.FC<ConcertAccordionProps> = ({ ticketsGroup
 
     const { fetchCart } = useCartContext();
 
+    const ticketTypes = [
+        { type: TicketType.ONE_DAY_PASS, label: 'One Day Pass' },
+        { type: TicketType.TWO_DAY_PASS, label: 'Two Day Pass' },
+        { type: TicketType.THREE_DAY_PASS, label: 'Three Day Pass' },
+        { type: TicketType.STUDENT_ONE_DAY_PASS, label: 'Student One Day Pass' },
+        { type: TicketType.STUDENT_TWO_DAY_PASS, label: 'Student Two Day Pass' },
+        { type: TicketType.STUDENT_THREE_DAY_PASS, label: 'Student Three Day Pass' },
+    ];
+
 
     useEffect(() => {
         getConcerts(parseInt(index)).then((data) => {
@@ -112,21 +121,18 @@ export const ConcertAccordion: React.FC<ConcertAccordionProps> = ({ ticketsGroup
 
                             <div className="ticket-section">
                                 <ul>
-                                    <li>
-                                        <button type="button" className="btn btn-secondary btn-dark btn-rounded fas fa-shopping-cart text-white"
-                                            onClick={() => handleAddToCartClick(TicketType.ONE_DAY_PASS)}><i>{concert.getPrice(TicketType.ONE_DAY_PASS)} RON</i><b> One day pass</b>
-                                        </button>
-                                    </li>
-                                    <li>
-                                        <button type="button" className="btn btn-secondary btn-dark btn-rounded fas fa-shopping-cart text-white"
-                                            onClick={() => handleAddToCartClick(TicketType.TWO_DAY_PASS)}><i>{concert.getPrice(TicketType.TWO_DAY_PASS)} RON</i><b> Two day pass <i>5% discount</i></b>
-                                        </button>
-                                    </li>
-                                    <li>
-                                        <button type="button" className="btn btn-secondary btn-dark btn-rounded fas fa-shopping-cart text-white"
-                                            onClick={() => handleAddToCartClick(TicketType.THREE_DAY_PASS)}><i>{concert.getPrice(TicketType.THREE_DAY_PASS)} RON</i><b> Three day pass <i>10% discount</i></b>
-                                        </button>
-                                    </li>
+                                    {ticketTypes.map((ticketType) => (
+                                        <li key={ticketType.type}>
+                                            <button
+                                                type="button"
+                                                className="btn btn-secondary btn-dark btn-rounded fas fa-shopping-cart text-white"
+                                                onClick={() => handleAddToCartClick(ticketType.type)}
+                                            >
+                                                <i>{concert.getPrice(ticketType.type)} RON</i>
+                                                <b> {ticketType.label}</b>
+                                            </button>
+                                        </li>
+                                    ))}
                                 </ul>
                             </div>
 

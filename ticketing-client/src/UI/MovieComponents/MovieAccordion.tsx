@@ -44,6 +44,16 @@ export const MovieAccordion: React.FC<MovieAccordionProps> = ({ ticketsGroup, ti
   const [dateError, setDateError] = useState<string | null>(null);
   const [selectedHour, setSelectedHour] = useState<string | null>(null);
 
+  const ticketTypes = [
+    { type: TicketType.STANDARD_2D, label: '2D' },
+    { type: TicketType.STANDARD_3D, label: '3D' },
+    { type: TicketType.VIP_2D, label: 'VIP 2D' },
+    { type: TicketType.VIP_3D, label: 'VIP 3D' },
+    { type: TicketType.STUDENT_2D, label: 'Student 2D' },
+    { type: TicketType.STUDENT_3D, label: 'Student 3D' },
+  ];
+
+
   const findClosestAvailableTime = (
     movieId: number,
     selectedDate: string | number | Date,
@@ -355,30 +365,20 @@ export const MovieAccordion: React.FC<MovieAccordionProps> = ({ ticketsGroup, ti
                   </Modal.Body>
                 </Modal>
                 <ul>
-                  <li>
-                    <button type="button" className="btn btn-secondary btn-dark btn-rounded fas fa-shopping-cart text-white"
-                      onClick={() => handleOpenModalWithTicketType(TicketType.STANDARD_2D)}><i>{movie.getPrice(TicketType.STANDARD_2D)} RON</i><b> 2D</b>
-                    </button>
-                  </li>
-                  <li>
-                    <button type="button" className="btn btn-secondary btn-dark btn-rounded fas fa-shopping-cart text-white"
-                      onClick={() => handleOpenModalWithTicketType(TicketType.STANDARD_3D)}><i>{movie.getPrice(TicketType.STANDARD_3D)} RON</i><b> 3D</b>
-                    </button>
-                  </li>
-                  <li>
-                    <button type="button" className="btn btn-secondary btn-dark btn-rounded fas fa-shopping-cart text-white"
-                      onClick={() => handleOpenModalWithTicketType(TicketType.VIP_2D)}><i>{movie.getPrice(TicketType.VIP_2D)} RON</i><b> VIP 2D</b>
-                    </button>
-                  </li>
-                  <li>
-                    <button type="button" className="btn btn-secondary btn-dark btn-rounded fas fa-shopping-cart text-white"
-                      onClick={() => handleOpenModalWithTicketType(TicketType.VIP_3D)}><i>{movie.getPrice(TicketType.VIP_3D)} RON</i><b> VIP 3D</b>
-                    </button>
-                  </li>
+                  {ticketTypes.map((ticketType) => (
+                    <li key={ticketType.type}>
+                      <button
+                        type="button"
+                        className="btn btn-secondary btn-dark btn-rounded fas fa-shopping-cart text-white"
+                        onClick={() => handleOpenModalWithTicketType(ticketType.type)}
+                      >
+                        <i>{movie.getPrice(ticketType.type)} RON</i>
+                        <b> {ticketType.label}</b>
+                      </button>
+                    </li>
+                  ))}
                 </ul>
               </div>
-
-
             </Collapse>
 
           </div>

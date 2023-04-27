@@ -44,6 +44,12 @@ export class Movie {
       case TicketType.STANDARD_3D:
         price = this.price + 8;
         break;
+      case TicketType.STUDENT_2D:
+        price = this.price - 6;
+        break;
+      case TicketType.STUDENT_3D:
+        price = this.price + 3;
+        break;
 
       default:
         price = this.price;

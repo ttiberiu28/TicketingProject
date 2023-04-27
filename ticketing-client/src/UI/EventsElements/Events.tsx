@@ -207,12 +207,12 @@ export default function Events() {
                         </p>
                       )}
                       {isStandUp(event) && (
-                        <p className="card-text card-bodyy-light">
+                        <p className="card-text card-bodyy-light text-truncate">
                           <i>{event.description}</i>
                         </p>
                       )}
                       {isConcert(event) && (
-                        <p className="card-text card-bodyy-light">
+                        <p className="card-text card-bodyy-light text-truncate">
                           <i>{event.artistName}</i>
                         </p>
                       )}
