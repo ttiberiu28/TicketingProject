@@ -28,6 +28,13 @@ public class Concert extends Event{
     @Column(name = "concert_description")
     private String concertDescription;
 
+    @Column(name = "available_hours", length = 255)
+    private String availableHours;
+
+    @Column(name = "available_dates", length = 255)
+    private String availableDates;
+
+
     @OneToMany(mappedBy = "concert", cascade = CascadeType.ALL)
     private List<Ticket> tickets;
 

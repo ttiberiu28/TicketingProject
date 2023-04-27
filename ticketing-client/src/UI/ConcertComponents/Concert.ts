@@ -14,6 +14,8 @@ export class Concert {
     trailerUrl: string;
     locations: MyLocation[];
     artistName: string;
+    availableHours: string;
+    availableDates: string;
 
     constructor(data: any) {
         this.id = data.id;
@@ -26,6 +28,8 @@ export class Concert {
         this.trailerUrl = data.trailerUrl;
         this.locations = data.locations;
         this.artistName = data.artistName;
+        this.availableHours = data.availableHours;
+        this.availableDates = data.availableDates;
     }
 
     getPrice(ticketType: TicketType): number {

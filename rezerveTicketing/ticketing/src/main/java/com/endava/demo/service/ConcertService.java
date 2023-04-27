@@ -22,7 +22,9 @@ public class ConcertService {
 
     public void addConcert(int price, int lengthMinutes,String name,
                          String imageUrl,
-                         String artistName, String trailerUrl, String concertDescription)
+                         String artistName, String trailerUrl,
+                         String concertDescription,
+                         String availableHours, String availableDates)
     {
 
         var c = concertRepo.findByNameIgnoreCase(name);
@@ -41,6 +43,8 @@ public class ConcertService {
             x.setArtistName(artistName);
             x.setTrailerUrl(trailerUrl);
             x.setConcertDescription(concertDescription);
+            x.setAvailableHours(availableHours);
+            x.setAvailableDates(availableDates);
 
             concertRepo.save(x);
 

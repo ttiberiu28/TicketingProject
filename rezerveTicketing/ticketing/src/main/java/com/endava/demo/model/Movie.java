@@ -38,6 +38,10 @@ public class Movie extends Event {
     @Column(name = "available_hours", length = 255)
     private String availableHours;
 
+    @Column(name = "available_dates", length = 255)
+    private String availableDates;
+
+
 
     @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL)
     private List<Ticket> tickets;

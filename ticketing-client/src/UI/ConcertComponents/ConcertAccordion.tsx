@@ -17,6 +17,12 @@ interface ConcertAccordionProps {
     ticketsCount: number;
 }
 
+
+interface ConcertAvailableHours {
+    movieId: number;
+    availableHours: string;
+}
+
 export const ConcertAccordion: React.FC<ConcertAccordionProps> = ({ ticketsGroup, ticketsCount }) => {
 
     const { index = '0' } = useParams<{ index?: string }>();
@@ -34,6 +40,35 @@ export const ConcertAccordion: React.FC<ConcertAccordionProps> = ({ ticketsGroup
         { type: TicketType.STUDENT_TWO_DAY_PASS, label: 'Student Two Day Pass' },
         { type: TicketType.STUDENT_THREE_DAY_PASS, label: 'Student Three Day Pass' },
     ];
+
+    const findClosestAvailableTime = (
+        concertId: number,
+        selectedDate: string | number | Date,
+        availableHours: string
+    ) => {
+        const selectedDateTime = new Date(selectedDate);
+        let closestHour = null;
+        let minDiff = Number.MAX_SAFE_INTEGER;
+
+        // Parse the availableHours string into an array of strings
+        const parsedAvailableHours = JSON.parse(availableHours);
+
+        parsedAvailableHours.forEach((hour: string) => {
+            const [hours, minutes] = hour.split(':');
+            const concertDateTime = new Date(selectedDateTime);
+            concertDateTime.setHours(parseInt(hours));
+            concertDateTime.setMinutes(parseInt(minutes));
+
+            const diff = Math.abs(concertDateTime.getTime() - selectedDateTime.getTime());
+            if (diff < minDiff) {
+                closestHour = hour;
+                minDiff = diff;
+            }
+        });
+
+        return closestHour;
+    };
+
 
 
     useEffect(() => {
@@ -69,6 +104,21 @@ export const ConcertAccordion: React.FC<ConcertAccordionProps> = ({ ticketsGroup
         const selectedRow = 2;
         const selectedSeatNumber = 2;
 
+        const closestAvailableTime: string | null = findClosestAvailableTime(
+            concertId,
+            selectedDate,
+            concert.availableHours
+        );
+
+        if (closestAvailableTime) {
+            // Use closestAvailableTime here
+        } else {
+            console.error("No available hours found for the concert");
+            return;
+        }
+
+
+
         try {
             const ticket = await RestClient.addTicketToCart(
                 userId,
@@ -77,7 +127,7 @@ export const ConcertAccordion: React.FC<ConcertAccordionProps> = ({ ticketsGroup
                 ticketType,
                 selectedDate,
                 [{ row: selectedRow, seat: selectedSeatNumber }],
-                "12:00"
+                closestAvailableTime
             );
 
             console.log("Ticket added to cart");

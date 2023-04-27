@@ -28,7 +28,8 @@ public class MovieService {
                          String imageUrl,
                          String language, Double rating,
                          String movieDescription,
-                         String trailerUrl, String availableHours){
+                         String trailerUrl,
+                         String availableHours, String availableDates){
 
         var m = movieRepo.findByNameIgnoreCase(name);
 
@@ -50,6 +51,7 @@ public class MovieService {
             x.setMovieDescription(movieDescription);
             x.setTrailerUrl(trailerUrl);
             x.setAvailableHours(availableHours);
+            x.setAvailableDates(availableDates);
             movieRepo.save(x);
 
             LOGGER.info("Movie added successfully");
@@ -62,6 +64,7 @@ public class MovieService {
     public void deleteById(int id){
             movieRepo.deleteById(id);
     }
+
 
     //this will be deleted
     public void assignTicket(int movieId, int ticketId){

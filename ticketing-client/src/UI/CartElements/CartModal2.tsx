@@ -315,22 +315,25 @@ export default function CartModal() {
 
                       <td className="qty">
                         <div className="d-flex align-items-center">
-                          <Dropdown>
-                            <Dropdown.Toggle variant="btn" className="px-3 me-2">
-                              <i className="fas fa-minus"></i>
-                            </Dropdown.Toggle>
-                            <Dropdown.Menu>
-                              {ticket.ticketSeats.map((seat: Seat) => (
-                                <Dropdown.Item
-                                  key={seat.id}
-                                  onClick={() => handleDecrement(ticket.id, seat.id)}
-                                >
-                                  {seat.row}:{seat.seatNumber} (Delete)
-                                </Dropdown.Item>
-                              ))}
-                            </Dropdown.Menu>
-                          </Dropdown>
-
+                          {
+                            ticket.movieId ? (
+                              <Dropdown>
+                                <Dropdown.Toggle variant="btn" className="px-3 me-2">
+                                  <i className="fas fa-minus"></i>
+                                </Dropdown.Toggle>
+                                <Dropdown.Menu>
+                                  {ticket.ticketSeats.map((seat: Seat) => (
+                                    <Dropdown.Item
+                                      key={seat.id}
+                                      onClick={() => handleDecrement(ticket.id, seat.id)}
+                                    >
+                                      {seat.row}:{seat.seatNumber} (Delete)
+                                    </Dropdown.Item>
+                                  ))}
+                                </Dropdown.Menu>
+                              </Dropdown>
+                            ) : null
+                          }
 
                           <div className="form-outline">
                             <input

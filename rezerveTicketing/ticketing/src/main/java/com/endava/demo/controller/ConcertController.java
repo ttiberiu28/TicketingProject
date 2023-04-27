@@ -34,8 +34,10 @@ public class ConcertController {
 
         try{
             concertService.addConcert(concert.getPrice(),concert.getLengthMinutes(),
-                    concert.getName(), concert.getImageUrl(),concert.getArtistName(),
-                    concert.getTrailerUrl(),concert.getConcertDescription());
+                    concert.getName(), concert.getImageUrl(),
+                    concert.getArtistName(),
+                    concert.getTrailerUrl(),concert.getConcertDescription(),
+                    concert.getAvailableHours(), concert.getAvailableDates());
 
             return ResponseEntity.ok().build();
 
