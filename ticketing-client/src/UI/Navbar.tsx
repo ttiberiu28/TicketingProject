@@ -50,6 +50,14 @@ export default function NavBar() {
               </Link>
             </li>
 
+            <li className="nav-item custom-dropdown-item">
+              <Link className="nav-link" to="/preferences">
+                <button type="button" className="btn btn-outline-danger btn-secondary btn-rounded gradient-custom-button">
+                  <i className='but-text'><b>Recommendation</b></i>
+                </button>
+              </Link>
+            </li>
+
             <li className="nav-item dropdown custom-dropdown-item">
               <Link className="nav-link dropdown-toggle" to="#" id="eventsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 <button type="button" className="btn btn-outline-danger btn-secondary btn-rounded gradient-custom-button">

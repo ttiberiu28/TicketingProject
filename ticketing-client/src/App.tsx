@@ -15,6 +15,7 @@ import MySignUp from './UI/SingUp';
 import { CartProvider } from './UI/CartElements/CartContext';
 import MovieOffers from './UI/MovieComponents/MovieOffers';
 import Checkout from './UI/CartElements/Checkout';
+import UserPreference from './UI/UserPreference';
 
 function App() {
   return (
@@ -132,6 +133,15 @@ function MainApp() {
           element={
             <MainLayout>
               <Checkout />
+            </MainLayout>
+          }
+        />
+
+        <Route
+          path="/preferences"
+          element={
+            <MainLayout>
+              <UserPreference />
             </MainLayout>
           }
         />

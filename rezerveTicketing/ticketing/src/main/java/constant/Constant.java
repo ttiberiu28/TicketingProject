@@ -21,6 +21,8 @@ public class Constant {
 
     public static final String KEYWORD_CONTROLLER = "/api/keyword";
 
+    public static final String USER_PREFERENCE_CONTROLLER = "/api/userPreference";
+
 
     /*
         MAPPING PATHS

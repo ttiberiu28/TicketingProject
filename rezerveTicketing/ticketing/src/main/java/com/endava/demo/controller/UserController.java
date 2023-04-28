@@ -11,7 +11,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.naming.AuthenticationException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,11 +23,11 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping(Constant.NEW)
-    public ResponseEntity<?> registerUser(@RequestBody User user){
+    public ResponseEntity<?> registerUser(@RequestBody UserSignupDto userSignupDto){
 
         try{
-            userService.addUser(user.getUsername(), user.getPassword(), user.getConfirmPassword(),
-                    user.getEmail(),user.getFirstName(),user.getLastName());
+            userService.addUser(userSignupDto.getUsername(), userSignupDto.getPassword(), userSignupDto.getConfirmPassword(),
+                    userSignupDto.getEmail(),userSignupDto.getFirstName(),userSignupDto.getLastName());
             return ResponseEntity
                     .ok()
                     .body(new MessageResponse("Successful signup"));
@@ -41,11 +40,11 @@ public class UserController {
     }
 
     @PostMapping(Constant.LOGIN)
-    public ResponseEntity<?> login(@RequestBody User user){
-        User authenticatedUser = userService.login(user.getUsername(), user.getPassword());
+    public ResponseEntity<?> login(@RequestBody UserSignupDto userSignupDto){
+        User authenticatedUser = userService.login(userSignupDto.getUsername(), userSignupDto.getPassword());
 
-        UserDto userDto = new UserDto(authenticatedUser.getId(), authenticatedUser.getUsername());
-        return ResponseEntity.ok(userDto);
+        UserLoginDto userLoginDto = new UserLoginDto(authenticatedUser.getId(), authenticatedUser.getUsername());
+        return ResponseEntity.ok(userLoginDto);
     }
     @GetMapping(Constant.LIST)
     public List<User> getUsers(){
