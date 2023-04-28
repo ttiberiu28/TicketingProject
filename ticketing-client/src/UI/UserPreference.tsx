@@ -109,15 +109,15 @@ export default function UserPreference() {
         <div className="background-div text-white">
             <BannerCarousel />
             <div className="container">
-
                 <h1>{currentQuestion.text}</h1>
 
                 {!isQuestionnaireCompleted && (
                     <select
-                        className="select"
+                        className="select select-long"
+                        value="" // Add this line to reset the select value when the question changes
                         onChange={(e) => handleOptionClick(Number(e.target.value))}
                     >
-                        <option value="" disabled selected>
+                        <option value="" selected>
                             Select an option
                         </option>
                         {currentQuestion.options.map((option, index) => (
@@ -126,25 +126,28 @@ export default function UserPreference() {
                             </option>
                         ))}
                     </select>
-
-
                 )}
 
-                <button onClick={() => {
-                    setCurrentQuestionIndex(0);
-                    setIsQuestionnaireCompleted(false);
-                    setUserPreference({
-                        outside: undefined,
-                        genre: undefined,
-                        budgetMin: undefined,
-                        budgetMax: undefined,
-                    });
-                }}>
-                    Answer questions again
-                </button>
+                {isQuestionnaireCompleted && ( // Display the button only when the questionnaire is completed
+                    <button
+                        className="btn btn-success btn-rounded btn-long"
+                        onClick={() => {
+                            setCurrentQuestionIndex(0);
+                            setIsQuestionnaireCompleted(false);
+                            setUserPreference({
+                                outside: undefined,
+                                genre: undefined,
+                                budgetMin: undefined,
+                                budgetMax: undefined,
+                            });
+                        }}
+                    >
+                        Answer questions again
+                    </button>
+                )}
             </div>
         </div>
-
     );
+
 
 }
