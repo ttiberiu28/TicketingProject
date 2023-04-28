@@ -1,5 +1,6 @@
 package com.endava.demo.controller;
 
+import com.endava.demo.dto.AssignMovieKeywordRequest;
 import com.endava.demo.dto.AssignMovieLocationRequest;
 import com.endava.demo.dto.AssignMovieTicketRequest;
 import com.endava.demo.exception.*;
@@ -47,24 +48,6 @@ public class MovieController {
             movieService.deleteById(id);
     }
 
-    @PutMapping(Constant.ASSIGN_TICKET)
-    public ResponseEntity<?> assignTicket(@RequestBody AssignMovieTicketRequest assignMovieTicketRequest){
-
-        try{
-            movieService.assignTicket(assignMovieTicketRequest.getMovieId(), assignMovieTicketRequest.getTicketId());
-
-            return ResponseEntity
-                    .ok()
-                    .body("Ticket was assigned successfully");
-        }catch(MovieDoesNotExistsException | TicketDoesNotExistsException | TicketAlreadyExistsException e ){
-
-            return ResponseEntity
-                    .badRequest()
-                    .body("Movie or ticket do not exist or " +
-                            "ticket is already assigned for this movie"
-                    );
-        }
-    }
 
     @PutMapping(Constant.ASSIGN_LOCATION)
     public ResponseEntity<?> assignLocation(@RequestBody AssignMovieLocationRequest assignMovieLocationRequest){
@@ -84,5 +67,22 @@ public class MovieController {
         }
     }
 
+    @PutMapping(Constant.ASSIGN_KEYWORD)
+    public ResponseEntity<?> assignKeyword(@RequestBody AssignMovieKeywordRequest assignMovieKeywordRequest){
+
+        try{
+            movieService.assignKeyword(assignMovieKeywordRequest.getMovieId(), assignMovieKeywordRequest.getKeywordId());
+
+            return ResponseEntity
+                    .ok()
+                    .body("Keyword was assigned successfully");
+        }catch(MovieDoesNotExistsException | KeywordDoesNotExistsException | KeywordAlreadyExistsException e){
+
+            return ResponseEntity
+                    .badRequest()
+                    .body("Movie or keyword do not exist or " +
+                            "keyword is already assigned for this movie");
+        }
+    }
 
 }

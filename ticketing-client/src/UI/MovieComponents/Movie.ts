@@ -1,3 +1,4 @@
+import { MyKeyword } from "../../interfaces/MyKeyword";
 import { MyLocation } from "../../interfaces/MyLocation";
 import { TicketType } from "../TicketType";
 
@@ -14,6 +15,7 @@ export class Movie {
   trailerUrl: string;
   availableHours: string;
   locations: MyLocation[];
+  keywords: MyKeyword[];
 
   constructor(data: any) {
     this.id = data.id;
@@ -28,6 +30,7 @@ export class Movie {
     this.trailerUrl = data.trailerUrl;
     this.availableHours = data.availableHours;
     this.locations = data.locations;
+    this.keywords = data.keywords;
   }
 
   getPrice(ticketType: TicketType): number {

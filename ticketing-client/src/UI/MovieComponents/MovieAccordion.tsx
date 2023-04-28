@@ -14,6 +14,7 @@ import { Link } from 'react-router-dom';
 import CartModal from '../CartElements/CartModal';
 import { useCartContext } from "../CartElements/CartContext";
 import MyDateTimePicker from '../MyDateTimePicker';
+import { MyKeyword } from '../../interfaces/MyKeyword';
 
 
 
@@ -252,7 +253,7 @@ export const MovieAccordion: React.FC<MovieAccordionProps> = ({ ticketsGroup, ti
         <h2 className="accordion-header" id="flush-headingOneX">
           <button className="accordion-button" type="button" data-bs-toggle="collapse"
             data-bs-target="#flush-collapseOneX" aria-expanded="true" aria-controls="flush-collapseOneX">
-            <code>Buy tickets</code>
+            <code>Buy tickets </code>
           </button>
         </h2>
 
@@ -404,6 +405,7 @@ export const MovieAccordion: React.FC<MovieAccordionProps> = ({ ticketsGroup, ti
                 {location.place + ','}
               </Link>
             ))}
+
           </div>
 
         </div>
@@ -416,6 +418,31 @@ export const MovieAccordion: React.FC<MovieAccordionProps> = ({ ticketsGroup, ti
             IMDb Rating:&nbsp;&nbsp;&nbsp;<code className=''> {movie.imdbRating}</code>
           </button>
         </h2>
+
+        <div style={{ display: "flex", justifyContent: "center", flexWrap: "wrap" }}>
+          {movie.keywords.map((keyword, index) => {
+            const badgeClasses = [
+              "badge",
+              "rounded-pill",
+              "me-2",
+              "mb-2",
+              index % 4 === 0
+                ? "badge-success"
+                : index % 4 === 1
+                  ? "badge-info"
+                  : index % 4 === 2
+                    ? "badge-warning"
+                    : "badge-danger"
+            ];
+
+            return (
+              <span key={keyword.id} className={badgeClasses.join(" ")}>
+                {keyword.name}
+              </span>
+            );
+          })}
+        </div>
+
         <div id="flush-collapseThreeX" className="accordion-collapse collapse" aria-labelledby="flush-headingThreeX"
           data-bs-parent="#accordionFlushExampleX">
           <div className="accordion-body">

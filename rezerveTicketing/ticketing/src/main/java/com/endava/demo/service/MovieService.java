@@ -2,6 +2,7 @@ package com.endava.demo.service;
 
 import com.endava.demo.exception.*;
 import com.endava.demo.model.Movie;
+import com.endava.demo.repository.KeywordRepo;
 import com.endava.demo.repository.LocationRepo;
 import com.endava.demo.repository.MovieRepo;
 import com.endava.demo.repository.TicketRepo;
@@ -21,6 +22,9 @@ public class MovieService {
     private final MovieRepo movieRepo;
     private final TicketRepo ticketRepo;
     private final LocationRepo locationRepo;
+    private final KeywordRepo keywordRepo;
+
+
 
     public static final Logger LOGGER = LoggerFactory.getLogger(MovieService.class);
 
@@ -65,21 +69,6 @@ public class MovieService {
             movieRepo.deleteById(id);
     }
 
-
-    //this will be deleted
-    public void assignTicket(int movieId, int ticketId){
-        var movie = movieRepo.findById(movieId).orElseThrow(() -> new MovieDoesNotExistsException(String.valueOf(movieId)));
-        var ticket = ticketRepo.findById(ticketId).orElseThrow(() -> new TicketDoesNotExistsException(String.valueOf(ticketId)));
-
-        if(movie.getTickets().contains(ticket)){
-            throw new TicketAlreadyExistsException(ticket.getSeatNumber(), ticket.getRow());
-        }else{
-            movie.getTickets().add(ticket);
-        }
-
-        ticket.setMovie(movie);
-    }
-
     public void assignLocation(int movieId, int locationId){
         var movie = movieRepo.findById(movieId).orElseThrow(() -> new MovieDoesNotExistsException(String.valueOf(movieId)));
         var location = locationRepo.findById(locationId).orElseThrow(() -> new LocationDoesNotExistsException(String.valueOf(locationId)));
@@ -93,4 +82,20 @@ public class MovieService {
         location.getMovies().add(movie);
     }
 
+    public void assignKeyword(int movieId, int keywordId) {
+        var movie = movieRepo.findById(movieId).orElseThrow(() -> new MovieDoesNotExistsException(String.valueOf(movieId)));
+        var keyword = keywordRepo.findById(keywordId).orElseThrow(() -> new KeywordDoesNotExistsException(String.valueOf(keywordId)));
+
+        if (movie.getKeywords().contains(keyword)) {
+            throw new KeywordAlreadyExistsException(keyword.getName());
+        } else {
+            movie.getKeywords().add(keyword);
+        }
+
+        keyword.getMovies().add(movie);
+
+        // Save the updated entities
+        movieRepo.save(movie);
+        keywordRepo.save(keyword);
+    }
 }

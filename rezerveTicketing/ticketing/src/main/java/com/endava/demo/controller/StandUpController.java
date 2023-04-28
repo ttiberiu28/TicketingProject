@@ -42,24 +42,6 @@ public class StandUpController {
         return standUpService.getStandUpEventsList();
     }
 
-    @PutMapping(Constant.ASSIGN_TICKET)
-    public ResponseEntity<?> assignTicket(@RequestBody AssignStandUpTicketRequest assignStandUpTicketRequest){
-
-        try{
-            standUpService.assignTicket(assignStandUpTicketRequest.getStandUpId(),
-                    assignStandUpTicketRequest.getTicketId());
-
-            return ResponseEntity
-                    .ok()
-                    .body("Ticket was assigned successfully");
-        }catch (StandUpDoesNotExistsException | TicketDoesNotExistsException | TicketAlreadyExistsException e){
-
-            return ResponseEntity
-                    .badRequest()
-                    .body("Stand up event or ticket do not exist or " +
-                            "ticket is already assigned for this stand-up event");
-        }
-    }
 
     @PutMapping(Constant.ASSIGN_LOCATION)
     public ResponseEntity<?> assignLocation(@RequestBody AssignStandUpLocationRequest assignStandUpLocationRequest){

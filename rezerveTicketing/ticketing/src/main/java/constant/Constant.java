@@ -19,6 +19,8 @@ public class Constant {
 
     public static final String TICKET_SEAT_CONTROLLER = "/api/ticketSeat";
 
+    public static final String KEYWORD_CONTROLLER = "/api/keyword";
+
 
     /*
         MAPPING PATHS
@@ -27,11 +29,13 @@ public class Constant {
     public static final String LOGIN = "/login";
     public static final String LIST = "/list";
     public static final String NEW = "/new";
-    public static final String ASSIGN_TICKET = "/ticketAssignation";
     public static final String ASSIGN_LOCATION = "/locationAssignation";
     public static final String DELETION = "/deletion/{id}";
     public static final String ASSIGN_ROLE = "/roleAssignation";
     public static final String ASSIGN_SPECIAL_GUEST = "/specialGuestAssignation";
+
+    public static final String ASSIGN_KEYWORD = "/keywordAssignation";
+
 
     /*
         OTHER CONSTANTS

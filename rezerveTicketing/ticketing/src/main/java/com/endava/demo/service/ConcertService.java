@@ -4,6 +4,7 @@ import com.endava.demo.exception.*;
 import com.endava.demo.model.Concert;
 import com.endava.demo.model.Movie;
 import com.endava.demo.repository.ConcertRepo;
+import com.endava.demo.repository.KeywordRepo;
 import com.endava.demo.repository.LocationRepo;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,8 @@ public class ConcertService {
     private final ConcertRepo concertRepo;
 
     private final LocationRepo locationRepo;
+
+    private final KeywordRepo keywordRepo;
 
     public void addConcert(int price, int lengthMinutes,String name,
                          String imageUrl,
@@ -68,6 +71,24 @@ public class ConcertService {
 
         location.getConcerts().add(concert);
     }
+
+    public void assignKeyword(int concertId, int keywordId) {
+        var concert = concertRepo.findById(concertId).orElseThrow(() -> new ConcertDoesNotExistsException(String.valueOf(concertId)));
+        var keyword = keywordRepo.findById(keywordId).orElseThrow(() -> new KeywordDoesNotExistsException(String.valueOf(keywordId)));
+
+        if (concert.getKeywords().contains(keyword)) {
+            throw new KeywordAlreadyExistsException(keyword.getName());
+        } else {
+            concert.getKeywords().add(keyword);
+        }
+
+        keyword.getConcerts().add(concert);
+
+        // Save the updated entities
+        concertRepo.save(concert);
+        keywordRepo.save(keyword);
+    }
+
 
 
 

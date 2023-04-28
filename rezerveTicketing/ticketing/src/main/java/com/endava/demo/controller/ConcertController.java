@@ -1,11 +1,10 @@
 package com.endava.demo.controller;
 
+import com.endava.demo.dto.AssignConcertKeywordRequest;
 import com.endava.demo.dto.AssignConcertLocationRequest;
+import com.endava.demo.dto.AssignMovieKeywordRequest;
 import com.endava.demo.dto.AssignMovieLocationRequest;
-import com.endava.demo.exception.ConcertAlreadyExistsException;
-import com.endava.demo.exception.LocationAlreadyExistsException;
-import com.endava.demo.exception.LocationDoesNotExistsException;
-import com.endava.demo.exception.MovieDoesNotExistsException;
+import com.endava.demo.exception.*;
 import com.endava.demo.model.Concert;
 import com.endava.demo.service.ConcertService;
 import constant.Constant;
@@ -61,6 +60,24 @@ public class ConcertController {
                     .badRequest()
                     .body("Concert or location do not exist or " +
                             "location is already assigned for this concert");
+        }
+    }
+
+    @PutMapping(Constant.ASSIGN_KEYWORD)
+    public ResponseEntity<?> assignKeyword(@RequestBody AssignConcertKeywordRequest assignConcertKeywordRequest){
+
+        try{
+            concertService.assignKeyword(assignConcertKeywordRequest.getConcertId(), assignConcertKeywordRequest.getKeywordId());
+
+            return ResponseEntity
+                    .ok()
+                    .body("Keyword was assigned successfully");
+        }catch(ConcertDoesNotExistsException | KeywordDoesNotExistsException | KeywordAlreadyExistsException e){
+
+            return ResponseEntity
+                    .badRequest()
+                    .body("Movie or keyword do not exist or " +
+                            "keyword is already assigned for this movie");
         }
     }
 }

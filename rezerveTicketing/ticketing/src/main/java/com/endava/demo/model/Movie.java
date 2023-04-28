@@ -1,6 +1,7 @@
 package com.endava.demo.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,6 +9,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -49,6 +51,16 @@ public class Movie extends Event {
     //mappedBy = "numele variabilei din locations"
     @ManyToMany(mappedBy = "movies")
     private Set<Location> locations;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "movie_keyword",
+            joinColumns = @JoinColumn(name = "movie_id"),
+            inverseJoinColumns = @JoinColumn(name = "keyword_id")
+    )
+    @JsonManagedReference
+    private Set<Keyword> keywords = new HashSet<>();
+
 
 
     public Movie() {}
