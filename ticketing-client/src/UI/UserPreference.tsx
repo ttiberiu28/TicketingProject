@@ -26,9 +26,11 @@ const questions = [
         text: "What is your budget?",
         type: "budget",
         options: [
-            { label: "$0 - $20", value: { min: 0, max: 20 } },
-            { label: "$20 - $50", value: { min: 20, max: 50 } },
-            { label: "$50 - $100", value: { min: 50, max: 100 } },
+            { label: "0 - 40 RON", value: { min: 0, max: 40 } },
+            { label: "40 - 100 RON", value: { min: 40, max: 100 } },
+            { label: "100 - 200 RON", value: { min: 100, max: 200 } },
+            { label: "100 - 2000 RON", value: { min: 200, max: 1000 } },
+
         ],
     },
 ];
