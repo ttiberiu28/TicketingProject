@@ -34,7 +34,7 @@ public class ConcertService {
 
         c.ifPresentOrElse(x ->{
 
-            throw new MovieAlreadyExistsException(x.getName());
+            throw new ConcertAlreadyExistsException(x.getName());
         }, () -> {
 
             Concert x = new Concert();

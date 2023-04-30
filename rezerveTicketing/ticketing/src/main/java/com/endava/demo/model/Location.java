@@ -49,6 +49,13 @@ public class Location {
     @JsonIgnore
     private List<Concert> concerts;
 
+    @ManyToMany
+    @JoinTable(name = "sport_locations",
+            joinColumns = @JoinColumn(name = "location_id"),
+            inverseJoinColumns = @JoinColumn(name = "sport_id"))
+    @JsonIgnore
+    private List<Sport> sports;
+
 
     @NotEmpty
     private String imageUrl;

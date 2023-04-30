@@ -54,6 +54,11 @@ public class Ticket {
     private Concert concert;
 
     @ManyToOne
+    @JoinColumn(name = "sport_id")
+    @JsonIgnore
+    private Sport sport;
+
+    @ManyToOne
     @JoinColumn(name = "cart_id")
     @JsonIgnore
     private Cart cart;
@@ -100,6 +105,12 @@ public class Ticket {
             Concert concertDTO = new Concert();
             BeanUtils.copyProperties(concert, concertDTO, "tickets", "locations");
             dto.setConcert(concertDTO);
+        }
+
+        if(sport != null) {
+            Sport sportDTO = new Sport();
+            BeanUtils.copyProperties(sport, sportDTO, "tickets", "locations");
+            dto.setSport(sportDTO);
         }
 
         dto.setTicketType(ticketType);

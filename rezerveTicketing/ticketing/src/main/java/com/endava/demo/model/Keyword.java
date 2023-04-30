@@ -35,6 +35,10 @@ public class Keyword {
     @JsonBackReference
     private Set<Concert> concerts = new HashSet<>();
 
+    @ManyToMany(mappedBy = "keywords")
+    @JsonBackReference
+    private Set<Sport> sports = new HashSet<>();
+
     @ManyToMany(mappedBy = "preferredKeywords")
     @JsonBackReference
     private Set<UserPreference> userPreferences = new HashSet<>();

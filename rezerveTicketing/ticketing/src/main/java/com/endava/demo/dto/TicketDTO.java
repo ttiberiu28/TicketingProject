@@ -1,9 +1,6 @@
 package com.endava.demo.dto;
 
-import com.endava.demo.model.Concert;
-import com.endava.demo.model.Movie;
-import com.endava.demo.model.StandUp;
-import com.endava.demo.model.TicketType;
+import com.endava.demo.model.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,6 +22,7 @@ public class TicketDTO {
         private int row;
         private Movie movie;
         private Concert concert;
+        private Sport sport;
         private TicketType ticketType;
         private int quantity;
         private String selectedTime;

@@ -3,6 +3,7 @@ package com.endava.demo.controller;
 import com.endava.demo.dto.AssignMovieKeywordRequest;
 import com.endava.demo.dto.AssignMovieLocationRequest;
 import com.endava.demo.dto.AssignMovieTicketRequest;
+import com.endava.demo.dto.MovieDto;
 import com.endava.demo.exception.*;
 import com.endava.demo.model.Movie;
 import com.endava.demo.service.MovieService;
@@ -28,18 +29,18 @@ public class MovieController {
     }
 
     @PostMapping(Constant.NEW)
-    public ResponseEntity<?> addMovie(@RequestBody @Valid Movie movie){
+    public ResponseEntity<?> addMovie(@RequestBody @Valid MovieDto movieDto){
 
         try{
-            movieService.addMovie(movie.getPrice(),movie.getLengthMinutes(),
-                    movie.getName(), movie.getImageUrl(),movie.getLanguage(),
-                    movie.getImdbRating(),movie.getMovieDescription(),movie.getTrailerUrl(),
-                    movie.getAvailableHours(), movie.getAvailableDates());
+            movieService.addMovie(movieDto.getPrice(),movieDto.getLengthMinutes(),
+                    movieDto.getName(), movieDto.getImageUrl(),movieDto.getLanguage(),
+                    movieDto.getImdbRating(),movieDto.getMovieDescription(),movieDto.getTrailerUrl(),
+                    movieDto.getAvailableHours(), movieDto.getAvailableDates());
 
             return ResponseEntity.ok().build();
 
         }catch(MovieAlreadyExistsException e){
-            return ResponseEntity.badRequest().body("This movie already exists: " + movie.getName());
+            return ResponseEntity.badRequest().body("This movie already exists: " + movieDto.getName());
         }
     }
 

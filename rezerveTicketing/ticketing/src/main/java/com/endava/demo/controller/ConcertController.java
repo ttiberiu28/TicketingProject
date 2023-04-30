@@ -51,7 +51,7 @@ public class ConcertController {
             return ResponseEntity
                     .ok()
                     .body("Location was assigned successfully");
-        }catch(MovieDoesNotExistsException | LocationDoesNotExistsException | LocationAlreadyExistsException e){
+        }catch(ConcertDoesNotExistsException | LocationDoesNotExistsException | LocationAlreadyExistsException e){
 
             return ResponseEntity
                     .badRequest()
@@ -73,8 +73,8 @@ public class ConcertController {
 
             return ResponseEntity
                     .badRequest()
-                    .body("Movie or keyword do not exist or " +
-                            "keyword is already assigned for this movie");
+                    .body("Concert or keyword do not exist or " +
+                            "keyword is already assigned for this concert");
         }
     }
 }

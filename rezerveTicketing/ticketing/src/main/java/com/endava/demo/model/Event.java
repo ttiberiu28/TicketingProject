@@ -34,8 +34,4 @@ public abstract class Event {
     @NotEmpty
     protected String imageUrl;
 
-    protected Event(int lengthMinutes, String name) {
-        this.lengthMinutes = lengthMinutes;
-        this.name = name;
-    }
 }

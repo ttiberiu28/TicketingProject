@@ -17,6 +17,8 @@ public class Constant {
 
     public static final String CONCERT_CONTROLLER = "/api/concert";
 
+    public static final String SPORT_CONTROLLER = "/api/sport";
+
     public static final String TICKET_SEAT_CONTROLLER = "/api/ticketSeat";
 
     public static final String KEYWORD_CONTROLLER = "/api/keyword";
