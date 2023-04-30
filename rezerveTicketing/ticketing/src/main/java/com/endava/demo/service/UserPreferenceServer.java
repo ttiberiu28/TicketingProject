@@ -27,7 +27,9 @@ public class UserPreferenceServer {
     private final KeywordRepo keywordRepo;
 
 
-    public void saveUserPreferences(int userId, Map<String, Object> userPreferenceData) {
+    public synchronized void saveUserPreferences(int userId, Map<String, Object> userPreferenceData) {
+        deleteUserPreferences(userId);
+
         User user = userRepo.findById(userId).orElseThrow(() -> new UserDoesNotExistsException("User not found with id: " + userId));
 
         UserPreference userPreference = new UserPreference();
@@ -45,6 +47,12 @@ public class UserPreferenceServer {
 
         userPreferenceRepo.save(userPreference);
     }
+
+    public synchronized void deleteUserPreferences(int userId) {
+        User user = userRepo.findById(userId).orElseThrow(() -> new UserDoesNotExistsException("User not found with id: " + userId));
+        userPreferenceRepo.deleteByUser(user);
+    }
+
 
 
 }

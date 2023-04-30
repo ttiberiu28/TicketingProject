@@ -25,7 +25,7 @@ const Login: React.FC<Props> = ({ onLogin }) => {
     navigate('/about');
   };
 
-  
+
 
   // define the handleLogin function for handling the login button click event
   const handleLogin = async () => {
@@ -42,8 +42,9 @@ const Login: React.FC<Props> = ({ onLogin }) => {
 
       setTimeout(() => {
         navigate('/events');
+        window.location.reload();
       }, 1000);
-    
+
     } catch (error) {
       console.error(error);
 
@@ -63,7 +64,7 @@ const Login: React.FC<Props> = ({ onLogin }) => {
                     src="https://images.unsplash.com/photo-1635805737707-575885ab0820?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NDB8fG1vdmllfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60"
                     alt="login form"
                     className="img-fluid"
-                    style={{ borderRadius: "1rem 0 0 1rem" ,objectFit: "cover", height: "100%"}}
+                    style={{ borderRadius: "1rem 0 0 1rem", objectFit: "cover", height: "100%" }}
                   />
                 </div>
                 <div className="col-md-6 col-lg-7 d-flex align-items-center">
@@ -110,7 +111,7 @@ const Login: React.FC<Props> = ({ onLogin }) => {
                           Password
                         </label>
                       </div>
-    
+
                       <div className="pt-1 mb-4">
                         <button
                           className="btn btn-dark btn-lg btn-block"
@@ -120,7 +121,7 @@ const Login: React.FC<Props> = ({ onLogin }) => {
                           Login
                         </button>
                       </div>
-    
+
                       <a className="small text-muted" href="#!">
                         Forgot password?
                       </a>
@@ -138,11 +139,11 @@ const Login: React.FC<Props> = ({ onLogin }) => {
                           Register here
                         </a>
                       </p>
-                
+
                       <a href="#!" className="small text-muted" onClick={handlePrivacyPolicyClick}>
                         Privacy policy
                       </a>
-    
+
                       {loginStatus === "success" && (
                         <p className="login-suc lead">Login successful!</p>
                       )}
@@ -160,7 +161,7 @@ const Login: React.FC<Props> = ({ onLogin }) => {
         </div>
       </div>
     </section>
-    );
-  };
-  
-  export default Login;
+  );
+};
+
+export default Login;

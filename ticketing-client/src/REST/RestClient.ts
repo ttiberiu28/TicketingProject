@@ -291,7 +291,7 @@ export default class RestClient {
   //user preferences functions below
 
   static async saveUserPreferences(userId: any, keywordIds: any) {
-    const url = `${RestClient.baseUrl}/api/userPreference`;
+    const url = `${RestClient.baseUrl}/api/userPreference/new`;
 
     const headers = new Headers();
     headers.set("Content-Type", "application/json");
@@ -312,6 +312,21 @@ export default class RestClient {
   }
 
 
+  static async deleteUserPreferences(userId: any) {
+    const url = `${RestClient.baseUrl}/api/userPreference/deletion`;
+
+    const requestOptions = {
+      method: "DELETE",
+    };
+
+    const response = await fetch(url + `?userId=${userId}`, requestOptions);
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error(`HTTP error! status: ${response.status}, message: ${errorText}`);
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+  }
 
 }
 

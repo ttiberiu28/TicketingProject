@@ -44,10 +44,10 @@ export default function UserPreference() {
     });
 
     const [isQuestionnaireCompleted, setIsQuestionnaireCompleted] = useState(false);
-
     useEffect(() => {
         // Check if all the user preferences are set
-        const isAllPreferencesSet = userPreference.outside !== undefined &&
+        const isAllPreferencesSet =
+            userPreference.outside !== undefined &&
             userPreference.genre !== undefined &&
             userPreference.budgetMin !== undefined &&
             userPreference.budgetMax !== undefined;
@@ -58,15 +58,20 @@ export default function UserPreference() {
             const userIdString = localStorage.getItem("userId");
             const userId = userIdString ? parseInt(userIdString) : null;
 
-            RestClient.saveUserPreferences(userId, userPreference)
-                .then(() => {
+            (async () => {
+                try {
+                    await RestClient.saveUserPreferences(userId, userPreference);
                     console.log("User preferences saved successfully");
-                })
-                .catch((error) => {
+
+                    // Delete the user previous preference from the local storage
+                    await RestClient.deleteUserPreferences(userId);
+                } catch (error) {
                     console.error("Failed to save user preferences:", error);
-                });
+                }
+            })();
         }
     }, [userPreference]);
+
 
 
 
@@ -103,18 +108,17 @@ export default function UserPreference() {
 
 
     const currentQuestion = questions[currentQuestionIndex];
-    console.log('Current question:', currentQuestion);
 
     return (
         <div className="background-div text-white">
             <BannerCarousel />
-            <div className="container">
+            <div className="preferences-container">
                 <h1>{currentQuestion.text}</h1>
 
                 {!isQuestionnaireCompleted && (
                     <select
                         className="select select-long"
-                        value="" // Add this line to reset the select value when the question changes
+                        value=""
                         onChange={(e) => handleOptionClick(Number(e.target.value))}
                     >
                         <option value="" selected>
@@ -128,10 +132,11 @@ export default function UserPreference() {
                     </select>
                 )}
 
-                {isQuestionnaireCompleted && ( // Display the button only when the questionnaire is completed
+                {isQuestionnaireCompleted && (
                     <button
                         className="btn btn-success btn-rounded btn-long"
-                        onClick={() => {
+                        onClick={async () => {
+
                             setCurrentQuestionIndex(0);
                             setIsQuestionnaireCompleted(false);
                             setUserPreference({
@@ -145,6 +150,7 @@ export default function UserPreference() {
                         Answer questions again
                     </button>
                 )}
+
             </div>
         </div>
     );

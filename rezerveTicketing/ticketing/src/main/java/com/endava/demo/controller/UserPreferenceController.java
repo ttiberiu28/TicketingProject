@@ -16,7 +16,7 @@ import java.util.Map;
 public class UserPreferenceController {
     private final UserPreferenceServer userPreferenceServer;
 
-    @PostMapping
+    @PostMapping(Constant.NEW)
     public ResponseEntity<?> saveUserPreferences(@RequestParam("userId") int userId, @RequestBody Map<String, Object> userPreferenceData) {
         try {
             userPreferenceServer.saveUserPreferences(userId, userPreferenceData);
@@ -25,5 +25,16 @@ public class UserPreferenceController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
+    @DeleteMapping(Constant.DELETEALL)
+    public ResponseEntity<?> deleteUserPreferences(@RequestParam("userId") int userId) {
+        try {
+            userPreferenceServer.deleteUserPreferences(userId);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
 
 }

@@ -38,6 +38,9 @@ public class Constant {
 
     public static final String ASSIGN_KEYWORD = "/keywordAssignation";
 
+    public static final String DELETEALL = "/deletion";
+
+
 
     /*
         OTHER CONSTANTS
