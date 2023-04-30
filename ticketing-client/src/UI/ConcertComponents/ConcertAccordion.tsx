@@ -39,6 +39,12 @@ export const ConcertAccordion: React.FC<ConcertAccordionProps> = ({ ticketsGroup
         { type: TicketType.STUDENT_ONE_DAY_PASS, label: 'Student One Day Pass' },
         { type: TicketType.STUDENT_TWO_DAY_PASS, label: 'Student Two Day Pass' },
         { type: TicketType.STUDENT_THREE_DAY_PASS, label: 'Student Three Day Pass' },
+        { type: TicketType.ZONE_A, label: 'Zone A' },
+        { type: TicketType.ZONE_B, label: 'Zone B' },
+        { type: TicketType.ZONE_C, label: 'Zone C' },
+        { type: TicketType.ZONE_A_STANDING, label: 'Zone A Standing' },
+        { type: TicketType.ZONE_B_STANDING, label: 'Zone B Standing' },
+        { type: TicketType.ZONE_C_STANDING, label: 'Zone C Standing' },
     ];
 
     const findClosestAvailableTime = (
@@ -132,7 +138,6 @@ export const ConcertAccordion: React.FC<ConcertAccordionProps> = ({ ticketsGroup
 
             console.log("Ticket added to cart");
 
-            // Call fetchCart to refresh the cart data
             fetchCart();
 
         } catch (error) {
@@ -141,7 +146,35 @@ export const ConcertAccordion: React.FC<ConcertAccordionProps> = ({ ticketsGroup
 
         window.location.reload();
     };
+    const getFilteredTicketTypes = () => {
+        const festivalTicketTypes = [
+            TicketType.ONE_DAY_PASS,
+            TicketType.TWO_DAY_PASS,
+            TicketType.THREE_DAY_PASS,
+            TicketType.STUDENT_ONE_DAY_PASS,
+            TicketType.STUDENT_TWO_DAY_PASS,
+            TicketType.STUDENT_THREE_DAY_PASS,
+        ];
 
+        const nonFestivalTicketTypes = [
+            TicketType.ZONE_A,
+            TicketType.ZONE_B,
+            TicketType.ZONE_C,
+            TicketType.ZONE_A_STANDING,
+            TicketType.ZONE_B_STANDING,
+            TicketType.ZONE_C_STANDING,
+        ];
+
+        const hasFestivalKeyword = concert && concert.keywords && concert.keywords.some(
+            (keyword) => keyword.name.toLowerCase() === 'festival'
+        );
+
+        return ticketTypes.filter((ticketType) =>
+            hasFestivalKeyword
+                ? festivalTicketTypes.includes(ticketType.type)
+                : nonFestivalTicketTypes.includes(ticketType.type)
+        );
+    };
 
 
     return (
@@ -171,7 +204,7 @@ export const ConcertAccordion: React.FC<ConcertAccordionProps> = ({ ticketsGroup
 
                             <div className="ticket-section">
                                 <ul>
-                                    {ticketTypes.map((ticketType) => (
+                                    {getFilteredTicketTypes().map((ticketType) => (
                                         <li key={ticketType.type}>
                                             <button
                                                 type="button"
@@ -185,6 +218,7 @@ export const ConcertAccordion: React.FC<ConcertAccordionProps> = ({ ticketsGroup
                                     ))}
                                 </ul>
                             </div>
+
 
                         </Collapse>
 

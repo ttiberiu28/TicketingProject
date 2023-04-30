@@ -1,9 +1,6 @@
 package com.endava.demo.controller;
 
-import com.endava.demo.dto.AssignConcertKeywordRequest;
-import com.endava.demo.dto.AssignConcertLocationRequest;
-import com.endava.demo.dto.AssignMovieKeywordRequest;
-import com.endava.demo.dto.AssignMovieLocationRequest;
+import com.endava.demo.dto.*;
 import com.endava.demo.exception.*;
 import com.endava.demo.model.Concert;
 import com.endava.demo.service.ConcertService;
@@ -29,19 +26,19 @@ public class ConcertController {
     }
 
     @PostMapping(Constant.NEW)
-    public ResponseEntity<?> addConcert(@RequestBody @Valid Concert concert){
+    public ResponseEntity<?> addConcert(@RequestBody @Valid ConcertDto concertDto){
 
         try{
-            concertService.addConcert(concert.getPrice(),concert.getLengthMinutes(),
-                    concert.getName(), concert.getImageUrl(),
-                    concert.getArtistName(),
-                    concert.getTrailerUrl(),concert.getConcertDescription(),
-                    concert.getAvailableHours(), concert.getAvailableDates());
+            concertService.addConcert(concertDto.getPrice(),concertDto.getLengthMinutes(),
+                    concertDto.getName(), concertDto.getImageUrl(),
+                    concertDto.getArtistName(),
+                    concertDto.getTrailerUrl(),concertDto.getConcertDescription(),
+                    concertDto.getAvailableHours(), concertDto.getAvailableDates());
 
             return ResponseEntity.ok().build();
 
         }catch(ConcertAlreadyExistsException e){
-            return ResponseEntity.badRequest().body("This concert already exists: " + concert.getName());
+            return ResponseEntity.badRequest().body("This concert already exists: " + concertDto.getName());
         }
     }
 

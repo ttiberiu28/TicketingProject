@@ -1,5 +1,6 @@
 import { MyLocation } from "../../interfaces/MyLocation";
 import { TicketType } from "../TicketType";
+import { MyKeyword } from "../../interfaces/MyKeyword";
 
 
 export class Concert {
@@ -16,6 +17,8 @@ export class Concert {
     artistName: string;
     availableHours: string;
     availableDates: string;
+    keywords: MyKeyword[];
+
 
     constructor(data: any) {
         this.id = data.id;
@@ -30,6 +33,7 @@ export class Concert {
         this.artistName = data.artistName;
         this.availableHours = data.availableHours;
         this.availableDates = data.availableDates;
+        this.keywords = data.keywords;
     }
 
     getPrice(ticketType: TicketType): number {
@@ -51,6 +55,25 @@ export class Concert {
             case TicketType.STUDENT_THREE_DAY_PASS:
                 price = this.price * 3 - (0.1 * this.price * 3) - 100;
                 break;
+            case TicketType.ZONE_A:
+                price = this.price * 5;
+                break;
+            case TicketType.ZONE_B:
+                price = this.price * 4;
+                break;
+            case TicketType.ZONE_C:
+                price = this.price * 3;
+                break;
+            case TicketType.ZONE_A_STANDING:
+                price = this.price * 3;
+                break;
+            case TicketType.ZONE_B_STANDING:
+                price = this.price * 1.75;
+                break;
+            case TicketType.ZONE_C_STANDING:
+                price = this.price * 1.25;
+                break;
+
             default:
                 price = this.price;
 

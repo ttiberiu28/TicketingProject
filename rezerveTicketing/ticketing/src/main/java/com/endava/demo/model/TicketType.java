@@ -13,4 +13,10 @@ public enum TicketType {
     STUDENT_ONE_DAY_PASS,
     STUDENT_TWO_DAY_PASS,
     STUDENT_THREE_DAY_PASS,
+    ZONE_A,
+    ZONE_B,
+    ZONE_C,
+    ZONE_A_STANDING,
+    ZONE_B_STANDING,
+    ZONE_C_STANDING,
 }
