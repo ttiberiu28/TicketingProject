@@ -17,6 +17,7 @@ public class AddTicketToCartRequest {
     private int userId;
     private int movieId;
     private int concertId;
+    private int sportId;
     private String ticketType;
     private LocalDate localDate;
     private int row;

@@ -2,10 +2,7 @@ import '../CSS/CartModal.css';
 import { Modal, Button, Table, FormControl } from 'react-bootstrap';
 import React, { useEffect, useState } from 'react';
 import RestClient from '../../REST/RestClient';
-
-// needs modification for every entity added to cart
-import { getMovies, getConcerts } from '../../api/api';
-import { TicketType } from './TicketType';
+import { getMovies, getConcerts, getSports } from '../../api/api';
 import { groupBy, flatMap } from "lodash";
 import { useCartContext } from './CartContext';
 import { Ticket } from '../../interfaces/Ticket';
@@ -48,17 +45,18 @@ export default function CartModal() {
         } else if (ticket.concertId) {
           const concert = await getConcerts(ticket.concertId);
           return { ...ticket, concert: concert[0] };
+        } else if (ticket.sportId) {
+          const sport = await getSports(ticket.sportId);
+          return { ...ticket, sport: sport[0] };
         }
         return ticket;
       });
 
       const updatedTickets = await Promise.all(ticketPromises);
-      // console.log("Updated tickets:", updatedTickets);
 
       const groupedTickets = groupBy(updatedTickets, (ticket) => {
-        return `${ticket.movieId || ticket.concertId}_${ticket.ticketType}`;
+        return `${ticket.movieId || ticket.concertId || ticket.sportId}_${ticket.ticketType}`;
       });
-      // console.log("Grouped tickets:", groupedTickets);
 
       if (callback) {
         callback();
@@ -98,6 +96,8 @@ export default function CartModal() {
         return total + (ticket.movie?.getPrice(ticket.ticketType) || 0) * ticket.quantity;
       } else if (ticket.concertId) {
         return total + (ticket.concert?.getPrice(ticket.ticketType) || 0) * ticket.quantity;
+      } else if (ticket.sportId) {
+        return total + (ticket.sport?.getPrice(ticket.ticketType) || 0) * ticket.quantity;
       }
       return total;
     }, 0);
@@ -237,9 +237,6 @@ export default function CartModal() {
     });
   };
 
-
-  // console.log("Cart:", cart);
-
   return (
     <>
       <Button className="flex" variant="btn btn-dark btn-outline-success" onClick={handleShow} style={{ width: '400px' }}>
@@ -290,13 +287,21 @@ export default function CartModal() {
                     .replace("_", " ")
                     .toLowerCase()
                     .replace(/(?:^|\s)\S/g, (a: string) => a.toUpperCase());
-                  const eventName = ticket.movie ? ticket.movie.name : ticket.concert.name;
+                  const eventName = ticket.movie
+                    ? ticket.movie.name
+                    : ticket.concert
+                      ? ticket.concert.name
+                      : ticket.sport.name;
+
                   const imageUrl = ticket.movie
                     ? ticket.movie.imageUrl
-                    : ticket.concert.imageUrl;
+                    : ticket.concert
+                      ? ticket.concert.imageUrl
+                      : ticket.sport.imageUrl;
+
 
                   return (
-                    <tr key={`${ticket.movieId || ticket.concertId}_${ticket.ticketType}`}>
+                    <tr key={`${ticket.movieId || ticket.concertId || ticket.sportId}_${ticket.ticketType}`}>
                       <td className="w-25">
                         <div className="bg-image hover-overlay hover-zoom ripple rounded" data-mdb-ripple-color="light">
                           <img src={imageUrl} className="w-100 img-fluid img-thumbnail" alt="Event" />
@@ -312,7 +317,9 @@ export default function CartModal() {
                         {(
                           ticket.movie
                             ? ticket.movie.getPrice(ticket.ticketType)
-                            : ticket.concert.getPrice(ticket.ticketType)
+                            : ticket.concert
+                              ? ticket.concert.getPrice(ticket.ticketType)
+                              : ticket.sport.getPrice(ticket.ticketType)
                         ) * (updatedCart?.tickets.find(t => t.id === ticket.id)?.quantity || ticket.quantity)}
                       </td>
 
@@ -360,12 +367,24 @@ export default function CartModal() {
                             ) : null
                           }
 
+                          {
+                            ticket.sportId ? (
+                              <Button className="btn px-3 ms-2" onClick={() => handleIncrement(ticket.id)}>
+                                <i className="fas fa-plus"></i>
+                              </Button>
+                            ) : null
+                          }
+
                         </div>
 
                       </td>
 
                       <td>
-                        {ticket.ticketSeats.map((seat: { row: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined; }) => (
+                        {ticket.ticketSeats.map((seat: {
+                          row: string | number | boolean |
+                          React.ReactElement<any, string | React.JSXElementConstructor<any>>
+                          | React.ReactFragment | React.ReactPortal | null | undefined;
+                        }) => (
                           <div>{seat.row}</div>
                         ))}
                       </td>

@@ -192,8 +192,6 @@ export default class RestClient {
     return data as Ticket;
   }
 
-
-
   // needs modification for every entity added to cart
   static async getCart(userId: number): Promise<Cart> {
     const url = `${RestClient.baseUrl}/api/user/getCart?userId=${userId}`;

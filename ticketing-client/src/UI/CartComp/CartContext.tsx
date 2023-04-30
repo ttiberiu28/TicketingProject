@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import RestClient from "../../REST/RestClient";
 import { groupBy, flatMap } from "lodash";
-import { getMovies, getConcerts } from "../../api/api";
+import { getMovies, getConcerts, getSports } from "../../api/api";
 import { Cart } from "../../interfaces/Cart";
 
 interface CartContextValue {
@@ -48,12 +48,18 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
                     const concert = await getConcerts(ticket.concertId);
                     return { ...ticket, concert: concert[0] };
                 }
+
+                else if (ticket.sportId) {
+                    const sport = await getSports(ticket.sportId);
+                    return { ...ticket, sport: sport[0] };
+                }
+
                 return ticket;
             });
 
             const updatedTickets = await Promise.all(ticketPromises);
             const groupedTickets = groupBy(updatedTickets, (ticket) => {
-                return `${ticket.movieId || ticket.concertId}_${ticket.ticketType}`;
+                return `${ticket.movieId || ticket.concertId || ticket.sportId}_${ticket.ticketType}`;
             });
 
             setCart({ ...fetchedCart, tickets: flatMap(groupedTickets, (group) => group) });

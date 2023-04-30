@@ -29,11 +29,14 @@ public class TicketService {
 
     private final ConcertRepo concertRepo;
 
+    private final SportRepo sportRepo;
+
 
     public TicketDTO addTicketToCart(AddTicketToCartRequest addTicketToCartRequest) {
         int userId = addTicketToCartRequest.getUserId();
         int movieId = addTicketToCartRequest.getMovieId();
         int concertId = addTicketToCartRequest.getConcertId();
+        int sportId = addTicketToCartRequest.getSportId();
         String ticketType = addTicketToCartRequest.getTicketType();
         String selectedTime = addTicketToCartRequest.getSelectedTime();
         LocalDate date = addTicketToCartRequest.getLocalDate();
@@ -62,14 +65,21 @@ public class TicketService {
             Concert concert = concertRepo.findById(concertId)
                     .orElseThrow(() -> new ConcertDoesNotExistsException(String.valueOf(concertId)));
             ticket.setConcert(concert);
-        } else {
-            throw new IllegalArgumentException("Both movieId and concertId cannot be zero");
+        }else if (sportId != 0) {
+            Sport sport = sportRepo.findById(sportId)
+                    .orElseThrow(() -> new SportDoesNotExistsException(String.valueOf(sportId)));
+            ticket.setSport(sport);
+        }
+
+        else {
+            throw new IllegalArgumentException("The id's cannot be 0");
         }
 
         // Check if a ticket with the same type already exists in the cart
         Ticket existingTicket = cart.getTickets().stream()
                 .filter(t -> Objects.equals(t.getMovie() != null ? t.getMovie().getId() : null, movieId)
                         && Objects.equals(t.getConcert() != null ? t.getConcert().getId() : null, concertId)
+                        && Objects.equals(t.getSport() != null ? t.getSport().getId() : null, sportId)
                         && t.getTicketType().equals(TicketType.valueOf(ticketType)))
                 .findFirst()
                 .orElse(null);
