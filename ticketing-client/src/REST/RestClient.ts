@@ -1,8 +1,9 @@
-import { Movie } from "../UI/MovieComponents/Movie";
+import { Movie } from "../UI/MovieComp/Movie";
 import { Cart } from "../interfaces/Cart";
 import { Ticket } from "../interfaces/Ticket";
 import { TicketDTO } from "../DTOs/TicketDTO";
-import { Concert } from "../UI/ConcertComponents/Concert";
+import { Concert } from "../UI/ConcertComp/Concert";
+import { Sport } from "../UI/SportComp/Sport";
 
 export default class RestClient {
   // static baseUrl = "http://localhost:8080";
@@ -111,6 +112,22 @@ export default class RestClient {
     return concerts;
   }
 
+  static async getSports(): Promise<Sport[]> {
+    const url = `${RestClient.baseUrl}/api/sport/list`;
+    const headers = new Headers();
+    headers.set("Authorization", RestClient.token || "");
+
+    const response = await fetch(url, { headers: headers });
+
+    if (!response.ok) {
+      throw new Error("Failed to get sports");
+    }
+
+    const jsonData = await response.json();
+    const sports = jsonData.map((sportData: any) => new Sport(sportData));
+    return sports;
+  }
+
   // // // 
 
 
@@ -136,6 +153,7 @@ export default class RestClient {
     userId: number,
     movieId: number | null,
     concertId: number | null,
+    sportId: number | null,
     ticketType: string,
     date: Date,
     selectedSeats: { row: number; seat: number }[],
@@ -150,6 +168,7 @@ export default class RestClient {
       userId,
       movieId,
       concertId,
+      sportId,
       ticketType,
       localDate: date.toISOString(),
       seats: selectedSeats.map((seat) => ({ row: seat.row, seatNumber: seat.seat })),
@@ -206,6 +225,7 @@ export default class RestClient {
         selectedTime: ticketDTO.selectedTime,
         movieId: undefined,
         concertId: undefined,
+        sportId: undefined,
       };
 
       if (ticketDTO.movie) {
@@ -216,6 +236,11 @@ export default class RestClient {
       if (ticketDTO.concert) {
         ticket.concertId = ticketDTO.concert.id;
         ticket.concert = ticketDTO.concert;
+      }
+
+      if (ticketDTO.sport) {
+        ticket.sportId = ticketDTO.sport.id;
+        ticket.sport = ticketDTO.sport;
       }
 
       return ticket;

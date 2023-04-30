@@ -3,7 +3,7 @@ import { Container, Row, Col } from "react-bootstrap";
 import splash from "./Images/im5.jpg";
 import { Link } from "react-router-dom";
 import './CSS/home.css';
-import { useAuth } from "./AuthContext";
+import { useAuth } from "./UserComp/AuthContext";
 
 
 export default function Home() {

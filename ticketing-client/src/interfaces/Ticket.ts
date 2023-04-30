@@ -1,7 +1,8 @@
-import { Movie } from "../UI/MovieComponents/Movie";
-import { Concert } from "../UI/ConcertComponents/Concert";
-import { TicketType } from "../UI/TicketType";
+import { Movie } from "../UI/MovieComp/Movie";
+import { Concert } from "../UI/ConcertComp/Concert";
+import { TicketType } from "../UI/CartComp/TicketType";
 import { Seat } from "./Seat";
+import { Sport } from "../UI/SportComp/Sport";
 
 
 export interface Ticket {
@@ -11,10 +12,12 @@ export interface Ticket {
   // needs modification for every entity added to cart
   movieId?: number;
   concertId?: number;
+  sportId?: number;
 
   // needs modification for every entity added to cart
   movie?: Movie;
   concert?: Concert;
+  sport?: Sport;
 
   date: Date;
   row: number;

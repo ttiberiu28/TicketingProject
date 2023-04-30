@@ -1,7 +1,8 @@
 import RestClient from '../REST/RestClient';
-import { Movie } from '../UI/MovieComponents/Movie';
+import { Movie } from '../UI/MovieComp/Movie';
 import { StandUp } from '../UI/StandupComponents/StandUp'
-import { Concert } from '../UI/ConcertComponents/Concert'
+import { Concert } from '../UI/ConcertComp/Concert'
+import { Sport } from '../UI/SportComp/Sport';
 
 
 
@@ -10,7 +11,6 @@ export async function getMovies(id?: number) {
   const movies = response;
 
   if (id) {
-    // Find the movie with the matching ID
     const movie = movies.find((m: Movie) => m.id === id);
     return movie ? [movie] : [];
   } else {
@@ -19,7 +19,7 @@ export async function getMovies(id?: number) {
 }
 
 export async function getConcerts(id?: number) {
-  const response = await RestClient.getConcerts(); // Use RestClient to get concerts
+  const response = await RestClient.getConcerts();
   const concerts = response;
 
   if (id) {
@@ -28,6 +28,21 @@ export async function getConcerts(id?: number) {
     return concert ? [concert] : [];
   } else {
     return concerts;
+  }
+
+}
+
+
+export async function getSports(id?: number) {
+  const response = await RestClient.getSports();
+  const sports = response;
+
+  if (id) {
+
+    const sport = sports.find((s: Sport) => s.id === id);
+    return sport ? [sport] : [];
+  } else {
+    return sports;
   }
 
 }

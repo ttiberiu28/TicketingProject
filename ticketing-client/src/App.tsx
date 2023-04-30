@@ -3,19 +3,20 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Home from './UI/Home';
 import About from './UI/About';
-import MyLocations from './UI/LocationsComponents/MyLocations';
-import NavBar from './UI/Navbar';
-import Events from './UI/EventsElements/Events';
-import MovieDetails from './UI/MovieComponents/MovieDetails';
+import MyLocations from './UI/LocationsComp/MyLocations';
+import NavBar from './UI/NavComp/Navbar';
+import Events from './UI/EventsComp/Events';
+import MovieDetails from './UI/MovieComp/MovieDetails';
 import StandUpDetails from './UI/StandupComponents/StandUpDetails';
-import ConcertDetails from './UI/ConcertComponents/ConcertDetails';
-import MyLogin from './UI/Login';
-import { AuthProvider, useAuth } from './UI/AuthContext';
-import MySignUp from './UI/SingUp';
-import { CartProvider } from './UI/CartElements/CartContext';
-import MovieOffers from './UI/MovieComponents/MovieOffers';
-import Checkout from './UI/CartElements/Checkout';
-import UserPreference from './UI/UserPreference';
+import ConcertDetails from './UI/ConcertComp/ConcertDetails';
+import SportDetails from './UI/SportComp/SportDetails';
+import MyLogin from './UI/UserComp/Login';
+import { AuthProvider, useAuth } from './UI/UserComp/AuthContext';
+import MySignUp from './UI/UserComp/SingUp';
+import { CartProvider } from './UI/CartComp/CartContext';
+import MovieOffers from './UI/MovieComp/MovieOffers';
+import Checkout from './UI/CartComp/Checkout';
+import UserPreference from './UI/UserComp/UserPreference';
 
 function App() {
   return (
@@ -112,6 +113,15 @@ function MainApp() {
             </MainLayout>
           }
         />
+        <Route
+          path="/sport/:index"
+          element={
+            <MainLayout>
+              <SportDetails />
+            </MainLayout>
+          }
+        />
+
         <Route
           path="/location/:index"
           element={

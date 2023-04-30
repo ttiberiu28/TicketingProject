@@ -5,7 +5,7 @@ import { Container, Row, Col, Card } from 'react-bootstrap';
 import { StandUp } from './StandUp';
 import BannerCarousel from '../BannerCarousel';
 import 'mdb-react-ui-kit/dist/css/mdb.min.css';
-import { MovieAccordion } from '../MovieComponents/MovieAccordion';
+import { MovieAccordion } from '../MovieComp/MovieAccordion';
 import '../CSS/EventDetails.css';
 
 const StandUpDetails: React.FC = () => {
