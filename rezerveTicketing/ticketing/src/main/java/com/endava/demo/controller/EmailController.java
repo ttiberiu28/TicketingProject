@@ -18,12 +18,9 @@ public class EmailController {
     public void sendEmail(@RequestBody EmailRequest emailRequest) {
         String userEmail = emailRequest.getUserEmail();
         String subject = "Your Cart and Ticket Information";
-        String htmlTemplate = generateHtmlTemplate(emailRequest.getCartContents(), emailRequest.getTicket());
+        String htmlTemplate = emailRequest.getHtmlTemplate(); // Use the HTML template sent in the request
         emailService.sendEmail(userEmail, subject, htmlTemplate);
     }
 
-    private String generateHtmlTemplate(String cartContents, String ticket) {
-        String htmlTemplate = "<h1>Cart Contents:</h1><pre>" + cartContents + "</pre><br><h1>Ticket:</h1><pre>" + ticket + "</pre>";
-        return htmlTemplate;
-    }
+
 }

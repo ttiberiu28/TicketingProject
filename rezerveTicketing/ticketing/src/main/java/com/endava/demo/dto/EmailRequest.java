@@ -11,5 +11,6 @@ public class EmailRequest {
     private String userEmail;
     private String cartContents;
     private String ticket;
+    private String htmlTemplate;
 
 }

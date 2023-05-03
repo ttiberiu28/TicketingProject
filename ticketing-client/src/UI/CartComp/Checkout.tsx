@@ -7,6 +7,9 @@ import { Cart } from "../../interfaces/Cart";
 import { useCartContext } from './CartContext';
 import { renderToString } from 'react-dom/server';
 import SuccessEmail from './SuccessEmail';
+import { flatMap, groupBy } from "lodash";
+import { getMovies, getConcerts, getSports } from '../../api/api';
+
 
 
 
@@ -14,6 +17,42 @@ const Checkout = () => {
 
     const navigate = useNavigate();
     const { cart } = useCartContext();
+
+    const fetchCart = async () => {
+        const userId = localStorage.getItem("userId");
+
+        if (!userId) return null;
+
+        const fetchedCart = await RestClient.getCart(parseInt(userId, 10));
+
+        if (fetchedCart) {
+            const ticketPromises = fetchedCart.tickets.map(async (ticket) => {
+                if (ticket.movieId) {
+                    const movie = await getMovies(ticket.movieId);
+                    return { ...ticket, movie: movie[0] };
+                } else if (ticket.concertId) {
+                    const concert = await getConcerts(ticket.concertId);
+                    return { ...ticket, concert: concert[0] };
+                } else if (ticket.sportId) {
+                    const sport = await getSports(ticket.sportId);
+                    return { ...ticket, sport: sport[0] };
+                }
+                return ticket;
+            });
+
+            const updatedTickets = await Promise.all(ticketPromises);
+
+            const groupedTickets = groupBy(updatedTickets, (ticket: any) => {
+                return `${ticket.movieId || ticket.concertId || ticket.sportId}_${ticket.ticketType}`;
+            });
+
+            return { ...fetchedCart, tickets: flatMap(groupedTickets, (group: any) => group) };
+        } else {
+            return null;
+        }
+    };
+
+
 
     const handleBuyNow = async (cart: Cart | null) => {
         try {
@@ -23,8 +62,11 @@ const Checkout = () => {
                 throw new Error("User email not found in local storage");
             }
 
-            // Render the SuccessEmail component as a string
-            const successEmailHTML = renderToString(<SuccessEmail cart={cart} />);
+            // Fetch the updated cart here
+            const fetchedCart = await fetchCart();
+            const successEmailHTML = renderToString(
+                <SuccessEmail cart={fetchedCart} />
+            ); // Pass the fetched cart to SuccessEmail component
 
             await RestClient.sendEmail(email, cart, successEmailHTML);
             navigate('/success');

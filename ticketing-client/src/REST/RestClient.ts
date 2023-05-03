@@ -88,6 +88,7 @@ export default class RestClient {
 
     const body = JSON.stringify({ userEmail, htmlTemplate });
 
+
     const response = await fetch(url, { method: "POST", headers: headers, body: body });
 
     if (!response.ok) {

@@ -8,6 +8,7 @@ import { useCartContext } from './CartContext';
 import { Cart } from '../../interfaces/Cart';
 
 
+
 export default function SuccessPage() {
 
     const [updatedCart, setUpdatedCart] = useState<Cart | null>(null);
@@ -83,7 +84,7 @@ export default function SuccessPage() {
                         <tr>
                             <th></th>
                             <th><strong>Product</strong></th>
-                            <th>Price                    </th>
+                            <th>Price</th>
                             <th>Quantity</th>
                         </tr>
                     </thead>
