@@ -18,7 +18,7 @@ public class EmailController {
     public void sendEmail(@RequestBody EmailRequest emailRequest) {
         String userEmail = emailRequest.getUserEmail();
         String subject = "Your Cart and Ticket Information";
-        String htmlTemplate = emailRequest.getHtmlTemplate(); // Use the HTML template sent in the request
+        String htmlTemplate = emailRequest.getHtmlTemplate();
         emailService.sendEmail(userEmail, subject, htmlTemplate);
     }
 

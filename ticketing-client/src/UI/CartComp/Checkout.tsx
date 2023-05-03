@@ -61,12 +61,10 @@ const Checkout = () => {
             if (!email) {
                 throw new Error("User email not found in local storage");
             }
-
-            // Fetch the updated cart here
             const fetchedCart = await fetchCart();
             const successEmailHTML = renderToString(
                 <SuccessEmail cart={fetchedCart} />
-            ); // Pass the fetched cart to SuccessEmail component
+            );
 
             await RestClient.sendEmail(email, cart, successEmailHTML);
             navigate('/success');

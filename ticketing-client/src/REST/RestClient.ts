@@ -64,7 +64,6 @@ export default class RestClient {
     return responseData;
   }
 
-
   static async sendEmail(userEmail: any, cart: any, successEmailHTML: string) {
     const url = `${RestClient.baseUrl}/api/email/send`;
 
@@ -76,8 +75,6 @@ export default class RestClient {
     const htmlTemplate = `
     <html>
       <head>
-        <style>
-        </style>
       </head>
       <body>
         <h1>Order Confirmation</h1>
@@ -88,14 +85,12 @@ export default class RestClient {
 
     const body = JSON.stringify({ userEmail, htmlTemplate });
 
-
     const response = await fetch(url, { method: "POST", headers: headers, body: body });
 
     if (!response.ok) {
       throw new Error("Sending email failed");
     }
   }
-
 
 
   static async getLocations(): Promise<any> {

@@ -1,8 +1,9 @@
 // SuccessEmail.tsx
 import React from 'react';
-import { Table } from 'react-bootstrap';
+import { Table as BootstrapTable } from 'react-bootstrap';
 import { Cart } from '../../interfaces/Cart';
 import { groupBy } from 'lodash';
+
 
 interface SuccessEmailProps {
     cart: Cart | null;
@@ -31,17 +32,28 @@ const SuccessEmail: React.FC<SuccessEmailProps> = ({ cart }) => {
                     ? ticket.concert.name
                     : ticket.sport.name;
 
-            const imageUrl = ticket.movie
-                ? ticket.movie.imageUrl
-                : ticket.concert
-                    ? ticket.concert.imageUrl
-                    : ticket.sport.imageUrl;
+            // const imageUrl = ticket.movie
+            //     ? ticket.movie.imageUrl
+            //     : ticket.concert
+            //         ? ticket.concert.imageUrl
+            //         : ticket.sport.imageUrl;
 
             return (
                 <tr key={`${ticket.movieId || ticket.concertId || ticket.sportId}_${ticket.ticketType}`}>
-                    <td className="w-25">
-                        <img src={imageUrl} className="w-100 img-fluid img-thumbnail" alt="Event" />
-                    </td>
+                    {/* <td className="w-25">
+                        <div className="bg-image hover-overlay hover-zoom ripple rounded" data-mdb-ripple-color="light">
+                            <img
+                                src={imageUrl}
+                                style={{ height: '70px', width: '45px', objectFit: 'cover' }}
+                                alt="Event"
+                            />
+
+
+                            <a href="#!">
+                                <div className="mask" style={{ backgroundColor: 'rgba(251, 251, 251, 0.2)' }}></div>
+                            </a>
+                        </div>
+                    </td> */}
                     <td>
                         {eventName} {ticketTypeLabel}
                     </td>
@@ -57,14 +69,19 @@ const SuccessEmail: React.FC<SuccessEmailProps> = ({ cart }) => {
                     </td>
 
                     <td className="qty">
-                        <input
-                            id="form1"
-                            name="quantity"
-                            value={cart?.tickets.find((t) => t.id === ticket.id)?.quantity || ticket.quantity}
-                            type="text"
-                            className="form-control"
-                            readOnly
-                        />
+                        <div className="d-flex align-items-center">
+                            <div className="form-outline">
+                                <input
+                                    id="form1"
+                                    name="quantity"
+                                    value={cart?.tickets.find((t) => t.id === ticket.id)?.quantity || ticket.quantity}
+                                    type="text"
+                                    className="form-control"
+                                    readOnly
+                                />
+                                <label className="form-label" htmlFor="form1">Quantity</label>
+                            </div>
+                        </div>
                     </td>
                 </tr>
             );
@@ -72,7 +89,7 @@ const SuccessEmail: React.FC<SuccessEmailProps> = ({ cart }) => {
     };
 
     return (
-        <Table className="table-image" bordered={false} hover>
+        <BootstrapTable responsive className="" bordered={false} hover>
             <thead>
                 <tr>
                     <th></th>
@@ -84,7 +101,7 @@ const SuccessEmail: React.FC<SuccessEmailProps> = ({ cart }) => {
                 </tr>
             </thead>
             {cart && <tbody>{renderTableBody()}</tbody>}
-        </Table>
+        </BootstrapTable>
     );
 };
 
