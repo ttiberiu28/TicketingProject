@@ -17,6 +17,7 @@ import { CartProvider } from './UI/CartComp/CartContext';
 import MovieOffers from './UI/MovieComp/MovieOffers';
 import Checkout from './UI/CartComp/Checkout';
 import UserPreference from './UI/UserComp/UserPreference';
+import SuccessPage from './UI/CartComp/SuccessPage';
 
 function App() {
   return (
@@ -155,6 +156,16 @@ function MainApp() {
             </MainLayout>
           }
         />
+
+        <Route
+          path="/success"
+          element={
+            <MainLayout>
+              <SuccessPage />
+            </MainLayout>
+          }
+        />
+
 
       </Routes>
 

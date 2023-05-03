@@ -65,37 +65,26 @@ export default class RestClient {
   }
 
 
-  static async sendEmail(userEmail: any, cartContents: any, ticket: any) {
+  static async sendEmail(userEmail: any, cart: any, successEmailHTML: string) {
     const url = `${RestClient.baseUrl}/api/email/send`;
 
     const headers = new Headers();
     headers.set("Content-Type", "application/json");
     headers.set("Authorization", `Bearer ${localStorage.getItem("token")}`);
 
-    const cart = JSON.parse(cartContents);
-    const ticketData = JSON.parse(ticket);
-
     // Create an HTML template for the email
     const htmlTemplate = `
-      <html>
-        <head>
-          <style>
-            /* Add your custom styling here */
-          </style>
-        </head>
-        <body>
-          <h1>Order Confirmation</h1>
-          <h2>Cart Contents</h2>
-          <ul>
-            ${cart.tickets.map((ticket: any) => `<li>${ticket.name} (${ticket.ticketType}) - ${ticket.price} ${ticket.currency}</li>`).join('')}
-          </ul>
-          <h2>Ticket Information</h2>
-          <p>Ticket ID: ${ticketData.ticketId}</p>
-          <p>Event Name: ${ticketData.eventName}</p>
-          <p>Event Date: ${ticketData.eventDate}</p>
-        </body>
-      </html>
-    `;
+    <html>
+      <head>
+        <style>
+        </style>
+      </head>
+      <body>
+        <h1>Order Confirmation</h1>
+        ${successEmailHTML}
+      </body>
+    </html>
+  `;
 
     const body = JSON.stringify({ userEmail, htmlTemplate });
 

@@ -5,6 +5,9 @@ import { useNavigate } from "react-router-dom";
 import RestClient from "../../REST/RestClient";
 import { Cart } from "../../interfaces/Cart";
 import { useCartContext } from './CartContext';
+import { renderToString } from 'react-dom/server';
+import SuccessEmail from './SuccessEmail';
+
 
 
 const Checkout = () => {
@@ -16,22 +19,14 @@ const Checkout = () => {
         try {
             const email = localStorage.getItem("email");
 
-
             if (!email) {
                 throw new Error("User email not found in local storage");
             }
 
-            // Format the cart contents and ticket information as you desire
-            const cartContents = JSON.stringify(cart);
-            const ticket = {
-                // Your ticket information here
-                ticketId: 123,
-                eventName: "Concert",
-                eventDate: "2023-05-20",
-            };
-            const ticketString = JSON.stringify(ticket);
+            // Render the SuccessEmail component as a string
+            const successEmailHTML = renderToString(<SuccessEmail cart={cart} />);
 
-            await RestClient.sendEmail(email, cartContents, ticketString);
+            await RestClient.sendEmail(email, cart, successEmailHTML);
             navigate('/success');
         } catch (error: any) {
             console.error("Error sending email:", error.message);

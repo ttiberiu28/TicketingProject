@@ -1,0 +1,49 @@
+.suc-container {
+    padding-top: 10rem;
+    padding-bottom: 2rem;
+}
+
+.table-image thead td,
+.table-image thead th {
+    border: 0;
+    color: #666;
+    font-size: 0.8rem;
+}
+
+.table-image td,
+.table-image th {
+    vertical-align: middle;
+    text-align: center;
+}
+
+.table-image td.qty,
+.table-image th.qty {
+    max-width: 2rem;
+}
+
+.price {
+    margin-left: 1rem;
+}
+
+.modal-footer {
+    padding-top: 0rem;
+}
+
+.suc-gradient-custom {
+    background: #6a11cb;
+    background: -webkit-linear-gradient(to right, rgb(206, 98, 49), rgb(49, 157, 206));
+    background: linear-gradient(to right, rgb(206, 98, 49), rgb(49, 157, 206));
+}
+
+.suc-gradient-custom-footer {
+    background: -webkit-linear-gradient(to right, rgb(49, 157, 206), rgb(206, 98, 49));
+    background: linear-gradient(to right, rgb(49, 157, 206), rgb(206, 98, 49));
+}
+
+.text-left {
+    text-align: left;
+}
+
+.cart-text-color {
+    color: #40be01;
+}
