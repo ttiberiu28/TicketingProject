@@ -2,11 +2,41 @@ import React from "react";
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import BannerCarousel from "../BannerCarousel";
 import { useNavigate } from "react-router-dom";
+import RestClient from "../../REST/RestClient";
+import { Cart } from "../../interfaces/Cart";
+import { useCartContext } from './CartContext';
 
 
 const Checkout = () => {
 
     const navigate = useNavigate();
+    const { cart } = useCartContext();
+
+    const handleBuyNow = async (cart: Cart | null) => {
+        try {
+            const email = localStorage.getItem("email");
+
+
+            if (!email) {
+                throw new Error("User email not found in local storage");
+            }
+
+            // Format the cart contents and ticket information as you desire
+            const cartContents = JSON.stringify(cart);
+            const ticket = {
+                // Your ticket information here
+                ticketId: 123,
+                eventName: "Concert",
+                eventDate: "2023-05-20",
+            };
+            const ticketString = JSON.stringify(ticket);
+
+            await RestClient.sendEmail(email, cartContents, ticketString);
+            navigate('/success');
+        } catch (error: any) {
+            console.error("Error sending email:", error.message);
+        }
+    };
 
 
     return (
@@ -54,7 +84,14 @@ const Checkout = () => {
                         <p className="mb-5">Lorem ipsum dolor sit amet consectetur, adipisicing elit <a
                             href="#!">obcaecati sapiente</a>.</p>
 
-                        <button type="button" className="btn btn-primary btn-block btn-lg">Buy now</button>
+                        <button
+                            type="button"
+                            className="btn btn-primary btn-block btn-lg"
+                            onClick={() => handleBuyNow(cart)}
+                        >
+                            Buy now
+                        </button>
+
 
                         <h5 className="fw-bold mb-5" style={{ bottom: 0 }} onClick={() => navigate('/events')}>
                             <a href="#!"><i className="fas fa-angle-left me-2"></i>Back to shopping</a>

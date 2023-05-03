@@ -6,8 +6,8 @@ import { Concert } from "../UI/ConcertComp/Concert";
 import { Sport } from "../UI/SportComp/Sport";
 
 export default class RestClient {
-  // static baseUrl = "http://localhost:8080";
-  static baseUrl = "http://192.168.1.95:8080";
+  static baseUrl = "http://localhost:8080";
+  // static baseUrl = "http://192.168.1.95:8080";
 
   static token?: string;
 
@@ -55,10 +55,55 @@ export default class RestClient {
       localStorage.setItem("token", token);
     }
 
-    const responseData = await response.json(); // Get the JSON response data
-    localStorage.setItem("userId", responseData.id.toString()); // Store the user ID in local storage
+    const responseData = await response.json();
+    console.log('responseData:', responseData);
+
+    localStorage.setItem("userId", responseData.id.toString());
     localStorage.setItem("username", responseData.username);
+    localStorage.setItem("email", responseData.email);
     return responseData;
+  }
+
+
+  static async sendEmail(userEmail: any, cartContents: any, ticket: any) {
+    const url = `${RestClient.baseUrl}/api/email/send`;
+
+    const headers = new Headers();
+    headers.set("Content-Type", "application/json");
+    headers.set("Authorization", `Bearer ${localStorage.getItem("token")}`);
+
+    const cart = JSON.parse(cartContents);
+    const ticketData = JSON.parse(ticket);
+
+    // Create an HTML template for the email
+    const htmlTemplate = `
+      <html>
+        <head>
+          <style>
+            /* Add your custom styling here */
+          </style>
+        </head>
+        <body>
+          <h1>Order Confirmation</h1>
+          <h2>Cart Contents</h2>
+          <ul>
+            ${cart.tickets.map((ticket: any) => `<li>${ticket.name} (${ticket.ticketType}) - ${ticket.price} ${ticket.currency}</li>`).join('')}
+          </ul>
+          <h2>Ticket Information</h2>
+          <p>Ticket ID: ${ticketData.ticketId}</p>
+          <p>Event Name: ${ticketData.eventName}</p>
+          <p>Event Date: ${ticketData.eventDate}</p>
+        </body>
+      </html>
+    `;
+
+    const body = JSON.stringify({ userEmail, htmlTemplate });
+
+    const response = await fetch(url, { method: "POST", headers: headers, body: body });
+
+    if (!response.ok) {
+      throw new Error("Sending email failed");
+    }
   }
 
 

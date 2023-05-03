@@ -41,9 +41,9 @@ public class UserController {
 
     @PostMapping(Constant.LOGIN)
     public ResponseEntity<?> login(@RequestBody UserSignupDto userSignupDto){
-        User authenticatedUser = userService.login(userSignupDto.getUsername(), userSignupDto.getPassword());
+        User authenticatedUser = userService.login(userSignupDto.getUsername(), userSignupDto.getPassword(), userSignupDto.getEmail());
 
-        UserLoginDto userLoginDto = new UserLoginDto(authenticatedUser.getId(), authenticatedUser.getUsername());
+        UserLoginDto userLoginDto = new UserLoginDto(authenticatedUser.getId(), authenticatedUser.getUsername(), authenticatedUser.getEmail());
         return ResponseEntity.ok(userLoginDto);
     }
     @GetMapping(Constant.LIST)

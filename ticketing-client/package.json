@@ -9,6 +9,7 @@
     "@types/jest": "^27.5.2",
     "@types/node": "^16.18.14",
     "@types/react": "^18.0.9",
+    "axios": "^1.4.0",
     "bootstrap": "^5.2.3",
     "jquery": "^3.6.4",
     "mdb-react-ui-kit": "^6.0.0",

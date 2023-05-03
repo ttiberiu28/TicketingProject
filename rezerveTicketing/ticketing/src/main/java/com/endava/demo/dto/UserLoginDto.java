@@ -8,5 +8,6 @@ import lombok.*;
 public class UserLoginDto {
     private int id;
     private String username;
+    private String email;
 }
 

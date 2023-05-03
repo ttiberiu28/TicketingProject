@@ -32,7 +32,7 @@ public class UserService {
 
     private final PasswordEncoder passwordEncoder;
 
-    public User login(String username, String password){
+    public User login(String username, String password, String email){
         User user = userRepo.findUserByUsernameIgnoreCase(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Invalid Username"));
 

@@ -25,6 +25,8 @@ public class Constant {
 
     public static final String USER_PREFERENCE_CONTROLLER = "/api/userPreference";
 
+    public static final String EMAIL_CONTROLLER = "/api/email";
+
 
     /*
         MAPPING PATHS
