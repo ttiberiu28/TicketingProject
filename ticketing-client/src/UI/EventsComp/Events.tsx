@@ -71,16 +71,11 @@ export default function Events() {
   const [sports, setSports] = useState<Sport[]>([]);
 
   const [filteredEvents, setFilteredEvents] = useState<any[]>([]);
-  // const [eventType, setEventType] = useState('');
   const [eventType, setEventType] = useState(filterFromUrl || '');
   const [searchValue, setSearchValue] = useState('');
 
   const [currentPage, setCurrentPage] = useState(1);
 
-
-
-
-  // 2 of each kind
   const eventsPerPage = 4;
 
   // Fetch movies and stand-up events from API using useEffect hook and update state

@@ -20,8 +20,6 @@ import java.util.Set;
 @Table(name = "movie")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Movie extends Event {
-    //asa ii spui ca e primary key-ul tau , cum sa il auto incrementeze
-
     @NotEmpty
     private String language;
     @Min(1)
@@ -48,7 +46,6 @@ public class Movie extends Event {
     @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL)
     private List<Ticket> tickets;
 
-    //mappedBy = "numele variabilei din locations"
     @ManyToMany(mappedBy = "movies")
     private Set<Location> locations;
 

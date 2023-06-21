@@ -10,6 +10,22 @@ interface SuccessEmailProps {
 }
 
 const SuccessEmail: React.FC<SuccessEmailProps> = ({ cart }) => {
+
+    const calculateTotal = () => {
+        if (!cart) return 0;
+        return cart.tickets.reduce((total, ticket) => {
+            if (ticket.movieId) {
+                return total + (ticket.movie?.getPrice(ticket.ticketType) || 0) * ticket.quantity;
+            } else if (ticket.concertId) {
+                return total + (ticket.concert?.getPrice(ticket.ticketType) || 0) * ticket.quantity;
+            } else if (ticket.sportId) {
+                return total + (ticket.sport?.getPrice(ticket.ticketType) || 0) * ticket.quantity;
+            }
+            return total;
+        }, 0);
+    };
+
+
     const renderTableBody = () => {
         if (!cart) return null;
 
@@ -31,29 +47,9 @@ const SuccessEmail: React.FC<SuccessEmailProps> = ({ cart }) => {
                 : ticket.concert
                     ? ticket.concert.name
                     : ticket.sport.name;
-
-            // const imageUrl = ticket.movie
-            //     ? ticket.movie.imageUrl
-            //     : ticket.concert
-            //         ? ticket.concert.imageUrl
-            //         : ticket.sport.imageUrl;
-
             return (
                 <tr key={`${ticket.movieId || ticket.concertId || ticket.sportId}_${ticket.ticketType}`}>
-                    {/* <td className="w-25">
-                        <div className="bg-image hover-overlay hover-zoom ripple rounded" data-mdb-ripple-color="light">
-                            <img
-                                src={imageUrl}
-                                style={{ height: '70px', width: '45px', objectFit: 'cover' }}
-                                alt="Event"
-                            />
 
-
-                            <a href="#!">
-                                <div className="mask" style={{ backgroundColor: 'rgba(251, 251, 251, 0.2)' }}></div>
-                            </a>
-                        </div>
-                    </td> */}
                     <td>
                         {eventName} {ticketTypeLabel}
                     </td>
@@ -89,19 +85,17 @@ const SuccessEmail: React.FC<SuccessEmailProps> = ({ cart }) => {
     };
 
     return (
-        <BootstrapTable responsive className="" bordered={false} hover>
-            <thead>
-                <tr>
-                    <th></th>
-                    <th>
-                        <strong>Product</strong>
-                    </th>
-                    <th>Price</th>
-                    <th>Quantity</th>
-                </tr>
-            </thead>
-            {cart && <tbody>{renderTableBody()}</tbody>}
-        </BootstrapTable>
+        <>
+            <BootstrapTable responsive className="" bordered={false} hover>
+                {cart && <tbody>{renderTableBody()}</tbody>}
+            </BootstrapTable>
+            <p></p>
+            <p>This email represents the validity of your purchase.</p>
+            <div>
+                <strong>Total Price: </strong>
+                {calculateTotal()}
+            </div>
+        </>
     );
 };
 

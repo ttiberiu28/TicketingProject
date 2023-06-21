@@ -8,13 +8,10 @@ import { Sport } from "../UI/SportComp/Sport";
 export interface Ticket {
   id: number;
 
-  //these are used for CartModal
-  // needs modification for every entity added to cart
   movieId?: number;
   concertId?: number;
   sportId?: number;
 
-  // needs modification for every entity added to cart
   movie?: Movie;
   concert?: Concert;
   sport?: Sport;

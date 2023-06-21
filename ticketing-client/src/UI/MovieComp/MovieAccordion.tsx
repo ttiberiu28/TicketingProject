@@ -54,6 +54,13 @@ export const MovieAccordion: React.FC<MovieAccordionProps> = ({ ticketsGroup, ti
     { type: TicketType.STUDENT_3D, label: 'Student 3D' },
   ];
 
+  const [occupiedSeats, setOccupiedSeats] = useState<{ row: number; seat: number }[]>([]);
+
+  useEffect(() => {
+    RestClient.getTicketSeat().then(seats => setOccupiedSeats(seats));
+  }, []);
+
+
 
   const findClosestAvailableTime = (
     movieId: number,
@@ -344,6 +351,7 @@ export const MovieAccordion: React.FC<MovieAccordionProps> = ({ ticketsGroup, ti
                       }
                       onSeatSelected={handleSeatSelected}
                       selectedSeats={selectedSeats}
+                      occupiedSeats={occupiedSeats}  // pass the occupiedSeats to the CustomSeatPicker
                     />
 
 

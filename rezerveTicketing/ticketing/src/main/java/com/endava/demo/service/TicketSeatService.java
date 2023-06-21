@@ -1,5 +1,6 @@
 package com.endava.demo.service;
 
+import com.endava.demo.model.Movie;
 import com.endava.demo.model.Ticket;
 import com.endava.demo.model.TicketSeat;
 import com.endava.demo.repository.TicketRepo;
@@ -7,6 +8,8 @@ import com.endava.demo.repository.TicketSeatRepo;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @Transactional
@@ -32,5 +35,9 @@ public class TicketSeatService {
 
         // Delete the ticket seat
         ticketSeatRepo.deleteById(id);
+    }
+
+    public List<TicketSeat> getTicketSeatList() {
+        return ticketSeatRepo.findAll();
     }
 }

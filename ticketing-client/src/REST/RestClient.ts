@@ -77,7 +77,7 @@ export default class RestClient {
       <head>
       </head>
       <body>
-        <h1>Order Confirmation</h1>
+        <h1>Thank you for choosing Ticket-to-GO :) </h1>
         ${successEmailHTML}
       </body>
     </html>
@@ -105,6 +105,22 @@ export default class RestClient {
     }
 
     return response.json();
+  }
+
+  static async getTicketSeat(): Promise<{ row: number; seat: number }[]> {
+    const url = `${RestClient.baseUrl}/api/ticketSeat/list`;
+    const headers = new Headers();
+    headers.set("Authorization", RestClient.token || "");
+
+    const response = await fetch(url, { headers: headers });
+
+    if (!response.ok) {
+      throw new Error("Failed to get ticket seats");
+    }
+
+    const seatsData = await response.json();
+    // Convert data into a suitable format
+    return seatsData.map((seat: any) => ({ row: seat.row, seat: seat.seatNumber }));
   }
 
 
@@ -204,8 +220,6 @@ export default class RestClient {
       seats: selectedSeats.map((seat) => ({ row: seat.row, seatNumber: seat.seat })),
       selectedTime,
     });
-
-
 
     const response = await fetch(url, {
       method: "POST",

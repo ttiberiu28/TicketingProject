@@ -175,7 +175,7 @@ export default function SuccessPage() {
             </Container>
 
             <div className="suc-gradient-custom-footer p-3 mt-5 rounded">
-                <h4 className="text-center text-white mb-0">Thank you for your purchase!</h4>
+                <h4 className="text-center text-white mb-0">Thank you for your purchase! Total price is <b>{calculateTotal()}RON</b></h4>
             </div>
 
         </div >

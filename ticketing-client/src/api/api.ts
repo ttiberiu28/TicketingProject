@@ -7,7 +7,7 @@ import { Sport } from '../UI/SportComp/Sport';
 
 
 export async function getMovies(id?: number) {
-  const response = await RestClient.getMovies(); // Use RestClient to get movies
+  const response = await RestClient.getMovies();
   const movies = response;
 
   if (id) {

@@ -46,3 +46,7 @@
 .seat.empty {
     background-color: white;
 }
+
+.custom-seat-picker .seat.occupied {
+    background-color: rgb(168, 68, 68);
+}
