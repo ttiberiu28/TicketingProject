@@ -42,10 +42,7 @@ const MovieOffers = () => {
 
                             <Row className="d-flex flex-column" style={{ flex: 1 }}>
                                 <h3 className='offer-writing-bold'
-                                    style={{ padding: "1rem" }}>Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                                    Saepe mollitia adipisci nemo provident voluptatem totam aperiam perspiciatis a eaque,
-                                    deleniti, possimus iste consequatur harum vel praesentium?
-                                    Dignissimos adipisci quaerat cum!</h3>
+                                    style={{ padding: "1rem" }}>Offers available only in Cinema City cinemas.Future offers for other events will be displayed here soon! </h3>
                                 <div style={{ flexGrow: 1 }}>
                                     <OffersCarousel />
                                 </div>

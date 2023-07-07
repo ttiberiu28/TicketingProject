@@ -351,7 +351,7 @@ export const MovieAccordion: React.FC<MovieAccordionProps> = ({ ticketsGroup, ti
                       }
                       onSeatSelected={handleSeatSelected}
                       selectedSeats={selectedSeats}
-                      occupiedSeats={occupiedSeats}  // pass the occupiedSeats to the CustomSeatPicker
+                      occupiedSeats={occupiedSeats}
                     />
 
 
@@ -408,7 +408,7 @@ export const MovieAccordion: React.FC<MovieAccordionProps> = ({ ticketsGroup, ti
             {movie.locations.map((location) => (
               <Link
                 key={location.id}
-                to={`/location/${location.id}`} // Update the path based on your routing configuration
+                to={`/location/${location.id}`}
                 className="location-link"
               >
                 {location.place + ','}

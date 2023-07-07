@@ -124,8 +124,4 @@ public class Ticket {
         return dto;
     }
 
-
-
-
-
 }

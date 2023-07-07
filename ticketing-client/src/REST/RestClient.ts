@@ -119,7 +119,7 @@ export default class RestClient {
     }
 
     const seatsData = await response.json();
-    // Convert data into a suitable format
+
     return seatsData.map((seat: any) => ({ row: seat.row, seat: seat.seatNumber }));
   }
 
@@ -284,10 +284,8 @@ export default class RestClient {
         ticket.sportId = ticketDTO.sport.id;
         ticket.sport = ticketDTO.sport;
       }
-
       return ticket;
     });
-
     return cartResponse;
   }
 
