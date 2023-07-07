@@ -1,6 +1,8 @@
 .idea/
 rezerveTicketing/ticketing/demo.iml
 rezerveTicketing/ticketing/target/
+rezerveTicketing/ticketing/mvnw
+rezerveTicketing/ticketing/mvnw.cmd
 .DS_Store
 /Users/tiberiuordean/Desktop/LICENTA/TicketingProject/ticketing-client/src/UI/Images
 rezerveTicketing/ticketing/src/main/resources/application.properties
